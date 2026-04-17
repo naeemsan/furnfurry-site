@@ -6,10 +6,9 @@
   "engines": {
   "node": "20.x"
 },
-"packageManager": "pnpm@10.33.0",
  "scripts": {
   "dev": "vite",
-  "build": "vite build && pnpm copy:env",
+  "build": "vite build && npm run copy:env",
   "copy:env": "powershell -Command Copy-Item env.json dist\\",
   "typecheck": "tsc --noEmit",
   "check": "biome check src",
