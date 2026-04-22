@@ -1,3 +1,4 @@
+import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 import { Navbar } from "@/components/layout/Navbar";
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
 import { ContactFooter } from "@/pages/sections/ContactFooter";
@@ -12,6 +13,12 @@ import { ProcessSection } from "@/pages/sections/ProcessSection";
 import { WhyChooseSection } from "@/pages/sections/WhyChooseSection";
 
 export default function App() {
+  const pathname = window.location.pathname;
+
+  if (pathname === "/custom-fursuit") {
+    return <CustomFursuitPage />;
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />

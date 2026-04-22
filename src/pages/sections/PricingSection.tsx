@@ -141,6 +141,9 @@ export function PricingSection() {
                 >
                   Request Quote →
                 </Button>
+                <p className="mt-3 text-xs text-muted-foreground text-center leading-relaxed">
+                 Pricing varies based on complexity & custom details.
+                 </p>
               </motion.div>
             );
           })}

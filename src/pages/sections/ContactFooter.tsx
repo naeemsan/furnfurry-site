@@ -17,7 +17,8 @@ import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useActor } from "@caffeineai/core-infrastructure";
-import { SiDiscord, SiInstagram, SiTiktok, SiX } from "react-icons/si";
+import { SiInstagram, SiX, SiTiktok, SiFacebook, SiBluesky } from "react-icons/si";
+
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
@@ -46,27 +47,33 @@ const COMMISSION_TYPES = [
 const SOCIAL_LINKS = [
   {
     icon: SiInstagram,
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/fur_n_furry/",
     label: "Instagram",
     color: "hover:text-pink-500",
   },
   {
     icon: SiX,
-    href: "https://x.com",
+    href: "https://x.com/FurNFurry",
     label: "Twitter/X",
     color: "hover:text-foreground",
   },
   {
     icon: SiTiktok,
-    href: "https://tiktok.com",
+    href: "https://www.tiktok.com/@fur_n_furry",
     label: "TikTok",
     color: "hover:text-foreground",
   },
   {
-    icon: SiDiscord,
-    href: "https://discord.gg",
-    label: "Discord",
-    color: "hover:text-indigo-500",
+    icon: SiFacebook,
+    href: "https://www.facebook.com/people/Furnfurry/61573469704773/",
+    label: "Facebook",
+    color: "hover:text-blue-600",
+  },
+  {
+    icon: SiBluesky,
+    href: "https://bsky.app/profile/furnfurry.com",
+    label: "Bluesky",
+    color: "hover:text-sky-500",
   },
 ];
 
@@ -77,13 +84,14 @@ interface FormValues {
   commissionType: string;
   budget: string;
   notes: string;
+  referenceFiles?: FileList;
 }
 
 export function ContactFooter() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [fileName, setFileName] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const { actor } = useActor(createActor);
 
@@ -104,38 +112,66 @@ export function ContactFooter() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    setSubmitError(null);
+  setIsSubmitting(true);
+  setSubmitError(null);
 
-    try {
-      const response = await fetch("https://formspree.io/f/mqewpnbk", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          fursonaName: data.fursonaName,
-          commissionType: data.commissionType,
-          budget: data.budget,
-          notes: data.notes,
-          referenceSheet: fileName || "No file attached",
-        }),
-      });
+  try {
+    const uploadedUrls: string[] = [];
 
-      if (response.ok) {
-        setSubmitted(true);
-      } else {
-        setSubmitError("Form send nahi hua. Dobara try karo.");
+    // Upload images to Cloudinary
+    for (const file of selectedFiles) {
+      const cloudinaryFormData = new FormData();
+      cloudinaryFormData.append("file", file);
+      cloudinaryFormData.append("upload_preset", "furnfurry_unsigned");
+
+      const cloudinaryRes = await fetch(
+        "https://api.cloudinary.com/v1_1/dzpde74hy/image/upload",
+        {
+          method: "POST",
+          body: cloudinaryFormData,
+        }
+      );
+
+      const cloudinaryData = await cloudinaryRes.json();
+
+      if (!cloudinaryRes.ok) {
+        throw new Error("Image upload failed");
       }
-    } catch (error) {
-      setSubmitError("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+
+      uploadedUrls.push(cloudinaryData.secure_url);
     }
-  };
+
+    // Send form data to Formspree
+    const response = await fetch("https://formspree.io/f/mqewpnbk", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        fursonaName: data.fursonaName,
+        commissionType: data.commissionType,
+        budget: data.budget,
+        notes: data.notes,
+        referenceImages: uploadedUrls.join("\n"),
+      }),
+    });
+
+    if (response.ok) {
+      setSubmitted(true);
+      setSelectedFiles([]);
+      if (fileRef.current) fileRef.current.value = "";
+    } else {
+      setSubmitError("Form send nahi hua");
+    }
+  } catch (error) {
+    setSubmitError("Upload error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <footer
@@ -367,18 +403,20 @@ export function ContactFooter() {
                     className="flex-shrink-0 text-muted-foreground"
                   />
                   <span className="truncate">
-                    {fileName ||
-                      "Click to upload your ref sheet (PNG, JPG, PDF)"}
-                  </span>
+                    {selectedFiles.length > 0
+                      ? `${selectedFiles.length} file(s) selected`
+                        : "Click to upload your ref sheets (PNG, JPG, PDF)"}
+                      </span>
                 </button>
                 <input
                   ref={fileRef}
                   type="file"
                   accept="image/*,.pdf"
+                  multiple
                   className="sr-only"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) setFileName(file.name);
+                    onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    setSelectedFiles(files);
                   }}
                 />
               </div>
@@ -425,18 +463,22 @@ export function ContactFooter() {
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-                  <PawPrint
-                    size={20}
-                    opacity={1}
-                    className="text-primary-foreground"
-                  />
-                </div>
-                <span className="font-display text-xl font-bold text-foreground">
-                  Fur<span className="text-primary">N</span>Furry
-                </span>
-              </div>
+             <div className="flex items-center gap-3 mb-3">
+               <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
+               <span className="font-display text-xl font-bold text-foreground">
+               FurNFurry
+             </span>
+            </div>
+                
+                    
+                    
+                    
+                  
+                
+                
+                  
+                
+              
               <p className="text-sm text-muted-foreground max-w-xs leading-relaxed mb-5">
                 Custom fursuits made with creativity, care, and character. Every
                 commission is built around your unique fursona.
@@ -505,17 +547,12 @@ export function ContactFooter() {
               © {new Date().getFullYear()} FurNFurry. All rights reserved.
               Custom fursuits made with creativity, care, and character.
             </p>
-            <a
-              href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              Built with love using caffeine.ai ☕
-            </a>
-          </div>
+            <p className="text-xs text-muted-foreground">
+            Designed for FurNFurry
+            </p>
+                 </div>
         </div>
       </div>
     </footer>
   );
-}
+}  

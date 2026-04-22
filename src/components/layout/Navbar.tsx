@@ -44,20 +44,10 @@ export function Navbar() {
           type="button"
           onClick={() => handleNav("#home")}
           className="flex items-center gap-2 group"
-          data-ocid="navbar.logo.link"
           aria-label="FurNFurry — back to top"
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-subtle group-hover:shadow-elevated transition-smooth">
-            <PawPrint
-              size={22}
-              opacity={1}
-              className="text-primary-foreground"
-            />
-          </div>
-          <span className="font-display text-xl font-bold text-foreground">
-            Fur<span className="text-primary">N</span>Furry
-          </span>
-        </button>
+           >
+             <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
+            </button>
 
         {/* Desktop Nav */}
         <nav
@@ -87,7 +77,7 @@ export function Navbar() {
             data-ocid="navbar.get_quote.primary_button"
             className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-subtle hover:bg-primary/90 hover:shadow-elevated transition-smooth"
           >
-            Get a Quote ✨
+            Get a Quote 
           </Button>
         </div>
 
