@@ -33,7 +33,7 @@ export function HeroSection() {
           <div className="flex flex-col">
 
             {/* BADGE */}
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-background/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
               🟢 Open for Commissions
             </span>
 
@@ -61,7 +61,7 @@ export function HeroSection() {
 
               <Button
                 onClick={() => scrollTo("gallery")}
-                className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-xl text-white hover:bg-white/20 transition"
+                className="bg-background/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-xl text-white hover:bg-background/20 transition"
               >
                 View Gallery →
               </Button>
@@ -82,7 +82,7 @@ export function HeroSection() {
               {TRUST_BADGES.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm text-white"
+                  className="flex items-center gap-2 rounded-xl border border-white/20 bg-background/10 px-3 py-2 text-sm text-white"
                 >
                   {badge.icon} {badge.label}
                 </div>

@@ -32,11 +32,11 @@ export function Navbar() {
     <header
       data-ocid="navbar"
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-card/95 shadow-elevated backdrop-blur-md border-b border-border"
-          : "bg-card border-b border-transparent",
-      )}
+       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+       scrolled
+       ? "bg-black/50 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(168,85,247,0.15)]"
+       : "bg-transparent border-b border-transparent",
+       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
@@ -84,7 +84,7 @@ export function Navbar() {
         {/* Mobile hamburger */}
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-smooth hover:bg-muted md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-smooth hover:bg-card md:hidden"
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}

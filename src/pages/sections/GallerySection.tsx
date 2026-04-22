@@ -32,7 +32,7 @@ export function GallerySection() {
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-border bg-muted/40 p-5">
+              <div className="rounded-2xl border border-border bg-card/40 p-5">
                 <p className="text-2xl mb-2">📐</p>
                 <p className="font-semibold text-foreground">Custom Designs</p>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -40,7 +40,7 @@ export function GallerySection() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-border bg-muted/40 p-5">
+              <div className="rounded-2xl border border-border bg-card/40 p-5">
                 <p className="text-2xl mb-2">🧵</p>
                 <p className="font-semibold text-foreground">Careful Crafting</p>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -48,7 +48,7 @@ export function GallerySection() {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-border bg-muted/40 p-5">
+              <div className="rounded-2xl border border-border bg-card/40 p-5">
                 <p className="text-2xl mb-2">🚀</p>
                 <p className="font-semibold text-foreground">Coming Soon</p>
                 <p className="mt-1 text-sm text-muted-foreground">
