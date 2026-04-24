@@ -99,43 +99,37 @@ export const COMMISSION_CARDS: CommissionCard[] = [
   },
 ];
 
-export const PRICING_TIERS: PricingTier[] = [
+export const PRICING_TIERS = [
   {
-    type: CommissionType.Head,
-    startingAt: 999,
-    description: "Custom sculpted head, follow-me eyes, and fur matching",
-    emoji: "🐾",
+    type: "Head",
+    startingAt: 1200,
+    description: "Custom sculpted head with fur matching and expressive details",
   },
   {
-    type: CommissionType.HandPaws,
-    startingAt: 149,
-    description: "Soft hand paws with custom claws and padding",
-    emoji: "✋",
+    type: "Hand Paws",
+    startingAt: 300,
+    description: "Soft custom hand paws with claws and padding",
   },
   {
-    type: CommissionType.FeetPaws,
-    startingAt: 199,
-    description: "Sculpted feet paws with non-slip soles",
-    emoji: "👣",
+    type: "Feet Paws",
+    startingAt: 450,
+    description: "Durable sculpted feet paws with detailing",
   },
   {
-    type: CommissionType.Tail,
-    startingAt: 299,
-    description: "Fluffy custom tail with poseable wire core",
-    emoji: "🦊",
+    type: "Tail",
+    startingAt: 300,
+    description: "Custom tail designed to match your character",
   },
   {
-    type: CommissionType.Partial,
-    startingAt: 1599,
-    description: "Head, hand paws, feet paws, and tail as a matched set",
+    type: "Partial",
+    startingAt: 2200,
+    description: "Head, paws, and tail as a complete matched set",
     popular: true,
-    emoji: "🎭",
   },
   {
-    type: CommissionType.FullSuit,
-    startingAt: 2999,
-    description: "Complete head-to-toe custom fursuit",
-    emoji: "⭐",
+    type: "Full Suit",
+    startingAt: 5000,
+    description: "Complete full-body custom fursuit build",
   },
 ];
 

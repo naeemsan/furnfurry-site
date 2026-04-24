@@ -1,5 +1,3 @@
-import { createActor } from "@/backend";
-import { PawPrint } from "@/components/ui/PawPrint";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,13 +10,29 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { NAV_LINKS } from "@/data/constants";
-import { Paperclip, Send } from "lucide-react";
+import {
+  BadgeCheck,
+  CheckCircle2,
+  Clock,
+  FileImage,
+  Mail,
+  MessageCircle,
+  Paperclip,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  UploadCloud,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useActor } from "@caffeineai/core-infrastructure";
-import { SiInstagram, SiX, SiTiktok, SiFacebook, SiBluesky } from "react-icons/si";
-
+import {
+  SiBluesky,
+  SiFacebook,
+  SiInstagram,
+  SiTiktok,
+  SiX,
+} from "react-icons/si";
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
@@ -26,11 +40,11 @@ function scrollTo(id: string) {
 }
 
 const BUDGET_RANGES = [
-  "Under $200",
-  "$200 – $500",
+  "Under $500",
   "$500 – $1,000",
   "$1,000 – $2,000",
-  "$2,000+",
+  "$2,000 – $3,500",
+  "$3,500 – $6,000+",
   "Not sure yet",
 ];
 
@@ -42,6 +56,21 @@ const COMMISSION_TYPES = [
   "Partial Suit",
   "Full Suit",
   "Multiple / Not Sure Yet",
+];
+
+const STYLE_OPTIONS = [
+  "Kemono",
+  "Toony",
+  "Semi-Realistic",
+  "Plushy",
+  "Not sure yet",
+];
+
+const TRUST_POINTS = [
+  "Personalized quote before production",
+  "Reference images supported",
+  "Payment plans available for larger builds",
+  "Friendly guidance for first-time commissioners",
 ];
 
 const SOCIAL_LINKS = [
@@ -82,9 +111,9 @@ interface FormValues {
   email: string;
   fursonaName: string;
   commissionType: string;
+  style: string;
   budget: string;
   notes: string;
-  referenceFiles?: FileList;
 }
 
 export function ContactFooter() {
@@ -93,12 +122,12 @@ export function ContactFooter() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
-  const { actor } = useActor(createActor);
 
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -106,384 +135,463 @@ export function ContactFooter() {
       email: "",
       fursonaName: "",
       commissionType: "",
+      style: "",
       budget: "",
       notes: "",
     },
   });
 
   const onSubmit = async (data: FormValues) => {
-  setIsSubmitting(true);
-  setSubmitError(null);
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-  try {
-    const uploadedUrls: string[] = [];
+    try {
+      const uploadedUrls: string[] = [];
 
-    // Upload images to Cloudinary
-    for (const file of selectedFiles) {
-      const cloudinaryFormData = new FormData();
-      cloudinaryFormData.append("file", file);
-      cloudinaryFormData.append("upload_preset", "furnfurry_unsigned");
+      for (const file of selectedFiles) {
+        const cloudinaryFormData = new FormData();
+        cloudinaryFormData.append("file", file);
+        cloudinaryFormData.append("upload_preset", "furnfurry_unsigned");
 
-      const cloudinaryRes = await fetch(
-        "https://api.cloudinary.com/v1_1/dzpde74hy/image/upload",
-        {
-          method: "POST",
-          body: cloudinaryFormData,
+        const cloudinaryRes = await fetch(
+          "https://api.cloudinary.com/v1_1/dzpde74hy/image/upload",
+          {
+            method: "POST",
+            body: cloudinaryFormData,
+          }
+        );
+
+        const cloudinaryData = await cloudinaryRes.json();
+
+        if (!cloudinaryRes.ok) {
+          throw new Error("Image upload failed");
         }
-      );
 
-      const cloudinaryData = await cloudinaryRes.json();
-
-      if (!cloudinaryRes.ok) {
-        throw new Error("Image upload failed");
+        uploadedUrls.push(cloudinaryData.secure_url);
       }
 
-      uploadedUrls.push(cloudinaryData.secure_url);
-    }
+      const response = await fetch("https://formspree.io/f/mqewpnbk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          fursonaName: data.fursonaName,
+          commissionType: data.commissionType,
+          style: data.style,
+          budget: data.budget,
+          notes: data.notes,
+          referenceImages: uploadedUrls.join("\n"),
+        }),
+      });
 
-    // Send form data to Formspree
-    const response = await fetch("https://formspree.io/f/mqewpnbk", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-        fursonaName: data.fursonaName,
-        commissionType: data.commissionType,
-        budget: data.budget,
-        notes: data.notes,
-        referenceImages: uploadedUrls.join("\n"),
-      }),
-    });
-
-    if (response.ok) {
-      setSubmitted(true);
-      setSelectedFiles([]);
-      if (fileRef.current) fileRef.current.value = "";
-    } else {
-      setSubmitError("Form send nahi hua");
+      if (response.ok) {
+        setSubmitted(true);
+        setSelectedFiles([]);
+        reset();
+        if (fileRef.current) fileRef.current.value = "";
+      } else {
+        setSubmitError("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      setSubmitError("Upload or form submission failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    setSubmitError("Upload error");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   return (
     <footer
       id="contact"
-      className="relative bg-card border-t border-border"
+      className="relative border-t border-border bg-card"
       data-ocid="contact.section"
     >
-      {/* Contact form section */}
-      <div className="relative overflow-hidden bg-muted/40 py-20">
-        <div
-          className="pointer-events-none absolute inset-0"
-          aria-hidden="true"
-        >
-          <PawPrint
-            className="absolute top-8 right-8 text-primary"
-            size={100}
-            opacity={0.05}
-          />
-          <PawPrint
-            className="absolute bottom-8 left-8 text-secondary"
-            size={80}
-            opacity={0.06}
-          />
+      <div className="relative overflow-hidden py-24">
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div className="absolute left-1/2 top-8 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+          <div className="absolute bottom-8 right-8 h-[260px] w-[260px] rounded-full bg-secondary/10 blur-3xl" />
+          <div className="absolute bottom-20 left-10 h-[220px] w-[220px] rounded-full bg-accent/10 blur-3xl" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-2xl px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <span className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-              Get in Touch
-            </span>
-            <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
-              Start Your Commission
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Fill in the details below and we'll get back to you with a
-              personalized quote.
-            </p>
-          </motion.div>
-
-          {submitted ? (
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              data-ocid="contact.success_state"
-              className="rounded-2xl border border-primary/20 bg-primary/5 p-10 text-center"
-            >
-              <div className="text-5xl mb-4">🎉</div>
-              <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                Quote Request Sent!
-              </h3>
-              <p className="text-muted-foreground">
-                Thanks! We'll review your details and get back to you within 1-2
-                business days with a personalized quote.
-              </p>
-              <Button
-                type="button"
-                onClick={() => scrollTo("home")}
-                className="mt-6 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-smooth"
-              >
-                Back to Top
-              </Button>
-            </motion.div>
-          ) : (
-            <motion.form
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              onSubmit={handleSubmit(onSubmit)}
-              className="rounded-2xl border border-border bg-card p-6 shadow-elevated space-y-5 md:p-8"
-              data-ocid="contact.form"
+              transition={{ duration: 0.55 }}
+              className="rounded-[2rem] border border-primary/20 bg-primary/5 p-7 shadow-subtle backdrop-blur-md md:p-8"
             >
-              {/* Name + Email */}
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-name">Name *</Label>
-                  <Input
-                    id="contact-name"
-                    placeholder="Your name"
-                    data-ocid="contact.name.input"
-                    className="rounded-xl"
-                    {...register("name", { required: "Name is required" })}
-                  />
-                  {errors.name && (
-                    <p
-                      data-ocid="contact.name.field_error"
-                      className="text-xs text-destructive mt-1"
-                    >
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-email">Email *</Label>
-                  <Input
-                    id="contact-email"
-                    type="email"
-                    placeholder="you@example.com"
-                    data-ocid="contact.email.input"
-                    className="rounded-xl"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Enter a valid email",
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <p
-                      data-ocid="contact.email.field_error"
-                      className="text-xs text-destructive mt-1"
-                    >
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+                <Sparkles className="h-4 w-4" strokeWidth={1.8} />
+                Request a Quote
+              </span>
 
-              {/* Fursona name */}
-              <div className="space-y-1.5">
-                <Label htmlFor="contact-fursona">
-                  Fursona / Character Name
-                </Label>
-                <Input
-                  id="contact-fursona"
-                  placeholder="e.g. Ember the Fox"
-                  data-ocid="contact.fursona_name.input"
-                  className="rounded-xl"
-                  {...register("fursonaName")}
-                />
-              </div>
+              <h2 className="font-display text-4xl font-extrabold leading-tight text-foreground md:text-5xl">
+                Start Your Custom Fursuit Commission
+              </h2>
 
-              {/* Commission type + Budget */}
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label>What You Want Made *</Label>
-                  <Controller
-                    name="commissionType"
-                    control={control}
-                    rules={{ required: "Please select a commission type" }}
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger
-                          data-ocid="contact.commission_type.select"
-                          className="rounded-xl"
-                        >
-                          <SelectValue placeholder="Select type..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {COMMISSION_TYPES.map((t) => (
-                            <SelectItem key={t} value={t}>
-                              {t}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {errors.commissionType && (
-                    <p
-                      data-ocid="contact.commission_type.field_error"
-                      className="text-xs text-destructive mt-1"
-                    >
-                      {errors.commissionType.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-1.5">
-                  <Label>Budget Range</Label>
-                  <Controller
-                    name="budget"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger
-                          data-ocid="contact.budget.select"
-                          className="rounded-xl"
-                        >
-                          <SelectValue placeholder="Select range..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {BUDGET_RANGES.map((r) => (
-                            <SelectItem key={r} value={r}>
-                              {r}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </div>
-              </div>
+              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+                Send your fursona reference, preferred style, budget range, and
+                build idea. We’ll review everything and help you understand the
+                best direction before you commit.
+              </p>
 
-              {/* Notes */}
-              <div className="space-y-1.5">
-                <Label htmlFor="contact-notes">Additional Notes</Label>
-                <Textarea
-                  id="contact-notes"
-                  placeholder="Tell us about your character, desired style, any special features..."
-                  data-ocid="contact.notes.textarea"
-                  className="rounded-xl min-h-[100px] resize-none"
-                  {...register("notes")}
-                />
-              </div>
-
-              {/* Reference sheet upload */}
-              <div className="space-y-1.5">
-                <Label>Upload Reference Sheet</Label>
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  data-ocid="contact.ref_sheet.upload_button"
-                  className="flex w-full items-center gap-3 rounded-xl border-2 border-dashed border-border px-5 py-4 text-sm text-muted-foreground transition-smooth hover:border-primary/40 hover:bg-primary/5 text-left"
-                >
-                  <Paperclip
-                    size={18}
-                    className="flex-shrink-0 text-muted-foreground"
-                  />
-                  <span className="truncate">
-                    {selectedFiles.length > 0
-                      ? `${selectedFiles.length} file(s) selected`
-                        : "Click to upload your ref sheets (PNG, JPG, PDF)"}
-                      </span>
-                </button>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*,.pdf"
-                  multiple
-                  className="sr-only"
-                    onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    setSelectedFiles(files);
-                  }}
-                />
-              </div>
-
-              {/* Error state */}
-              {submitError && (
-                <p
-                  data-ocid="contact.error_state"
-                  className="text-sm text-destructive text-center"
-                >
-                  {submitError}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                data-ocid="contact.submit.primary_button"
-                className="w-full rounded-xl bg-primary py-3 text-base font-bold text-primary-foreground shadow-subtle hover:bg-primary/90 hover:shadow-elevated transition-smooth h-auto"
-              >
-                {isSubmitting ? (
-                  <span
-                    data-ocid="contact.loading_state"
-                    className="flex items-center gap-2"
+              <div className="mt-8 grid gap-3">
+                {TRUST_POINTS.map((point) => (
+                  <div
+                    key={point}
+                    className="flex items-start gap-3 rounded-2xl border border-border bg-card/70 px-4 py-3"
                   >
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
-                    Sending...
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    <Send size={18} />
-                    Send My Quote Request
-                  </span>
-                )}
-              </Button>
-            </motion.form>
-          )}
+                    <CheckCircle2
+                      className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                      strokeWidth={1.8}
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      {point}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                  <Clock className="mb-3 h-5 w-5 text-primary" />
+                  <p className="text-sm font-bold text-foreground">
+                    Reply Time
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Usually within 1–2 business days.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                  <FileImage className="mb-3 h-5 w-5 text-primary" />
+                  <p className="text-sm font-bold text-foreground">
+                    Reference Upload
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Upload ref sheets, sketches, or inspiration images.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-border bg-card/70 p-4">
+                  <ShieldCheck className="mb-3 h-5 w-5 text-primary" />
+                  <p className="text-sm font-bold text-foreground">
+                    No Pressure
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Asking for a quote does not lock you into an order.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.08 }}
+            >
+              {submitted ? (
+                <div
+                  data-ocid="contact.success_state"
+                  className="rounded-[2rem] border border-primary/25 bg-card p-8 text-center shadow-elevated md:p-10"
+                >
+                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                    <BadgeCheck
+                      className="h-7 w-7 text-primary"
+                      strokeWidth={1.8}
+                    />
+                  </div>
+
+                  <h3 className="font-display text-3xl font-bold text-foreground">
+                    Quote Request Sent
+                  </h3>
+
+                  <p className="mx-auto mt-3 max-w-md text-muted-foreground">
+                    Thanks! We’ll review your details and get back to you within
+                    1–2 business days with next steps.
+                  </p>
+
+                  <Button
+                    type="button"
+                    onClick={() => scrollTo("home")}
+                    className="mt-7 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    Back to Top
+                  </Button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="rounded-[2rem] border border-border bg-card p-6 shadow-elevated md:p-8"
+                  data-ocid="contact.form"
+                >
+                  <div className="mb-7">
+                    <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                      Commission Details
+                    </p>
+                    <h3 className="mt-2 font-display text-2xl font-bold text-foreground">
+                      Tell us about your fursona
+                    </h3>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      The more details you share, the better we can estimate your
+                      build.
+                    </p>
+                  </div>
+
+                  <div className="space-y-5">
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="contact-name">Name *</Label>
+                        <Input
+                          id="contact-name"
+                          placeholder="Your name"
+                          className="rounded-xl"
+                          {...register("name", {
+                            required: "Name is required",
+                          })}
+                        />
+                        {errors.name && (
+                          <p className="text-xs text-destructive">
+                            {errors.name.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="contact-email">Email *</Label>
+                        <Input
+                          id="contact-email"
+                          type="email"
+                          placeholder="you@example.com"
+                          className="rounded-xl"
+                          {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                              message: "Enter a valid email",
+                            },
+                          })}
+                        />
+                        {errors.email && (
+                          <p className="text-xs text-destructive">
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="contact-fursona">
+                        Fursona / Character Name
+                      </Label>
+                      <Input
+                        id="contact-fursona"
+                        placeholder="e.g. Ember the Fox"
+                        className="rounded-xl"
+                        {...register("fursonaName")}
+                      />
+                    </div>
+
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label>What You Want Made *</Label>
+                        <Controller
+                          name="commissionType"
+                          control={control}
+                          rules={{
+                            required: "Please select a commission type",
+                          }}
+                          render={({ field }) => (
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
+                              <SelectTrigger className="rounded-xl">
+                                <SelectValue placeholder="Select type..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {COMMISSION_TYPES.map((type) => (
+                                  <SelectItem key={type} value={type}>
+                                    {type}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        />
+                        {errors.commissionType && (
+                          <p className="text-xs text-destructive">
+                            {errors.commissionType.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label>Preferred Style</Label>
+                        <Controller
+                          name="style"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
+                              <SelectTrigger className="rounded-xl">
+                                <SelectValue placeholder="Select style..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {STYLE_OPTIONS.map((style) => (
+                                  <SelectItem key={style} value={style}>
+                                    {style}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label>Budget Range</Label>
+                      <Controller
+                        name="budget"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="rounded-xl">
+                              <SelectValue placeholder="Select range..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {BUDGET_RANGES.map((range) => (
+                                <SelectItem key={range} value={range}>
+                                  {range}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="contact-notes">Build Details</Label>
+                      <Textarea
+                        id="contact-notes"
+                        placeholder="Tell us about your character, colors, markings, style, deadline, special features, or anything important..."
+                        className="min-h-[120px] resize-none rounded-xl"
+                        {...register("notes")}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Upload Reference Sheet</Label>
+
+                      <button
+                        type="button"
+                        onClick={() => fileRef.current?.click()}
+                        className="group flex w-full items-center gap-4 rounded-2xl border-2 border-dashed border-border bg-background/40 px-5 py-5 text-left transition-smooth hover:border-primary/40 hover:bg-primary/5"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                          {selectedFiles.length > 0 ? (
+                            <Paperclip
+                              className="h-5 w-5 text-primary"
+                              strokeWidth={1.8}
+                            />
+                          ) : (
+                            <UploadCloud
+                              className="h-5 w-5 text-primary"
+                              strokeWidth={1.8}
+                            />
+                          )}
+                        </span>
+
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-semibold text-foreground">
+                            {selectedFiles.length > 0
+                              ? `${selectedFiles.length} file(s) selected`
+                              : "Click to upload ref sheets or inspiration"}
+                          </span>
+                          <span className="mt-1 block text-xs text-muted-foreground">
+                            PNG, JPG, WEBP, or PDF accepted
+                          </span>
+                        </span>
+                      </button>
+
+                      <input
+                        ref={fileRef}
+                        type="file"
+                        accept="image/*,.pdf"
+                        multiple
+                        className="sr-only"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          setSelectedFiles(files);
+                        }}
+                      />
+                    </div>
+
+                    {submitError && (
+                      <p className="rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-center text-sm text-destructive">
+                        {submitError}
+                      </p>
+                    )}
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="h-auto w-full rounded-2xl bg-primary py-4 text-base font-bold text-primary-foreground shadow-subtle hover:bg-primary/90 hover:shadow-elevated"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
+                          Sending Request...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-2">
+                          <Send className="h-5 w-5" strokeWidth={1.8} />
+                          Send My Quote Request
+                        </span>
+                      )}
+                    </Button>
+
+                    <p className="text-center text-xs text-muted-foreground">
+                      By submitting, you’re requesting a quote — not placing a
+                      confirmed order yet.
+                    </p>
+                  </div>
+                </form>
+              )}
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="bg-card border-t border-border py-12">
+      <div className="border-t border-border bg-card py-12">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Brand */}
             <div className="lg:col-span-2">
-             <div className="flex items-center gap-3 mb-3">
-               <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
-               <span className="font-display text-xl font-bold text-foreground">
-               FurNFurry
-             </span>
-            </div>
-                
-                    
-                    
-                    
-                  
-                
-                
-                  
-                
-              
-              <p className="text-sm text-muted-foreground max-w-xs leading-relaxed mb-5">
+              <div className="mb-3 flex items-center gap-3">
+                <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
+                <span className="font-display text-xl font-bold text-foreground">
+                  FurNFurry
+                </span>
+              </div>
+
+              <p className="mb-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
                 Custom fursuits made with creativity, care, and character. Every
                 commission is built around your unique fursona.
               </p>
-              {/* Social icons */}
+
               <div className="flex items-center gap-3">
                 {SOCIAL_LINKS.map(({ icon: Icon, href, label, color }) => (
                   <a
@@ -492,8 +600,7 @@ export function ContactFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    data-ocid={`footer.${label.toLowerCase().replace(/\//g, "_")}.link`}
-                    className={`flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-muted/50 text-muted-foreground transition-smooth hover:border-primary/30 hover:bg-primary/5 ${color}`}
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card/50 text-muted-foreground transition-smooth hover:border-primary/30 hover:bg-primary/5 ${color}`}
                   >
                     <Icon size={16} />
                   </a>
@@ -501,9 +608,8 @@ export function ContactFooter() {
               </div>
             </div>
 
-            {/* Nav links */}
             <div>
-              <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wide">
+              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">
                 Navigation
               </h4>
               <ul className="space-y-2">
@@ -512,8 +618,7 @@ export function ContactFooter() {
                     <button
                       type="button"
                       onClick={() => scrollTo(link.href.replace("#", ""))}
-                      data-ocid={`footer.nav.${link.label.toLowerCase()}.link`}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
                     >
                       {link.label}
                     </button>
@@ -522,9 +627,8 @@ export function ContactFooter() {
               </ul>
             </div>
 
-            {/* Commission types */}
             <div>
-              <h4 className="font-semibold text-foreground mb-3 text-sm uppercase tracking-wide">
+              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">
                 Commissions
               </h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
@@ -542,17 +646,18 @@ export function ContactFooter() {
             </div>
           </div>
 
-          <div className="mt-10 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground text-center sm:text-left">
+          <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+            <p className="text-center text-xs text-muted-foreground sm:text-left">
               © {new Date().getFullYear()} FurNFurry. All rights reserved.
-              Custom fursuits made with creativity, care, and character.
             </p>
-            <p className="text-xs text-muted-foreground">
-            Designed for FurNFurry
-            </p>
-                 </div>
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Mail className="h-3.5 w-3.5" />
+              Designed for FurNFurry
+            </div>
+          </div>
         </div>
       </div>
     </footer>
   );
-}  
+}

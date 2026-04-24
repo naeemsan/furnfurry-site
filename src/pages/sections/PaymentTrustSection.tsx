@@ -1,5 +1,4 @@
 import { Container, Section, SectionHeading } from "@/components/layout/Layout";
-import { PawPrint } from "@/components/ui/PawPrint";
 import {
   BadgeCheck,
   CalendarDays,
@@ -8,6 +7,7 @@ import {
   CreditCard,
   FileText,
   MessageCircle,
+  ShieldCheck,
 } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -16,102 +16,88 @@ const TRUST_POINTS = [
     icon: CreditCard,
     title: "Flexible Installments",
     description:
-      "Pay in stages as your suit is built. We'll set up a payment schedule that works for both of us before we start.",
+      "For larger builds, payments can be split into stages during your commission timeline.",
     highlight: true,
   },
   {
     icon: CalendarDays,
-    title: "Spread Payments Over Time",
+    title: "Clear Payment Schedule",
     description:
-      "Depending on your build timeline, you can spread payments over weeks or months — no need to pay everything upfront.",
+      "Before work begins, we agree on payment timing so there are no confusing surprises later.",
   },
   {
     icon: FileText,
-    title: "Simple Agreement",
+    title: "Simple Commission Agreement",
     description:
-      "We use a straightforward commission agreement that protects both you and us. No legalese, just clear expectations.",
+      "A clear written agreement helps protect both sides and keeps expectations easy to understand.",
   },
   {
     icon: Camera,
     title: "Progress Updates",
     description:
-      "You'll receive photos and updates throughout the build so you always know how your suit is coming along.",
+      "You receive updates during important stages so you can follow your fursuit coming together.",
   },
   {
     icon: MessageCircle,
     title: "Open Communication",
     description:
-      "Have a question at any time during your commission? Our inbox is always open — real, friendly replies every time.",
+      "Questions are welcome before and during the process. We guide you instead of leaving you guessing.",
   },
   {
     icon: BadgeCheck,
     title: "Transparent Quoting",
     description:
-      "Your final price is agreed before work begins. No surprise charges or hidden fees — ever.",
+      "Your quote is discussed before production starts. Custom details and upgrades are clarified upfront.",
     highlight: true,
   },
 ];
 
 const REASSURANCES = [
-  "No hidden fees or surprise charges",
-  "Simple written agreement protects both parties",
-  "Progress photos at every major milestone",
-  "Payment plans tailored to your timeline",
-  "Friendly support from first quote to delivery",
+  "Quote confirmed before production begins",
+  "Payment plan discussed before deposit",
+  "Progress updates during major build stages",
+  "Written commission details for clarity",
+  "Support for first-time commissioners",
 ];
 
 export function PaymentTrustSection() {
   return (
     <Section id="payment" variant="lavender" data-ocid="payment.section">
-      {/* Subtle paw decorations */}
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-        aria-hidden="true"
-      >
-        <PawPrint
-          className="absolute top-10 right-10 text-primary"
-          size={90}
-          opacity={0.04}
-        />
-        <PawPrint
-          className="absolute bottom-10 left-10 text-secondary"
-          size={70}
-          opacity={0.05}
-        />
-      </div>
-
       <Container>
         <SectionHeading
-          badge="Peace of Mind"
-          title="Commissioning Made Simple"
-          subtitle="We believe the process should feel as good as the finished suit. Here's how we keep things safe, clear, and stress-free."
+          badge="Payment & Trust"
+          title="A Clear Commission Experience From Start to Finish"
+          subtitle="Custom fursuits are a big investment. We keep the process organized with clear quotes, payment planning, and communication throughout the build."
         />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {TRUST_POINTS.map((point, i) => {
             const Icon = point.icon;
+
             return (
               <motion.div
                 key={point.title}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 data-ocid={`payment.item.${i + 1}`}
-                className={`flex gap-4 rounded-2xl border p-5 transition-smooth hover:shadow-subtle ${
+                className={`group flex gap-4 rounded-2xl border p-5 transition-smooth hover:-translate-y-1 hover:shadow-subtle ${
                   point.highlight
-                    ? "border-primary/25 bg-primary/5"
+                    ? "border-primary/30 bg-primary/5"
                     : "border-border bg-card"
                 }`}
               >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Icon size={20} strokeWidth={1.8} />
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" strokeWidth={1.8} />
                 </div>
+
                 <div>
-                  <h3 className="font-display text-base font-bold text-foreground mb-1">
+                  <h3 className="mb-1 font-display text-base font-bold text-foreground">
                     {point.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+
+                  <p className="text-sm leading-relaxed text-muted-foreground">
                     {point.description}
                   </p>
                 </div>
@@ -120,36 +106,41 @@ export function PaymentTrustSection() {
           })}
         </div>
 
-        {/* Warm reassurance banner */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 rounded-2xl border border-secondary/30 bg-card p-6 md:p-8"
+          className="mt-10 overflow-hidden rounded-3xl border border-primary/20 bg-card p-6 shadow-subtle md:p-8"
         >
-          <div className="grid md:grid-cols-2 gap-6 items-center">
+          <div className="grid gap-7 md:grid-cols-[0.9fr_1.1fr] md:items-center">
             <div>
-              <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                🤝 We want you to feel 100% confident
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+                <ShieldCheck className="h-6 w-6 text-primary" strokeWidth={1.8} />
+              </div>
+
+              <h3 className="font-display text-2xl font-bold text-foreground">
+                Designed to feel safe, clear, and beginner-friendly.
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                If you're new to commissioning or have questions about how it
-                all works, just ask. We're here to help, not just build.
-                First-time commissioners are always welcome.
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Whether this is your first fursuit commission or your next big
+                character build, we help you understand the process before you
+                commit.
               </p>
             </div>
-            <ul className="space-y-2">
-              {REASSURANCES.map((r) => (
+
+            <ul className="space-y-3">
+              {REASSURANCES.map((item) => (
                 <li
-                  key={r}
-                  className="flex items-start gap-2 text-sm text-muted-foreground"
+                  key={item}
+                  className="flex items-start gap-3 rounded-2xl border border-border bg-background/40 px-4 py-3 text-sm text-muted-foreground"
                 >
                   <CheckCircle2
-                    size={16}
-                    className="mt-0.5 flex-shrink-0 text-primary"
+                    className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary"
+                    strokeWidth={1.8}
                   />
-                  <span>{r}</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>

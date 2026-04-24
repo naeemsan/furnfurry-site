@@ -1,87 +1,62 @@
 import { Container, Section, SectionHeading } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
+import { PawPrint, Sparkles, Scissors, Shirt } from "lucide-react";
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-}
+const PREVIEW_CARDS = [
+  {
+    icon: Sparkles,
+    title: "Expressive Heads",
+    text: "Big personality, clear expression, and character-focused details.",
+  },
+  {
+    icon: PawPrint,
+    title: "Paws & Tails",
+    text: "Soft, wearable pieces designed to match your fursona’s style.",
+  },
+  {
+    icon: Scissors,
+    title: "Partial Builds",
+    text: "Heads, paws, tails, sleeves, and feetpaws for a complete look.",
+  },
+  {
+    icon: Shirt,
+    title: "Fullsuit Concepts",
+    text: "Made-to-order full body builds planned around your character.",
+  },
+];
 
 export function GallerySection() {
   return (
     <Section id="gallery" variant="muted" data-ocid="gallery.section">
       <Container>
         <SectionHeading
-          badge="Coming Soon"
-          title="Our Work is in the Making"
-          subtitle="We're currently crafting our first custom fursuits with care and precision. Stay tuned—amazing creations are on the way."
+          badge="Design Preview"
+          title="Custom Fursuit Work, Made to Order"
+          subtitle="Our first featured builds are in progress. For now, explore the types of custom pieces FurNFurry can create for your character."
         />
 
-        <div className="mx-auto mt-10 max-w-3xl">
-          <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-subtle md:p-12">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-3xl">
-              🐾
-            </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {PREVIEW_CARDS.map((card) => {
+            const Icon = card.icon;
 
-            <h3 className="font-display text-2xl font-bold text-foreground md:text-3xl">
-              Our fursuiters are working behind the scenes
-            </h3>
+            return (
+              <div
+                key={card.title}
+                className="rounded-3xl border border-border bg-card p-6 shadow-subtle transition-smooth hover:-translate-y-1 hover:shadow-elevated"
+              >
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                  <Icon className="h-7 w-7 text-primary" strokeWidth={1.8} />
+                </div>
 
-            <p className="mt-4 text-muted-foreground md:text-lg">
-              Each piece is being carefully designed, shaped, and brought to life.
-              Your character deserves nothing less than creativity, detail, and care.
-            </p>
+                <h3 className="font-display text-xl font-bold text-foreground">
+                  {card.title}
+                </h3>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-border bg-card/40 p-5">
-                <p className="text-2xl mb-2">📐</p>
-                <p className="font-semibold text-foreground">Custom Designs</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Unique concepts made around your character.
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {card.text}
                 </p>
               </div>
-
-              <div className="rounded-2xl border border-border bg-card/40 p-5">
-                <p className="text-2xl mb-2">🧵</p>
-                <p className="font-semibold text-foreground">Careful Crafting</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Built with attention to detail from start to finish.
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-card/40 p-5">
-                <p className="text-2xl mb-2">🚀</p>
-                <p className="font-semibold text-foreground">Coming Soon</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Our first featured creations will be showcased here soon.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <p className="text-sm font-medium text-primary">
-                More handcrafted work coming soon — stay tuned for updates!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Button
-            onClick={() => scrollTo("contact")}
-            data-ocid="gallery.see_more.button"
-            className="rounded-2xl bg-primary px-8 py-3 text-base font-bold text-primary-foreground shadow-subtle hover:bg-primary/90 hover:shadow-elevated transition-smooth"
-          >
-            Commission Your Own 
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => scrollTo("commissions")}
-            data-ocid="gallery.view_commissions.button"
-            className="rounded-2xl border-2 border-primary px-8 py-3 text-base font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-smooth"
-          >
-            See What We Make
-          </Button>
+            );
+          })}
         </div>
       </Container>
     </Section>

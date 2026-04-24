@@ -1,6 +1,6 @@
 import { Container, Section, SectionHeading } from "@/components/layout/Layout";
-import { WHY_CARDS } from "@/data/constants";
 import {
+  BadgeCheck,
   Brush,
   CreditCard,
   HandHeart,
@@ -10,22 +10,43 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 
-const LUCIDE_ICONS = [
-  Sparkles,
-  HandHeart,
-  MessageCircleHeart,
-  CreditCard,
-  Brush,
-  ShieldCheck,
-];
-
-const ACCENT_COLORS = [
-  "bg-primary/10 text-primary group-hover:bg-primary/20",
-  "bg-secondary/20 text-secondary-foreground group-hover:bg-secondary/30",
-  "bg-accent/15 text-accent-foreground group-hover:bg-accent/25",
-  "bg-primary/10 text-primary group-hover:bg-primary/20",
-  "bg-secondary/15 text-secondary-foreground group-hover:bg-secondary/25",
-  "bg-accent/10 text-accent-foreground group-hover:bg-accent/20",
+const WHY_CARDS = [
+  {
+    icon: Sparkles,
+    title: "Character-First Design",
+    description:
+      "Every build starts with your fursona’s personality, markings, expression, and overall vibe.",
+  },
+  {
+    icon: HandHeart,
+    title: "Made-to-Order Craft",
+    description:
+      "Your fursuit is planned around your character, sizing, comfort, and the way you want to perform.",
+  },
+  {
+    icon: MessageCircleHeart,
+    title: "Guided Commission Support",
+    description:
+      "Not sure what to choose? We help you understand styles, parts, features, and price range before you commit.",
+  },
+  {
+    icon: CreditCard,
+    title: "Payment Plans Available",
+    description:
+      "For larger builds, flexible payments can be discussed so your commission feels easier to manage.",
+  },
+  {
+    icon: Brush,
+    title: "Custom Details Matter",
+    description:
+      "From fur colors and markings to paws, tails, expressions, and add-ons — details are planned carefully.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Limited Slots for Quality",
+    description:
+      "We take fewer commissions at a time so each project gets proper attention, updates, and care.",
+  },
 ];
 
 export function WhyChooseSection() {
@@ -34,35 +55,35 @@ export function WhyChooseSection() {
       <Container>
         <SectionHeading
           badge="Why FurNFurry"
-          title="Built Around You"
-          subtitle="We're not a factory — we're a small studio that genuinely cares about getting your character exactly right."
+          title="A Custom Fursuit Studio Built Around Your Character"
+          subtitle="We focus on custom planning, clear communication, and made-to-order details so your fursona feels personal from the first sketch to final delivery."
         />
+
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {WHY_CARDS.map((card, i) => {
-            const Icon = LUCIDE_ICONS[i % LUCIDE_ICONS.length];
-            const colorClass = ACCENT_COLORS[i % ACCENT_COLORS.length];
+            const Icon = card.icon;
+
             return (
               <motion.div
                 key={card.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.09 }}
+                transition={{ duration: 0.45, delay: i * 0.08 }}
                 data-ocid={`why.item.${i + 1}`}
-                className="group relative rounded-2xl border border-border bg-card p-6 transition-smooth hover:shadow-elevated hover:border-primary/30 hover:-translate-y-1 overflow-hidden"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-smooth hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated"
               >
-                {/* Decorative top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0 opacity-0 group-hover:opacity-100 transition-smooth" />
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 transition-smooth group-hover:opacity-100" />
 
-                <div
-                  className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl transition-smooth ${colorClass}`}
-                >
-                  <Icon size={22} strokeWidth={1.8} />
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 transition-smooth group-hover:bg-primary/20">
+                  <Icon className="h-6 w-6 text-primary" strokeWidth={1.8} />
                 </div>
+
                 <h3 className="mb-2 font-display text-lg font-bold text-foreground">
                   {card.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   {card.description}
                 </p>
               </motion.div>
@@ -70,21 +91,25 @@ export function WhyChooseSection() {
           })}
         </div>
 
-        {/* Bottom trust callout */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 px-8 py-6 text-center"
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mx-auto mt-12 max-w-4xl rounded-3xl border border-primary/20 bg-primary/5 p-6 text-center md:p-8"
         >
-          <p className="font-display text-lg font-bold text-foreground">
-            Every commission gets our full attention — from first message to
-            final delivery. 🐾
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground max-w-lg mx-auto">
-            We take limited commissions at a time so your project always gets
-            the care it deserves.
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+            <BadgeCheck className="h-6 w-6 text-primary" strokeWidth={1.8} />
+          </div>
+
+          <h3 className="font-display text-2xl font-bold text-foreground">
+            Limited commissions. More attention per build.
+          </h3>
+
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            We keep commission slots limited so every project gets proper
+            planning, clear updates, and detail-focused work instead of being
+            rushed through a queue.
           </p>
         </motion.div>
       </Container>

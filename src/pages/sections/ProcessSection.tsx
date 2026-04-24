@@ -1,186 +1,111 @@
 import { Container, Section, SectionHeading } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { PROCESS_STEPS } from "@/data/constants";
+import {
+  ClipboardCheck,
+  CreditCard,
+  MessageCircle,
+  PackageCheck,
+  PenTool,
+} from "lucide-react";
 import { motion } from "motion/react";
 
-function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-}
+const PROCESS_STEPS = [
+  {
+    icon: MessageCircle,
+    title: "Send Your Fursona",
+    description:
+      "Share your reference sheet, species, style preference, budget range, and the details you want included.",
+  },
+  {
+    icon: PenTool,
+    title: "Design Planning",
+    description:
+      "We study your character and plan the build style, colors, materials, markings, expression, and features.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Quote & Deposit",
+    description:
+      "You receive a personalized quote. Once approved, your commission slot is secured with a deposit.",
+  },
+  {
+    icon: CreditCard,
+    title: "Build Updates",
+    description:
+      "Your fursuit is built in stages with progress updates, so you can follow your character coming to life.",
+  },
+  {
+    icon: PackageCheck,
+    title: "Final Delivery",
+    description:
+      "After final approval and payment, your finished suit is safely packed and shipped to your doorstep.",
+  },
+];
 
 export function ProcessSection() {
   return (
-    <Section id="process" variant="default" data-ocid="process.section">
+    <Section
+      id="process"
+      variant="default"
+      data-ocid="process.section"
+      className="relative overflow-hidden"
+    >
+      {/* background glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+        <div className="absolute bottom-10 right-10 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
+      </div>
+
       <Container>
         <SectionHeading
-          badge="How It Works"
-          title="How the Commission Process Works"
-          subtitle="We keep things clear, friendly, and stress-free — from your first message all the way to your doorstep."
+          badge="Commission Journey"
+          title="From Fursona Reference to Finished Suit"
+          subtitle="A clear, guided process designed to make your custom fursuit feel exciting, organized, and stress-free."
         />
 
-        {/* Desktop: horizontal timeline */}
-        <div className="hidden lg:block">
-          {/* Connector line */}
-          <div className="relative mb-2 flex items-center justify-between px-10">
-            <div
-              className="absolute left-0 right-0 top-1/2 h-0.5 -translate-y-1/2 mx-10"
-              style={{
-                background:
-                  "linear-gradient(90deg, oklch(var(--primary)/0.5), oklch(var(--secondary)/0.5))",
-              }}
-            />
-            {PROCESS_STEPS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, scale: 0.7 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl shadow-elevated text-2xl"
-                style={{
-                  background:
-                    i % 2 === 0
-                      ? "oklch(var(--primary))"
-                      : "oklch(var(--secondary))",
-                  color:
-                    i % 2 === 0
-                      ? "oklch(var(--primary-foreground))"
-                      : "oklch(var(--secondary-foreground))",
-                }}
-              >
-                {step.icon}
-              </motion.div>
-            ))}
-          </div>
+        <div className="relative mx-auto mt-14 max-w-5xl">
+          {/* vertical line */}
+          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/70 via-primary/30 to-transparent md:left-1/2 md:-translate-x-1/2" />
 
-          {/* Content cards */}
-          <div className="grid grid-cols-5 gap-3 mt-6">
-            {PROCESS_STEPS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.1 + 0.1 }}
-                data-ocid={`process.item.${step.number}`}
-                className="rounded-2xl border border-border bg-card p-4 text-center transition-smooth hover:border-primary/30 hover:shadow-subtle"
-              >
-                {/* Step number pill */}
-                <div
-                  className="mx-auto mb-3 inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide"
-                  style={{
-                    background:
-                      i % 2 === 0
-                        ? "oklch(var(--primary)/0.12)"
-                        : "oklch(var(--secondary)/0.2)",
-                    color:
-                      i % 2 === 0
-                        ? "oklch(var(--primary))"
-                        : "oklch(var(--secondary-foreground))",
-                  }}
+          <div className="space-y-8">
+            {PROCESS_STEPS.map((step, index) => {
+              const Icon = step.icon;
+              const isRight = index % 2 !== 0;
+
+              return (
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  className={`relative flex items-center ${
+                    isRight ? "md:justify-end" : "md:justify-start"
+                  }`}
                 >
-                  Step {step.number}
-                </div>
-                <h3 className="font-display text-sm font-bold leading-snug text-foreground mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
-              </motion.div>
-            ))}
+                  {/* icon */}
+                  <div className="absolute left-6 z-10 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-2xl border border-primary/30 bg-background shadow-elevated md:left-1/2">
+                    <Icon className="h-6 w-6 text-primary" strokeWidth={1.8} />
+                  </div>
+
+                  {/* card */}
+                  <div className="ml-16 w-full rounded-3xl border border-border bg-card/80 p-6 shadow-subtle backdrop-blur-md transition-smooth hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated md:ml-0 md:w-[44%]">
+                    <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary">
+                      Step {index + 1}
+                    </span>
+
+                    <h3 className="mt-3 font-display text-xl font-bold text-foreground">
+                      {step.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
-
-        {/* Mobile: vertical stacked */}
-        <div className="relative lg:hidden">
-          {/* Vertical spine */}
-          <div
-            className="absolute left-7 top-0 bottom-0 w-0.5"
-            style={{
-              background:
-                "linear-gradient(to bottom, oklch(var(--primary)/0.4), oklch(var(--secondary)/0.2), transparent)",
-            }}
-          />
-
-          <div className="space-y-6">
-            {PROCESS_STEPS.map((step, i) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.1 }}
-                data-ocid={`process.item.${step.number}`}
-                className="flex gap-5"
-              >
-                {/* Circle node */}
-                <div className="relative z-10 flex-shrink-0">
-                  <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl text-2xl shadow-subtle"
-                    style={{
-                      background:
-                        i % 2 === 0
-                          ? "oklch(var(--primary))"
-                          : "oklch(var(--secondary))",
-                      color:
-                        i % 2 === 0
-                          ? "oklch(var(--primary-foreground))"
-                          : "oklch(var(--secondary-foreground))",
-                    }}
-                  >
-                    {step.icon}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 rounded-2xl border border-border bg-card p-4 pb-5">
-                  <div
-                    className="mb-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide"
-                    style={{
-                      background:
-                        i % 2 === 0
-                          ? "oklch(var(--primary)/0.12)"
-                          : "oklch(var(--secondary)/0.2)",
-                      color:
-                        i % 2 === 0
-                          ? "oklch(var(--primary))"
-                          : "oklch(var(--secondary-foreground))",
-                    }}
-                  >
-                    Step {step.number}
-                  </div>
-                  <h3 className="font-display text-base font-bold text-foreground mb-1">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA below process */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 flex flex-col items-center gap-3 text-center"
-        >
-          <p className="text-sm text-muted-foreground">
-            Ready to start your commission journey?
-          </p>
-          <Button
-            onClick={() => scrollTo("contact")}
-            data-ocid="process.get_quote.button"
-            className="rounded-2xl bg-primary px-8 py-3 font-bold text-primary-foreground text-base hover:bg-primary/90 shadow-subtle hover:shadow-elevated transition-smooth"
-          >
-            Get a Quote →
-          </Button>
-        </motion.div>
       </Container>
     </Section>
   );

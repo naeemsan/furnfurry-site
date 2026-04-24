@@ -1,3 +1,4 @@
+import { TrustSection } from "@/pages/sections/TrustSection";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 import { Navbar } from "@/components/layout/Navbar";
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
@@ -20,21 +21,31 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      <main>
-        <HeroSection />
-        <FeatureStrip />
-        <CommissionsSection />
-        <PricingSection />
-        <ProcessSection />
-        <GallerySection />
-        <WhyChooseSection />
-        <PaymentTrustSection />
-        <FAQSection />
-        <FinalCTASection />
-        <ContactFooter />
-      </main>
+    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+      
+      {/* GLOBAL NOISE OVERLAY */}
+      <div className="pointer-events-none fixed inset-0 z-[1] bg-[url('/noise.png')] opacity-[0.025] mix-blend-soft-light" />
+
+      {/* MAIN CONTENT */}
+      <div className="relative z-[2]">
+        <Navbar />
+
+        <main>
+          <HeroSection />
+          <FeatureStrip />
+          <GallerySection />
+          <CommissionsSection />
+          <PricingSection />
+          <ProcessSection />
+          <TrustSection />
+          <WhyChooseSection />
+          <PaymentTrustSection />
+          <FAQSection />
+          <FinalCTASection />
+          <ContactFooter />
+        </main>
+      </div>
+
     </div>
   );
 }
