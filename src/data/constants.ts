@@ -333,7 +333,7 @@ export const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Commissions", href: "#commissions" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "What We Make", href: "#gallery" },
   { label: "Process", href: "#process" },
   { label: "FAQs", href: "#faqs" },
   { label: "Contact", href: "#contact" },
