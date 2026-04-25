@@ -19,28 +19,26 @@ export function HeroSection() {
     >
       {/* Background image */}
       <div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 scale-[1.02]"
         style={{
           backgroundImage: "url('/hero-bg.png')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
         }}
       />
 
-      {/* Dark cinematic overlays */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/60 via-black/75 to-black/95" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/45 via-transparent to-black/35" />
+      {/* Main cinematic overlay (strong) */}
+<div className="absolute inset-0 z-0 bg-gradient-to-r from-black/40 via-black/39 to-black/20" />
 
-      {/* Soft spotlight */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-pink-500/10 blur-[130px]" />
-        <div className="absolute bottom-0 left-0 h-[360px] w-[360px] rounded-full bg-purple-500/10 blur-[120px]" />
-      </div>
+{/* Bottom depth shadow */}
+<div className="absolute inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70" />
+
+{/* Extra left text focus */}
+<div className="absolute left-0 top-0 z-0 h-full w-[65%] bg-gradient-to-r from-black/40 via-black/50 to-transparent" />
 
       {/* Film grain */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/noise.png')] opacity-[0.04] mix-blend-soft-light" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/noise.png')] opacity-[0.035] mix-blend-soft-light" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
