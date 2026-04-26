@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 
@@ -45,10 +45,14 @@ function HomePage() {
 export default function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+      {/* Subtle global noise texture */}
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[url('/noise.png')] opacity-[0.025] mix-blend-soft-light" />
 
       <div className="relative z-[2]">
         <Navbar />
+
+        {/* 🔥 WhatsApp Floating Button */}
+        <WhatsAppButton />
 
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -14,9 +14,11 @@ import {
   BadgeCheck,
   CheckCircle2,
   Clock,
+  ExternalLink,
   FileImage,
+  Globe2,
   Mail,
-  MessageCircle,
+  MapPin,
   Paperclip,
   Send,
   ShieldCheck,
@@ -35,8 +37,7 @@ import {
 } from "react-icons/si";
 
 function scrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
 
 const BUDGET_RANGES = [
@@ -158,7 +159,7 @@ export function ContactFooter() {
           {
             method: "POST",
             body: cloudinaryFormData,
-          }
+          },
         );
 
         const cloudinaryData = await cloudinaryRes.json();
@@ -196,7 +197,7 @@ export function ContactFooter() {
       } else {
         setSubmitError("Something went wrong. Please try again.");
       }
-    } catch (error) {
+    } catch {
       setSubmitError("Upload or form submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -576,18 +577,18 @@ export function ContactFooter() {
         </div>
       </div>
 
-      <div className="border-t border-border bg-card py-12">
+      <div className="border-t border-border bg-card/95 py-14">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="lg:col-span-2">
-              <div className="mb-3 flex items-center gap-3">
+          <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
+            <div>
+              <div className="mb-4 flex items-center gap-3">
                 <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
-                <span className="font-display text-xl font-bold text-foreground">
+                <span className="font-display text-2xl font-bold text-foreground">
                   FurNFurry
                 </span>
               </div>
 
-              <p className="mb-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
                 Custom fursuits made with creativity, care, and character. Every
                 commission is built around your unique fursona.
               </p>
@@ -600,27 +601,30 @@ export function ContactFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className={`flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-card/50 text-muted-foreground transition-smooth hover:border-primary/30 hover:bg-primary/5 ${color}`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background/40 text-muted-foreground shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/40 hover:bg-primary/10 hover:shadow-[0_0_24px_rgba(139,92,246,0.18)] ${color}`}
                   >
-                    <Icon size={16} />
+                    <Icon size={17} />
                   </a>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">
+              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
                 Navigation
               </h4>
-              <ul className="space-y-2">
+
+              <ul className="space-y-2.5">
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
                     <button
                       type="button"
                       onClick={() => scrollTo(link.href.replace("#", ""))}
-                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                      className="group text-sm text-muted-foreground transition-colors hover:text-primary"
                     >
-                      {link.label}
+                      <span className="bg-gradient-to-r from-primary to-primary bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-all duration-300 group-hover:bg-[length:100%_1px]">
+                        {link.label}
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -628,10 +632,11 @@ export function ContactFooter() {
             </div>
 
             <div>
-              <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground">
+              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
                 Commissions
               </h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+
+              <ul className="space-y-2.5 text-sm text-muted-foreground">
                 {[
                   "Fursuit Heads",
                   "Hand Paws",
@@ -640,13 +645,56 @@ export function ContactFooter() {
                   "Partials",
                   "Full Suits",
                 ].map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item} className="transition-colors hover:text-primary">
+                    {item}
+                  </li>
                 ))}
               </ul>
             </div>
+
+            <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-subtle backdrop-blur-md">
+              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
+                Contact
+              </h4>
+
+              <div className="space-y-4 text-sm text-muted-foreground">
+                <a
+                  href="mailto:furnfurry@outlook.com"
+                  className="flex items-start gap-3 transition-colors hover:text-primary"
+                >
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>furnfurry@outlook.com</span>
+                </a>
+
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=16%20Surrey%20Lane%2C%20Belle%20Mead%2C%20NJ%2008502%2C%20USA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 transition-colors hover:text-primary"
+                >
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>
+                    16 Surrey Lane
+                    <br />
+                    Belle Mead, NJ 08502
+                    <br />
+                    USA
+                  </span>
+                </a>
+
+                <div className="flex items-start gap-3">
+                  <Globe2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <span>Worldwide Shipping Available</span>
+                </div>
+
+                <p className="text-xs text-muted-foreground">
+  Click the WhatsApp icon on the screen to chat instantly
+</p>
+              </div>
+            </div>
           </div>
 
-          <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
             <p className="text-center text-xs text-muted-foreground sm:text-left">
               © {new Date().getFullYear()} FurNFurry. All rights reserved.
             </p>

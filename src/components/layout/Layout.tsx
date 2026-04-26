@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,16 +33,20 @@ export function Section({
 }: SectionProps) {
   const variantClasses = {
     default: "bg-background",
-    muted: "bg-muted/40",
+    muted: "bg-card/40",
     lavender: "bg-accent/10",
     primary: "bg-primary",
     card: "bg-card",
   };
 
   return (
-    <section
+    <motion.section
       id={id}
       data-ocid={dataOcid}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.65, ease: "easeOut" }}
       className={cn(
         "relative py-16 md:py-24",
         variantClasses[variant],
@@ -49,7 +54,7 @@ export function Section({
       )}
     >
       {children}
-    </section>
+    </motion.section>
   );
 }
 
@@ -91,12 +96,19 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={cn("mb-12", centered && "text-center", className)}>
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className={cn("mb-12", centered && "text-center", className)}
+    >
       {badge && (
         <span className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
           {badge}
         </span>
       )}
+
       <h2
         className={cn(
           "font-display text-3xl font-bold leading-tight md:text-4xl lg:text-5xl",
@@ -105,6 +117,7 @@ export function SectionHeading({
       >
         {title}
       </h2>
+
       {subtitle && (
         <p
           className={cn(
@@ -116,6 +129,6 @@ export function SectionHeading({
           {subtitle}
         </p>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -4,45 +4,43 @@
 
 @layer base {
   :root {
-    --font-display: "Space Grotesk";
-    --font-body: "Figtree";
-    --font-mono: monospace;
-    --radius: 1rem;
+     --font-display: "Space Grotesk";
+  --font-body: "Figtree";
+  --font-mono: monospace;
+  --radius: 1rem;
 
-    /* DARK BASE */
-    --background: 0.12 0.02 260;
-    --foreground: 0.95 0.01 260;
+  /* HYBRID PREMIUM THEME */
+  --background: 0.24 0.025 260;
+  --foreground: 0.97 0.01 260;
 
-    --card: 0.16 0.02 260;
-    --card-foreground: 0.95 0.01 260;
+  --card: 0.31 0.025 260;
+  --card-foreground: 0.97 0.01 260;
 
-    --popover: 0.18 0.02 260;
-    --popover-foreground: 0.95 0.01 260;
+  --popover: 0.32 0.025 260;
+  --popover-foreground: 0.97 0.01 260;
 
-    /* 🔥 HERO MATCH COLORS */
-    --primary: 0.65 0.22 290;   /* purple */
-    --primary-foreground: 0.98 0.01 290;
+  --primary: 0.70 0.22 295;
+  --primary-foreground: 0.99 0.01 295;
 
-    --secondary: 0.7 0.2 25;    /* orange/red */
-    --secondary-foreground: 0.98 0.01 25;
+  --secondary: 0.74 0.16 25;
+  --secondary-foreground: 0.99 0.01 25;
 
-    --accent: 0.7 0.18 240;     /* blue */
-    --accent-foreground: 0.98 0.01 240;
+  --accent: 0.75 0.14 245;
+  --accent-foreground: 0.99 0.01 245;
 
-    --muted: 0.22 0.02 260;
-    --muted-foreground: 0.6 0.01 260;
+  --muted: 0.38 0.025 260;
+  --muted-foreground: 0.78 0.015 260;
 
-    --destructive: 0.6 0.2 20;
-    --destructive-foreground: 0.98 0.01 20;
+  --destructive: 0.62 0.2 20;
+  --destructive-foreground: 0.98 0.01 20;
 
-    --border: 0.25 0.02 260;
-    --input: 0.25 0.02 260;
-    --ring: 0.65 0.22 290;
+  --border: 0.46 0.025 260;
+  --input: 0.44 0.025 260;
+  --ring: 0.70 0.22 295;
 
-    --sidebar: 0.16 0.02 260;
-    --sidebar-foreground: 0.95 0.01 260;
-  }
-
+  --sidebar: 0.31 0.025 260;
+  --sidebar-foreground: 0.97 0.01 260;
+}
   * {
     @apply border-border;
   }
@@ -62,34 +60,48 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  @font-face {
-    font-family: "Space Grotesk";
-    src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
-    font-display: swap;
+  /* 🌟 Subtle Glow (premium feel) */
+  .glow-primary {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.25);
   }
 
-  @font-face {
-    font-family: "Figtree";
-    src: url("/assets/fonts/Figtree.woff2") format("woff2");
-    font-display: swap;
+  .glow-soft {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
 
-  .shadow-elevated {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  /* 🧠 Card Hover Effect */
+  .hover-lift {
+    transition: all 0.35s ease;
   }
 
-  .shadow-subtle {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  .hover-lift:hover {
+    transform: translateY(-6px) scale(1.02);
   }
 
-  /* 🔥 HERO STYLE GRADIENT */
+  /* 🎬 Smooth Fade Animation */
+  .fade-in {
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 🎨 HERO GRADIENT */
   .gradient-hero {
     background: linear-gradient(
       135deg,
-      rgba(255, 60, 60, 0.4),
-      rgba(255, 140, 0, 0.4),
-      rgba(140, 0, 255, 0.4),
-      rgba(0, 120, 255, 0.4)
+      rgba(255, 60, 60, 0.3),
+      rgba(255, 140, 0, 0.3),
+      rgba(140, 0, 255, 0.3),
+      rgba(0, 120, 255, 0.3)
     );
   }
 
@@ -111,5 +123,27 @@
 
   .transition-all {
     @apply transition-smooth;
+  }
+
+  /* 📦 Shadows */
+  .shadow-elevated {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  .shadow-subtle {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  }
+
+  /* 🧾 Fonts */
+  @font-face {
+    font-family: "Space Grotesk";
+    src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Figtree";
+    src: url("/assets/fonts/Figtree.woff2") format("woff2");
+    font-display: swap;
   }
 }
