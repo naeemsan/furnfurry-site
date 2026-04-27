@@ -674,9 +674,9 @@ export function ContactFooter() {
                 >
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <span>
-                    16 Surrey Lane
+                    601 Route 206
                     <br />
-                    Belle Mead, NJ 08502
+                    Hillsborough NJ 08844
                     <br />
                     USA
                   </span>
