@@ -5,10 +5,16 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function scrollTo(href: string) {
-  const id = href.replace("#", "");
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth" });
+  const id = href.replace("#", "")
+
+  if (window.location.pathname === "/") {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" })
+    }
+  } else {
+    sessionStorage.setItem("scrollTarget", id)
+    window.location.href = "/"
   }
 }
 
@@ -37,10 +43,10 @@ export function Navbar() {
       )}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        
-        {/* LOGO */}
+
+        {/* ✅ LOGO FIXED */}
         <button
-          onClick={() => handleNav("#home")}
+          onClick={() => (window.location.href = "/")}
           className="group flex items-center gap-2"
         >
           <img
@@ -66,7 +72,7 @@ export function Navbar() {
             </a>
           ))}
 
-          {/* 🔥 INFO DROPDOWN */}
+          {/* INFO DROPDOWN */}
           <div className="relative group ml-2">
             <button className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary">
               Info
@@ -97,12 +103,7 @@ export function Navbar() {
 
         {/* CTA BUTTON */}
         <div className="hidden md:flex items-center gap-3">
-          <Button
-            onClick={() => handleNav("#contact")}
-            className="relative overflow-hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_0_28px_rgba(139,92,246,0.38)] transition-all duration-300 hover:scale-[1.03] hover:bg-primary/90 hover:shadow-[0_0_38px_rgba(139,92,246,0.55)] active:scale-[0.97] before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/25 before:to-transparent before:transition-transform before:duration-700 hover:before:translate-x-full"
-          >
-            <span className="relative z-10">Get a Quote</span>
-          </Button>
+        
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -131,15 +132,6 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
-
-            {/* MOBILE INFO */}
-            <div className="mt-2 border-t border-border pt-2">
-              <p className="px-3 text-xs text-muted-foreground mb-2">Info</p>
-              <a href="/terms" className="block px-3 py-2 text-sm">Commission Terms</a>
-              <a href="/shipping" className="block px-3 py-2 text-sm">Shipping</a>
-              <a href="/refund" className="block px-3 py-2 text-sm">Refund</a>
-              <a href="/privacy" className="block px-3 py-2 text-sm">Privacy</a>
-            </div>
 
             <Button
               onClick={() => handleNav("#contact")}

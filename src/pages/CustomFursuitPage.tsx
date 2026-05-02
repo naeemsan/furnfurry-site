@@ -11,42 +11,40 @@ const OPTIONS = [
   {
     title: "Head Only",
     type: "head",
+    price: "Starting from $999",
     text: "A custom fursuit head designed around your character’s expression, species, muzzle shape, ears, and overall style.",
+    note: "Final price depends on design complexity, materials, and detailing.",
     image: "/build-head-only.jpg",
     button: "Quote Head Only",
   },
   {
     title: "Partial Suit",
     type: "partial",
+    price: "Starting from $1,600",
     text: "A lighter build with a custom head, paws, tail, and optional feet paws for a complete character look without a full body suit.",
+    note: "A popular choice for conventions, photos, and easier wearability.",
     image: "/build-partial-suit.png",
     button: "Quote Partial Suit",
+    popular: true,
   },
   {
     title: "Full Fursuit",
     type: "full",
+    price: "Starting from $3,500",
     text: "A full handmade suit built around your fursona, available in plantigrade or digitigrade styles depending on your design.",
+    note: "Final price depends on body style, markings, materials, and custom features.",
     image: "/build-full-fursuit.jpg",
     button: "Quote Full Fursuit",
   },
 ];
 
-const PRICING = [
-  {
-    title: "Fursuit Head",
-    price: "Starting from $999",
-    text: "Best for expressive character heads built around your fursona’s face, ears, muzzle, and style.",
-  },
-  {
-    title: "Partial Fursuit",
-    price: "Starting from $1,600",
-    text: "Includes key wearable parts such as head, paws, tail, and other matching character pieces.",
-  },
-  {
-    title: "Full Body Fursuit",
-    price: "Starting from $3,500",
-    text: "A fully handmade build designed around your fursona, with both plantigrade and digitigrade body styles available to match your character’s shape and presence.",
-  },
+const PRICE_FACTORS = [
+  "Design complexity",
+  "Fur colors and materials",
+  "Plantigrade or digitigrade body style",
+  "Markings and character details",
+  "Extra features and accessories",
+  "Rush timing or special requests",
 ];
 
 const REFERENCE_SHEETS = [
@@ -148,18 +146,10 @@ export function CustomFursuitPage() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Button
-                onClick={goToProcess}
+                onClick={() => scrollToContact()}
                 className="rounded-2xl bg-primary px-7 py-4 text-base font-bold text-primary-foreground shadow-[0_0_30px_rgba(139,92,246,0.35)] hover:bg-primary/90"
               >
-                View Real Build Process →
-              </Button>
-
-              <Button
-                onClick={() => scrollToContact()}
-                variant="outline"
-                className="rounded-2xl border-white/20 bg-white/10 px-7 py-4 text-base font-bold text-white hover:bg-white/15"
-              >
-                Request Custom Quote
+                Start on WhatsApp →
               </Button>
             </div>
           </div>
@@ -168,7 +158,7 @@ export function CustomFursuitPage() {
             <div className="rounded-[2rem] border border-white/15 bg-black/20 p-3 shadow-elevated backdrop-blur-sm">
               <img
                 src="/process-clean-head.png"
-                alt="Custom fursuit head work in progress"
+                alt="Handmade custom fursuit head work in progress"
                 className="h-[430px] w-full rounded-[1.5rem] object-cover opacity-90"
               />
             </div>
@@ -282,7 +272,7 @@ export function CustomFursuitPage() {
         </div>
       </section>
 
-      {/* OPTIONS */}
+      {/* OPTIONS WITH PRICING */}
       <section className="mx-auto max-w-6xl px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-bold uppercase tracking-widest text-primary">
@@ -290,11 +280,11 @@ export function CustomFursuitPage() {
           </p>
 
           <h2 className="mt-3 text-3xl font-extrabold lg:text-4xl">
-            Custom fursuit options
+            Choose your custom fursuit build
           </h2>
 
           <p className="mt-4 text-muted-foreground">
-            Choose the build type that fits your character, budget, and how you
+            Select the build type that fits your character, budget, and how you
             plan to use your fursuit.
           </p>
         </div>
@@ -304,8 +294,18 @@ export function CustomFursuitPage() {
             <div
               key={item.title}
               onClick={() => scrollToContact(item.type)}
-              className="group cursor-pointer overflow-hidden rounded-3xl border border-border bg-card/70 shadow-subtle transition hover:-translate-y-1 hover:border-primary/35 hover:shadow-elevated"
+              className={`group relative cursor-pointer overflow-hidden rounded-3xl border bg-card/70 shadow-subtle transition hover:-translate-y-1 hover:shadow-elevated ${
+                item.popular
+                  ? "border-primary/60 shadow-[0_0_45px_rgba(139,92,246,0.24)]"
+                  : "border-border hover:border-primary/35"
+              }`}
             >
+              {item.popular && (
+                <div className="absolute right-4 top-4 z-20 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-[0_0_24px_rgba(139,92,246,0.55)]">
+                  Most Popular
+                </div>
+              )}
+
               <img
                 src={item.image}
                 alt={item.title}
@@ -314,8 +314,17 @@ export function CustomFursuitPage() {
 
               <div className="p-6">
                 <h3 className="text-xl font-bold">{item.title}</h3>
-                <p className="mt-3 leading-7 text-muted-foreground">
+
+                <p className="mt-3 text-2xl font-extrabold text-primary">
+                  {item.price}
+                </p>
+
+                <p className="mt-4 leading-7 text-muted-foreground">
                   {item.text}
+                </p>
+
+                <p className="mt-3 text-sm leading-6 text-muted-foreground/80">
+                  {item.note}
                 </p>
 
                 <Button
@@ -331,46 +340,48 @@ export function CustomFursuitPage() {
             </div>
           ))}
         </div>
+
+        <p className="mx-auto mt-8 max-w-3xl text-center text-sm leading-7 text-muted-foreground">
+          Final pricing depends on design complexity, materials, body style,
+          markings, accessories, and other custom details.
+        </p>
       </section>
 
-      {/* PRICING */}
+      {/* PRICE FACTORS */}
       <section className="bg-card/40 px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-bold uppercase tracking-widest text-primary">
-              Quote Based Pricing
+              What Affects Pricing
             </p>
 
             <h2 className="mt-3 text-3xl font-extrabold lg:text-4xl">
-              How much does a custom fursuit cost?
+              Every fursuit is quoted around your character
             </h2>
 
             <p className="mt-4 leading-8 text-muted-foreground">
-              Final pricing depends on design complexity, materials, markings,
-              body style, size, and the type of build you want.
+              Each build is different, so we review your reference sheet and
+              design details before giving an exact quote.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {PRICING.map((item) => (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PRICE_FACTORS.map((factor) => (
               <div
-                key={item.title}
-                className="rounded-3xl border border-border bg-background/70 p-6 shadow-subtle transition hover:-translate-y-1 hover:border-primary/35"
+                key={factor}
+                className="rounded-2xl border border-border bg-background/70 p-5 text-center font-semibold text-muted-foreground shadow-subtle transition hover:-translate-y-1 hover:border-primary/35"
               >
-                <h3 className="text-xl font-bold">{item.title}</h3>
-                <p className="mt-4 text-2xl font-extrabold text-primary">
-                  {item.price}
-                </p>
-                <p className="mt-4 leading-7 text-muted-foreground">
-                  {item.text}
-                </p>
+                {factor}
               </div>
             ))}
           </div>
 
           <div className="mt-8 text-center">
-            <Button onClick={() => scrollToContact()} className="rounded-2xl px-7 py-4">
-              Get Your Exact Quote
+            <Button
+              onClick={() => scrollToContact()}
+              className="rounded-2xl px-7 py-4"
+            >
+              Get Your Exact Quote →
             </Button>
           </div>
         </div>
@@ -404,7 +415,7 @@ export function CustomFursuitPage() {
                 <img
                   src={image.src}
                   alt={image.label}
-                  className="h-[330px] w-full object-cover object-top transition duration-500 group-hover:scale-[1.04]"
+                  className="h-[330px] w-full object-contain bg-black/20 p-2 transition duration-500 group-hover:scale-[1.03]"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

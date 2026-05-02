@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
-
+import { useEffect } from "react";
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
 import { ContactFooter } from "@/pages/sections/ContactFooter";
 import { FAQSection } from "@/pages/sections/FAQSection";
