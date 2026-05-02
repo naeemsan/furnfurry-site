@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
-import { useEffect } from "react";
+
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
 import { ContactFooter } from "@/pages/sections/ContactFooter";
 import { FAQSection } from "@/pages/sections/FAQSection";
@@ -16,12 +16,17 @@ import { ProcessSection } from "@/pages/sections/ProcessSection";
 import { TrustSection } from "@/pages/sections/TrustSection";
 import { WhyChooseSection } from "@/pages/sections/WhyChooseSection";
 
-import CareGuide from "@/pages/info/CareGuide";
-import CommissionTerms from "@/pages/info/CommissionTerms";
-import MeasureGuide from "@/pages/info/MeasureGuide";
-import PrivacyPolicy from "@/pages/info/PrivacyPolicy";
-import RefundPolicy from "@/pages/info/RefundPolicy";
-import ShippingPolicy from "@/pages/info/ShippingPolicy";
+/* INFO PAGES */
+import CareGuide from "./pages/info/CareGuide";
+import CommissionTerms from "./pages/info/CommissionTerms";
+import MeasureGuide from "./pages/info/MeasureGuide";
+import PrivacyPolicy from "./pages/info/PrivacyPolicy";
+import RefundPolicy from "./pages/info/RefundPolicy";
+import ShippingPolicy from "./pages/info/ShippingPolicy";
+
+/* ✅ BLOG IMPORTS (FIXED) */
+import Blog from "./pages/info/Blog";
+import CustomFursuitPriceGuide from "./pages/info/CustomFursuitPriceGuide";
 
 function HomePage() {
   return (
@@ -45,19 +50,26 @@ function HomePage() {
 export default function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      {/* Subtle global noise texture */}
+
+      {/* Background noise */}
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[url('/noise.png')] opacity-[0.025] mix-blend-soft-light" />
 
       <div className="relative z-[2]">
         <Navbar />
-
-        {/* 🔥 WhatsApp Floating Button */}
         <WhatsAppButton />
 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/custom-fursuit" element={<CustomFursuitPage />} />
 
+          {/* ✅ BLOG ROUTES */}
+          <Route path="/blog" element={<Blog />} />
+          <Route
+            path="/blog/custom-fursuit-price-guide"
+            element={<CustomFursuitPriceGuide />}
+          />
+
+          {/* INFO PAGES */}
           <Route path="/terms" element={<CommissionTerms />} />
           <Route path="/shipping" element={<ShippingPolicy />} />
           <Route path="/refund" element={<RefundPolicy />} />
