@@ -57,7 +57,7 @@ export const COMMISSION_CARDS: CommissionCard[] = [
     type: CommissionType.Tail,
     title: "Tails",
     description:
-      "From fluffy fox tails to scaled dragon tails — we build tails that move, swish, and match your fursona perfectly.",
+      "From fluffy fox tails to scaled dragon tails we build tails that move, swish, and match your fursona perfectly.",
     features: [
       "Custom length and base shape",
       "Wire armature for posing",
@@ -86,7 +86,7 @@ export const COMMISSION_CARDS: CommissionCard[] = [
     type: CommissionType.FullSuit,
     title: "Full Suits",
     description:
-      "The full expression of your fursona — head-to-toe craftsmanship with every detail considered, from ear tips to toe beans.",
+      "The full expression of your fursona head to toe craftsmanship with every detail considered, from ear tips to toe beans.",
     features: [
       "Complete head, body, paws & tail",
       "Digitigrade or regular bodysuit",
@@ -331,10 +331,12 @@ export const GALLERY_ITEMS: GalleryItem[] = [
 
 export const NAV_LINKS = [
   { label: "Home", href: "#home" },
+  { label: "Custom Fursuit", href: "/custom-fursuit" },
   { label: "Commissions", href: "#commissions" },
   { label: "Pricing", href: "#pricing" },
   { label: "What We Make", href: "#gallery" },
   { label: "Process", href: "#process" },
   { label: "FAQs", href: "#faqs" },
   { label: "Contact", href: "#contact" },
+
 ];

@@ -73,8 +73,8 @@ export function HeroSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="mt-6 max-w-lg text-white/85 drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
             >
-              Handmade, made-to-order fursuits designed around your character,
-              style, and personality — from expressive heads to full body builds.
+              Handmade, made to order fursuits designed around your character,
+              style, and personality from expressive heads to full body builds.
             </motion.p>
 
             <motion.div
@@ -86,15 +86,10 @@ export function HeroSection() {
                 onClick={() => scrollTo("contact")}
                 className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-[0_0_30px_rgba(139,92,246,0.4)] transition hover:scale-[1.03] hover:bg-primary/90 hover:shadow-[0_0_42px_rgba(139,92,246,0.55)] active:scale-[0.97]"
               >
-                Start Your Custom Fursuit →
+                Start Your HandMade Fursuit →
               </Button>
 
-              <Button
-                onClick={() => scrollTo("gallery")}
-                className="rounded-xl border border-white/20 bg-background/10 px-6 py-3 text-white backdrop-blur-md transition hover:scale-[1.03] hover:bg-background/20 active:scale-[0.97]"
-              >
-                View Our Work →
-              </Button>
+              
             </motion.div>
 
             <motion.div
@@ -102,12 +97,7 @@ export function HeroSection() {
               transition={{ duration: 0.55, ease: "easeOut" }}
               className="mt-4"
             >
-              <a
-                href="/custom-fursuit"
-                className="text-sm text-white underline underline-offset-4 transition hover:text-primary"
-              >
-                Explore custom fursuit options →
-              </a>
+              
             </motion.div>
 
             <motion.div

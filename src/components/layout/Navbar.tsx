@@ -63,8 +63,10 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={(e) => {
-                e.preventDefault();
-                handleNav(link.href);
+               if (link.href.startsWith("#")) {
+              e.preventDefault();
+               handleNav(link.href);
+               }
               }}
               className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-200 hover:scale-[1.03] hover:bg-primary/10 hover:text-primary active:scale-[0.97]"
             >
