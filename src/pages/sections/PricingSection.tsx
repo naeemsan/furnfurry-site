@@ -127,7 +127,7 @@ export function PricingSection() {
 
                   <div className="mt-1 text-3xl font-extrabold text-primary">
                     {tier.type === "Full Suit"
-                      ? "$5,000 – $10,000+"
+                      ? "$3,500 – $8,000+"
                       : `$${tier.startingAt.toLocaleString()}`}
                   </div>
 

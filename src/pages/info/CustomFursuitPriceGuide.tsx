@@ -15,10 +15,13 @@ export default function CustomFursuitPriceGuide() {
 
         {/* INTRO */}
         <p className="mt-5 text-lg text-muted-foreground">
-          Thinking about getting a custom fursuit but not sure how much it costs?
-          This guide breaks down pricing, build types, and the key factors that
-          affect the final quote.
-        </p>
+  Thinking about getting a{" "}
+  <a href="/custom-fursuit" className="text-primary font-semibold hover:underline">
+    custom fursuit
+  </a>{" "}
+  but not sure how much it costs? This guide breaks down pricing, build types,
+  and the key factors that affect the final quote.
+</p>
 
         {/* IMAGE (IMPORTANT FIX) */}
         <img
@@ -41,13 +44,13 @@ export default function CustomFursuitPriceGuide() {
         {/* LIST */}
         <ul className="mt-5 space-y-3 text-muted-foreground">
           <li>
-            <strong className="text-foreground">Fursuit Head:</strong> $800 – $2,500+
+            <strong className="text-foreground">Fursuit Head:</strong> $999 – $2,500+
           </li>
           <li>
             <strong className="text-foreground">Partial Fursuit:</strong> $1,500 – $3,500+
           </li>
           <li>
-            <strong className="text-foreground">Full Body Fursuit:</strong> $4,000 – $8,000+
+            <strong className="text-foreground">Full Body Fursuit:</strong> $3,500 – $8,000+
           </li>
         </ul>
 
@@ -71,6 +74,16 @@ export default function CustomFursuitPriceGuide() {
           A head is cheaper than a partial, and a full suit costs more due to
           additional materials and construction time.
         </p>
+        <p className="mt-3 text-muted-foreground">
+  Not sure which option fits your character? Explore our{" "}
+  <a
+    href="/custom-fursuit"
+    className="font-semibold text-primary hover:underline"
+  >
+    custom fursuit build options
+  </a>{" "}
+  to compare heads, partials, and full body suits.
+</p>
 
         <h3 className="mt-6 text-xl font-semibold">
           3. Materials
@@ -99,6 +112,26 @@ export default function CustomFursuitPriceGuide() {
           personalized result.
         </p>
 
+        {/* RELATED GUIDES */}
+<div className="mt-16">
+  <h2 className="text-2xl font-bold">Related Guides</h2>
+
+  <div className="mt-6 grid gap-4 md:grid-cols-2">
+    <a
+      href="/blog/how-to-order-custom-fursuit"
+      className="rounded-xl border border-white/10 bg-card p-4 text-sm font-semibold transition hover:border-primary/40 hover:text-primary"
+    >
+      How to Order a Custom Fursuit →
+    </a>
+
+    <a
+      href="/blog/fursuit-head-vs-partial-vs-full"
+      className="rounded-xl border border-white/10 bg-card p-4 text-sm font-semibold transition hover:border-primary/40 hover:text-primary"
+    >
+      Fursuit Head vs Partial vs Full Suit →
+    </a>
+  </div>
+</div>
         {/* CTA */}
         <div className="mt-12 rounded-2xl border border-primary/30 bg-primary/10 p-6">
           <h2 className="text-2xl font-bold">
@@ -106,9 +139,16 @@ export default function CustomFursuitPriceGuide() {
           </h2>
 
           <p className="mt-3 text-muted-foreground">
-            Message FurNFurry on WhatsApp and we’ll guide you based on your
-            character, budget, and timeline.
-          </p>
+  Message FurNFurry on WhatsApp and we’ll guide you based on your character,
+  budget, and timeline. You can also view our{" "}
+  <a
+    href="/custom-fursuit"
+    className="font-semibold text-primary hover:underline"
+  >
+    custom fursuit options
+  </a>{" "}
+  before messaging us.
+</p>
 
           <a
             href="https://wa.me/18555578702?text=Hi%2C%20I%27m%20interested%20in%20a%20custom%20fursuit.%20Can%20you%20guide%20me%3F"

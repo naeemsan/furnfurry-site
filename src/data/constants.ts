@@ -102,7 +102,7 @@ export const COMMISSION_CARDS: CommissionCard[] = [
 export const PRICING_TIERS = [
   {
     type: "Head",
-    startingAt: 1200,
+    startingAt: 999,
     description: "Custom sculpted head with fur matching and expressive details",
   },
   {
@@ -112,7 +112,7 @@ export const PRICING_TIERS = [
   },
   {
     type: "Feet Paws",
-    startingAt: 450,
+    startingAt: 300,
     description: "Durable sculpted feet paws with detailing",
   },
   {
@@ -122,13 +122,13 @@ export const PRICING_TIERS = [
   },
   {
     type: "Partial",
-    startingAt: 2200,
+    startingAt: 1500,
     description: "Head, paws, and tail as a complete matched set",
     popular: true,
   },
   {
     type: "Full Suit",
-    startingAt: 5000,
+    startingAt: 3500,
     description: "Complete full-body custom fursuit build",
   },
 ];
