@@ -110,6 +110,7 @@ const SOCIAL_LINKS = [
 interface FormValues {
   name: string;
   email: string;
+  contactNumber: string; // ✅ ADDED
   fursonaName: string;
   commissionType: string;
   style: string;
@@ -132,14 +133,15 @@ export function ContactFooter() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: "",
-      email: "",
-      fursonaName: "",
-      commissionType: "",
-      style: "",
-      budget: "",
-      notes: "",
-    },
+  name: "",
+  email: "",
+  contactNumber: "", // ✅ ADDED
+  fursonaName: "",
+  commissionType: "",
+  style: "",
+  budget: "",
+  notes: "",
+},
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -178,15 +180,16 @@ export function ContactFooter() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          fursonaName: data.fursonaName,
-          commissionType: data.commissionType,
-          style: data.style,
-          budget: data.budget,
-          notes: data.notes,
-          referenceImages: uploadedUrls.join("\n"),
-        }),
+  name: data.name,
+  email: data.email,
+  contactNumber: data.contactNumber, // ✅ ADDED
+  fursonaName: data.fursonaName,
+  commissionType: data.commissionType,
+  style: data.style,
+  budget: data.budget,
+  notes: data.notes,
+  referenceImages: uploadedUrls.join("\n"),
+}),
       });
 
       if (response.ok) {
@@ -386,6 +389,24 @@ export function ContactFooter() {
                         )}
                       </div>
                     </div>
+
+                    <div className="sm:col-span-2 space-y-1.5">
+  <Label htmlFor="contact-number">Contact Number *</Label>
+  <Input
+    id="contact-number"
+    type="tel"
+    placeholder="+1 555 123 4567 (include country code)"
+    className="rounded-xl"
+    {...register("contactNumber", {
+      required: "Contact number is required",
+    })}
+  />
+  {errors.contactNumber && (
+    <p className="text-xs text-destructive">
+      {errors.contactNumber.message}
+    </p>
+  )}
+</div>
 
                     <div className="space-y-1.5">
                       <Label htmlFor="contact-fursona">
