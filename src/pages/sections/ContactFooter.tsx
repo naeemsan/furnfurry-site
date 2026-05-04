@@ -83,7 +83,7 @@ const SOCIAL_LINKS = [
   },
   {
     icon: SiX,
-    href: "https://x.com/FurNFurry",
+    href: "https://x.com",
     label: "Twitter/X",
     color: "hover:text-foreground",
   },
