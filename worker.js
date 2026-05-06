@@ -1,68 +1,59 @@
 export default {
   async fetch(request, env) {
-    try {
-      const url = new URL(request.url);
+    const url = new URL(request.url);
 
-      // API ROUTE
-      if (
-        request.method === "POST" &&
-        url.pathname === "/api/generate-fursona-image"
-      ) {
-        try {
-          const body = await request.json();
-
-          const prompt = [
-            "cute furry fursona character",
-            body.species,
-            body.style,
-            body.colorMood,
-            body.environment,
-            body.personality,
-            "high quality furry art",
-            "full body",
-            "clean digital art",
-            "soft lighting",
-            "no text",
-            "no watermark"
-          ].join(", ");
-
-          const imageUrl =
-            "https://image.pollinations.ai/prompt/" +
-            encodeURIComponent(prompt);
-
-          return new Response(
-            JSON.stringify({
-              imageUrl
-            }),
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-              }
-            }
-          );
-        } catch (error) {
-          return new Response(
-            JSON.stringify({
-              error: "API generation failed"
-            }),
-            {
-              status: 500,
-              headers: {
-                "Content-Type": "application/json"
-              }
-            }
-          );
-        }
-      }
-
-      // NORMAL WEBSITE
-      return env.ASSETS.fetch(request);
-
-    } catch (err) {
-      return new Response("Worker crashed", {
-        status: 500
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
       });
     }
-  }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/generate-fursona-image"
+    ) {
+      try {
+        const body = await request.json();
+
+        const prompt = [
+          "cute original furry fursona character design",
+          body.species || "wolf",
+          body.style || "toony",
+          body.colorMood || "soft colors",
+          body.environment || "fantasy background",
+          body.personality || "friendly expressive character",
+          "full body",
+          "clean digital art",
+          "soft lighting",
+          "no text",
+          "no watermark",
+        ].join(", ");
+
+        const imageUrl =
+          "https://image.pollinations.ai/prompt/" +
+          encodeURIComponent(prompt) +
+          "?width=1024&height=1024&seed=" +
+          Date.now();
+
+        return Response.json({ imageUrl });
+      } catch {
+        return Response.json(
+          { error: "Image generation failed." },
+          { status: 500 }
+        );
+      }
+    }
+
+    try {
+      return await env.ASSETS.fetch(request);
+    } catch {
+      const homepageRequest = new Request(url.origin + "/", request);
+      return env.ASSETS.fetch(homepageRequest);
+    }
+  },
 };
