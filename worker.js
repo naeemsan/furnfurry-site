@@ -23,42 +23,33 @@ export default {
           "soft lighting",
           "high quality furry fandom style",
           "centered composition",
+          "simple background",
           "no text",
-          "no watermark",
-          "not copied from existing character"
+          "no watermark"
         ].join(", ");
 
         const imageUrl =
-          "https://gen.pollinations.ai/image/" +
+          "https://image.pollinations.ai/prompt/" +
           encodeURIComponent(prompt) +
-          "?width=1024&height=1024&seed=" +
+          "?width=1024&height=1024&nologo=true&seed=" +
           Date.now();
 
+        return new Response(JSON.stringify({ imageUrl }), {
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch {
         return new Response(
           JSON.stringify({
-            imageUrl
-          }),
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        );
-      } catch (error) {
-        return new Response(
-          JSON.stringify({
-            error: "Something went wrong while creating the image URL."
+            error: "Something went wrong while creating the image URL.",
           }),
           {
             status: 500,
-            headers: {
-              "Content-Type": "application/json"
-            }
+            headers: { "Content-Type": "application/json" },
           }
         );
       }
     }
 
     return env.ASSETS.fetch(request);
-  }
+  },
 };
