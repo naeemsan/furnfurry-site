@@ -31,16 +31,43 @@ export default {
         const imageUrl =
           "https://image.pollinations.ai/prompt/" +
           encodeURIComponent(prompt) +
-          "?width=1024&height=1024&nologo=true&seed=" +
+          "?width=1024&height=1024&nologo=true&private=true&seed=" +
           Date.now();
 
-        return new Response(JSON.stringify({ imageUrl }), {
-          headers: { "Content-Type": "application/json" },
-        });
-      } catch {
+        const imageResponse = await fetch(imageUrl);
+
+        if (!imageResponse.ok) {
+          return new Response(
+            JSON.stringify({ error: "Image provider failed. Please try again." }),
+            {
+              status: 500,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        const imageBuffer = await imageResponse.arrayBuffer();
+
+        let binary = "";
+        const bytes = new Uint8Array(imageBuffer);
+        for (let i = 0; i < bytes.length; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+
+        const base64Image = btoa(binary);
+
         return new Response(
           JSON.stringify({
-            error: "Something went wrong while creating the image URL.",
+            image: base64Image,
+          }),
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({
+            error: "Something went wrong while generating the image.",
           }),
           {
             status: 500,

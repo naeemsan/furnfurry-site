@@ -375,11 +375,11 @@ export default function FursonaFinderPage() {
         throw new Error(data?.error || "Image generation failed.");
       }
 
-      if (!data.imageUrl) {
-       throw new Error("No image URL was returned.");
-     }
+      if (!data.image) {
+        throw new Error("No image data was returned.");
+      }
 
-      setGeneratedImage(data.imageUrl);
+      setGeneratedImage(`data:image/png;base64,${data.image}`);
     } catch (error) {
       setImageError(
         error instanceof Error
