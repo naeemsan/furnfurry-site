@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 const galleryItems = [
   {
     name: "Forest Guardian",
@@ -39,6 +40,16 @@ const galleryItems = [
 
 export default function GalleryPage() {
   return (
+  <>
+    <Helmet>
+      <title>Fursuit Gallery | Handmade Fursona Builds - FurNFurry</title>
+
+      <meta
+        name="description"
+        content="Explore handmade furry suit builds, custom character heads, paws, tails, and full suits created for unique fursonas. See different styles, colors, and commission examples."
+      />
+    </Helmet>
+
     <main className="min-h-screen bg-background pt-32 text-foreground">
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
         <div className="text-center">
@@ -105,5 +116,6 @@ export default function GalleryPage() {
         </p>
       </section>
     </main>
+    </>
   );
 }

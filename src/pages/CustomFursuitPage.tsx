@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 
 const TRUST_ITEMS = [
   "Custom made from scratch",
@@ -112,6 +113,16 @@ function goToProcess() {
 
 export function CustomFursuitPage() {
   return (
+  <>
+    <Helmet>
+      <title>Custom Fursuit Commissions | Kemono & Full Suits - FurNFurry</title>
+
+      <meta
+        name="description"
+        content="Commission a custom fursuit designed around your character’s personality and style. Choose kemono, toony, partial, or full digitigrade builds with custom colors, paws, tails, and more."
+      />
+    </Helmet>
+
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO */}
       <section
@@ -502,5 +513,6 @@ export function CustomFursuitPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

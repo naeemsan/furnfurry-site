@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 type Species =
   | "Wolf"
@@ -439,6 +440,16 @@ export default function FursonaFinderPage() {
   };
 
   return (
+  <>
+    <Helmet>
+      <title>Fursona Finder Quiz | Discover Your Perfect Fursuit Style</title>
+
+      <meta
+        name="description"
+        content="Answer a few furry community inspired questions and discover a fursona style that matches your personality, aesthetic, energy, and ideal fursuit build direction."
+      />
+    </Helmet>
+
     <main className="min-h-screen bg-background pt-32 text-foreground">
       <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
         <div className="text-center">
@@ -611,6 +622,7 @@ export default function FursonaFinderPage() {
         )}
       </section>
     </main>
+    </>
   );
 }
 
