@@ -363,11 +363,15 @@ export default function FursonaFinderPage() {
     setImageError("");
 
     if (currentStep === questions.length - 1) {
-      setFinished(true);
-    } else {
-      setCurrentStep((step) => step + 1);
-    }
-  };
+  setFinished(true);
+
+  setTimeout(() => {
+    generateFursonaImage();
+  }, 800);
+
+} else {
+  setCurrentStep((step) => step + 1);
+}
 
   const resultSpecies = (Object.entries(scores).sort(
     (a, b) => b[1] - a[1]
@@ -573,25 +577,33 @@ export default function FursonaFinderPage() {
                 </p>
               </div>
 
-              <button
-                type="button"
-                onClick={generateFursonaImage}
-                disabled={isGenerating}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isGenerating
-                  ? "Generating your fursona..."
-                  : generatedImage
-                    ? "Generate Another Version"
-                    : "Generate Fursona Image"}
-              </button>
-
+              
               {imageError && (
                 <p className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
                   {imageError}
                 </p>
               )}
+              
+            {isGenerating && (
+            <div className="mt-8 rounded-3xl border border-primary/20 bg-primary/5 p-10 text-center">
+    
+             <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
 
+            <h3 className="mt-6 text-2xl font-bold">
+             Creating Your Fursona...
+              </h3>
+
+              <p className="mt-3 text-muted-foreground">
+              Analyzing personality, style, and character energy.
+             </p>
+
+               <div className="mt-6 space-y-2 text-sm text-muted-foreground">
+            <p>Generating fur textures...</p>
+             <p>Building facial expressions...</p>
+           <p>Matching your aesthetic...</p>
+       </div>
+     </div>
+ )}
               {generatedImage && (
                 <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
                   <img
