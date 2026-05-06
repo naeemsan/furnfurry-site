@@ -569,11 +569,14 @@ export default function FursonaFinderPage() {
               {generatedImage && (
                 <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
                   <img
-                    src={generatedImage}
-                    alt={`${resultSpecies} generated fursona concept`}
-                    className="w-full rounded-2xl object-cover"
-                  />
-
+  src={generatedImage}
+  alt={`${resultSpecies} generated fursona concept`}
+  onError={() => {
+    setGeneratedImage("");
+    setImageError("Image could not load. Please generate another version.");
+  }}
+  className="w-full rounded-2xl object-cover"
+/>
                   <button
                     type="button"
                     onClick={generateFursonaImage}

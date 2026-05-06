@@ -24,12 +24,12 @@ export default {
         ].join(", ");
 
         const image = await env.AI.run("@cf/lykon/dreamshaper-8-lcm", {
-          prompt,
-          width: 1024,
-          height: 1024,
-          num_steps: 8,
-          guidance: 2
-        });
+  prompt,
+  width: 768,
+  height: 768,
+  num_steps: 6,
+  guidance: 2,
+});
 
         return new Response(image, {
         headers: {
