@@ -7,7 +7,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Message FurNFurry on WhatsApp"
-      className="group fixed bottom-5 right-5 z-[80]"
+      className="group fixed bottom-5 left-5 z-[80]"
     >
       {/* Glow ring */}
       <span className="absolute inset-0 rounded-full bg-primary/30 blur-xl opacity-70 group-hover:opacity-100 transition-all duration-500" />
