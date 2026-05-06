@@ -316,6 +316,10 @@ export default function FursonaFinderPage() {
   const [useCase, setUseCase] = useState("");
   const [finished, setFinished] = useState(false);
 
+  const [generatedImage, setGeneratedImage] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [imageError, setImageError] = useState("");
+
   const selectOption = (option: Option) => {
     const newScores = { ...scores };
 
@@ -345,6 +349,48 @@ export default function FursonaFinderPage() {
 
   const result = speciesDetails[resultSpecies];
 
+  const generateFursonaImage = async () => {
+    try {
+      setIsGenerating(true);
+      setImageError("");
+
+      const response = await fetch("/api/generate-fursona-image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          species: `${environment ? `${environment} ` : ""}${resultSpecies}`,
+          style: style || result.recommendedStyle,
+          colorMood: colorMood || "Custom colors based on the character",
+          environment: environment || "custom fantasy setting",
+          buildType: buildType || result.defaultBuild,
+          personality: archetype || result.personality,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Image generation failed.");
+      }
+
+      if (!data.image) {
+        throw new Error("No image was returned.");
+      }
+
+      setGeneratedImage(`data:image/png;base64,${data.image}`);
+    } catch (error) {
+      setImageError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while generating the image."
+      );
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const restart = () => {
     setCurrentStep(0);
     setScores({
@@ -368,6 +414,9 @@ export default function FursonaFinderPage() {
     setBuildType("");
     setUseCase("");
     setFinished(false);
+    setGeneratedImage("");
+    setImageError("");
+    setIsGenerating(false);
   };
 
   return (
@@ -485,7 +534,8 @@ export default function FursonaFinderPage() {
                     Best For
                   </p>
                   <p className="mt-2 font-semibold">
-                    {useCase || "Custom fursuit commissions and personal fursona builds"}
+                    {useCase ||
+                      "Custom fursuit commissions and personal fursona builds"}
                   </p>
                 </div>
               </div>
@@ -496,10 +546,41 @@ export default function FursonaFinderPage() {
                 </p>
               </div>
 
+              <button
+                type="button"
+                onClick={generateFursonaImage}
+                disabled={isGenerating}
+                className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isGenerating
+                  ? "Generating your fursona..."
+                  : generatedImage
+                  ? "Generate Another Version"
+                  : "Generate AI Fursona Image"}
+              </button>
+
+              {imageError && (
+                <p className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
+                  {imageError}
+                </p>
+              )}
+
+              {generatedImage && (
+                <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
+                  <img
+                    src={generatedImage}
+                    alt={`${resultSpecies} generated fursona concept`}
+                    className="w-full rounded-2xl object-cover"
+                  />
+                </div>
+              )}
+
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={`https://wa.me/18555578702?text=${encodeURIComponent(
-                    `Hi FurNFurry, I completed the Fursona Build Finder and got ${environment ? `${environment} ` : ""}${resultSpecies}. Can you help me turn this into a custom fursuit?`
+                    `Hi FurNFurry, I completed the Fursona Build Finder and got ${
+                      environment ? `${environment} ` : ""
+                    }${resultSpecies}. Can you help me turn this into a custom fursuit?`
                   )}`}
                   className="inline-flex flex-1 items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
                 >
