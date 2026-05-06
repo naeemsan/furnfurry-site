@@ -20,8 +20,6 @@ type Option = {
   archetype?: string;
   environment?: string;
   colorMood?: string;
-  style?: string;
-  buildType?: string;
   useCase?: string;
 };
 
@@ -87,67 +85,57 @@ const questions = [
     ],
   },
   {
-    question: "What kind of build do you imagine for your character?",
+    question: "What kind of body shape feels closest to your character?",
     options: [
       {
         label: "Slim and agile",
         points: { Fox: 2, Cat: 2, Shark: 1 },
-        buildType: "Slim toony or semi-realistic build",
       },
       {
         label: "Fluffy and soft",
         points: { Bunny: 2, "Red Panda": 2, Dog: 1 },
-        buildType: "Soft kemono or plushy partial suit",
       },
       {
-        label: "Muscular and strong",
+        label: "Strong and powerful",
         points: { Wolf: 2, Lion: 2, Tiger: 2, Dragon: 1 },
-        buildType: "Full suit with bold proportions",
       },
       {
-        label: "Small and compact",
+        label: "Small and cute",
         points: { Bunny: 2, Cat: 1, "Red Panda": 2 },
-        buildType: "Cute head or partial suit",
       },
       {
         label: "Tall and elegant",
         points: { Deer: 2, Bird: 2, Dragon: 1 },
-        buildType: "Elegant full suit or expressive head",
       },
     ],
   },
   {
-    question: "Which visual fursuit style do you prefer?",
+    question: "Which visual direction do you like most?",
     options: [
       {
-        label: "Cute and expressive kemono style",
+        label: "Cute and expressive",
         points: { Bunny: 2, "Red Panda": 2, Cat: 1, Fox: 1 },
-        style: "Kemono",
       },
       {
-        label: "Balanced cartoon style",
+        label: "Cartoon mascot style",
         points: { Dog: 2, Fox: 1, Wolf: 1, Tiger: 1 },
-        style: "Toony",
       },
       {
-        label: "Semi-realistic but still friendly",
+        label: "Natural animal-inspired look",
         points: { Wolf: 2, Deer: 2, Tiger: 1, Lion: 1 },
-        style: "Semi-realistic",
       },
       {
         label: "Fantasy and high-detail design",
         points: { Dragon: 3, Bird: 1, Shark: 1 },
-        style: "Fantasy / detailed",
       },
       {
         label: "Soft plushy character look",
         points: { Bunny: 2, Dog: 1, "Red Panda": 2 },
-        style: "Plushy",
       },
     ],
   },
   {
-    question: "Which vibe fits your character best?",
+    question: "Which color vibe fits your character best?",
     options: [
       {
         label: "Soft pastel and friendly",
@@ -213,80 +201,119 @@ const speciesDetails: Record<
   {
     personality: string;
     recommendedStyle: string;
-    defaultBuild: string;
+    buildType: string;
+    suitFeel: string;
+    defaultColorMood: string;
+    bestFor: string;
     why: string;
   }
 > = {
   Wolf: {
     personality: "Loyal, bold, protective, and confident.",
-    recommendedStyle: "Toony or semi-realistic",
-    defaultBuild: "Partial or full body suit",
-    why: "Wolf fursonas work well for strong characters with loyal energy, expressive markings, and a powerful convention presence.",
+    recommendedStyle: "Semi-realistic",
+    buildType: "Athletic digitigrade full suit",
+    suitFeel: "Strong proportions with bold markings",
+    defaultColorMood: "Grey, black, white, and cold forest tones",
+    bestFor: "Conventions and public meets",
+    why: "Wolf characters feel powerful and memorable with sharp markings, larger tails, and confident body language.",
   },
   Fox: {
     personality: "Clever, stylish, playful, and mysterious.",
-    recommendedStyle: "Kemono or toony",
-    defaultBuild: "Head, partial, or full suit",
-    why: "Fox designs are flexible and look great with sharp markings, bright colors, elegant shapes, or playful expressions.",
+    recommendedStyle: "Kemono",
+    buildType: "Digitigrade partial or full suit",
+    suitFeel: "Soft, fluffy, expressive, and lightweight",
+    defaultColorMood: "Bright oranges, white fur, and soft cream tones",
+    bestFor: "Photoshoots and content creation",
+    why: "Fox fursonas work best with expressive eyes, fluffy cheek fur, elegant tails, and energetic personalities.",
   },
   "Red Panda": {
     personality: "Soft, friendly, cute, and expressive.",
     recommendedStyle: "Kemono",
-    defaultBuild: "Partial or full suit",
-    why: "Red panda fursonas are perfect for warm, approachable, cute character designs with soft expressions and rounded features.",
+    buildType: "Soft partial or full suit",
+    suitFeel: "Rounded, cozy, warm, and approachable",
+    defaultColorMood: "Warm red-brown, cream, white, and soft tan",
+    bestFor: "Cute aesthetic content and meetups",
+    why: "Red panda fursonas are perfect for warm character designs with soft expressions, rounded features, and gentle friendly energy.",
   },
   Cat: {
     personality: "Playful, stylish, curious, and expressive.",
-    recommendedStyle: "Toony or kemono",
-    defaultBuild: "Head or partial suit",
-    why: "Cat fursonas work well for sleek designs, fun expressions, content creation, and stylish character concepts.",
+    recommendedStyle: "Toony",
+    buildType: "Lightweight partial suit",
+    suitFeel: "Cute, playful, and convention friendly",
+    defaultColorMood: "Soft pastel shades and warm tones",
+    bestFor: "Casual events and social content",
+    why: "Cat fursonas look adorable with rounded shapes, oversized expressions, sleek markings, and colorful playful designs.",
   },
   Dog: {
     personality: "Friendly, loyal, cheerful, and energetic.",
-    recommendedStyle: "Toony",
-    defaultBuild: "Partial suit",
-    why: "Dog fursonas are great for approachable characters with friendly expression and strong social energy.",
+    recommendedStyle: "Kemono",
+    buildType: "Lightweight convention partial suit",
+    suitFeel: "Friendly, soft, and expressive",
+    defaultColorMood: "Warm browns, cream, white, and playful colors",
+    bestFor: "Conventions and streaming content",
+    why: "Dog fursonas are universally lovable with fluffy ears, wagging tails, and cheerful expressive designs.",
   },
   Bunny: {
     personality: "Soft, cute, gentle, and charming.",
-    recommendedStyle: "Kemono or plushy",
-    defaultBuild: "Partial or full suit",
-    why: "Bunny fursonas look amazing with pastel colors, oversized ears, rounded shapes, and soft plushy proportions.",
+    recommendedStyle: "Kemono",
+    buildType: "Soft plush partial or full suit",
+    suitFeel: "Ultra soft, cuddly, and rounded",
+    defaultColorMood: "White, pink, cream, and pastel lavender",
+    bestFor: "Cute aesthetic content and meetups",
+    why: "Bunny designs shine with fluffy cheeks, oversized ears, soft colors, and cozy plush styling.",
   },
   Dragon: {
     personality: "Powerful, fantasy-inspired, bold, and dramatic.",
-    recommendedStyle: "Fantasy or semi-realistic",
-    defaultBuild: "Full suit or detailed head",
-    why: "Dragon fursonas are perfect for high-impact fantasy builds with horns, spikes, wings, bold colors, or dramatic details.",
+    recommendedStyle: "Fantasy semi-realistic",
+    buildType: "Large full body digitigrade suit",
+    suitFeel: "Massive, detailed, and cinematic",
+    defaultColorMood: "Black, crimson, gold, and deep jewel tones",
+    bestFor: "Stage performances and showcases",
+    why: "Dragon suits look incredible with large horns, layered details, glowing accents, and dramatic proportions.",
   },
   Deer: {
     personality: "Elegant, calm, graceful, and nature-inspired.",
-    recommendedStyle: "Semi-realistic or toony",
-    defaultBuild: "Head or full suit",
-    why: "Deer fursonas work beautifully with natural palettes, antlers, soft graceful shapes, and calm personality concepts.",
+    recommendedStyle: "Semi-realistic",
+    buildType: "Elegant plantigrade full suit",
+    suitFeel: "Natural, graceful, and lightweight",
+    defaultColorMood: "Brown, cream, forest green, and gold",
+    bestFor: "Nature aesthetics and photography",
+    why: "Deer fursonas feel elegant with softer shapes, graceful poses, antlers, and earthy natural palettes.",
   },
   Lion: {
     personality: "Royal, confident, strong, and proud.",
-    recommendedStyle: "Toony or semi-realistic",
-    defaultBuild: "Full suit",
+    recommendedStyle: "Toony mascot",
+    buildType: "Bold full body suit",
+    suitFeel: "Powerful, friendly, and stage-ready",
+    defaultColorMood: "Gold, cream, brown, and warm royal tones",
+    bestFor: "Mascot or business use",
     why: "Lion fursonas create a strong mascot-like presence with bold shapes, powerful personality, and eye-catching silhouettes.",
   },
   Tiger: {
     personality: "Energetic, fierce, bold, and eye-catching.",
-    recommendedStyle: "Toony or semi-realistic",
-    defaultBuild: "Partial or full suit",
+    recommendedStyle: "Semi-realistic",
+    buildType: "Digitigrade partial or full suit",
+    suitFeel: "Bold, athletic, and high-contrast",
+    defaultColorMood: "Orange, black, white, and warm contrast tones",
+    bestFor: "Conventions and performance content",
     why: "Tiger fursonas stand out because stripes, contrast, and warm colors create instant visual impact.",
   },
   Shark: {
     personality: "Sporty, bold, playful, and unique.",
     recommendedStyle: "Toony",
-    defaultBuild: "Head or partial suit",
+    buildType: "Slim aquatic partial suit",
+    suitFeel: "Sporty, smooth, and playful",
+    defaultColorMood: "Ocean blue, cyan, grey, and white",
+    bestFor: "Online content and conventions",
     why: "Shark fursonas feel memorable and unique, especially with ocean colors, smooth shapes, and confident expressions.",
   },
   Bird: {
     personality: "Bright, expressive, creative, and energetic.",
     recommendedStyle: "Toony",
-    defaultBuild: "Head or partial suit",
+    buildType: "Lightweight partial suit with feather details",
+    suitFeel: "Colorful, expressive, and animated",
+    defaultColorMood: "Bright colors, soft gradients, and clean contrast",
+    bestFor: "Colorful content and character performance",
     why: "Bird fursonas are great for colorful characters with beaks, feather shapes, strong expressions, and playful visual personality.",
   },
 };
@@ -311,8 +338,6 @@ export default function FursonaFinderPage() {
   const [archetype, setArchetype] = useState("");
   const [environment, setEnvironment] = useState("");
   const [colorMood, setColorMood] = useState("");
-  const [style, setStyle] = useState("");
-  const [buildType, setBuildType] = useState("");
   const [useCase, setUseCase] = useState("");
   const [finished, setFinished] = useState(false);
 
@@ -332,9 +357,10 @@ export default function FursonaFinderPage() {
     if (option.archetype) setArchetype(option.archetype);
     if (option.environment) setEnvironment(option.environment);
     if (option.colorMood) setColorMood(option.colorMood);
-    if (option.style) setStyle(option.style);
-    if (option.buildType) setBuildType(option.buildType);
     if (option.useCase) setUseCase(option.useCase);
+
+    setGeneratedImage("");
+    setImageError("");
 
     if (currentStep === questions.length - 1) {
       setFinished(true);
@@ -349,6 +375,8 @@ export default function FursonaFinderPage() {
 
   const result = speciesDetails[resultSpecies];
 
+  const resultTitle = `${environment ? `${environment} ` : ""}${resultSpecies}`;
+
   const generateFursonaImage = async () => {
     try {
       setIsGenerating(true);
@@ -360,11 +388,11 @@ export default function FursonaFinderPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          species: `${environment ? `${environment} ` : ""}${resultSpecies}`,
-          style: style || result.recommendedStyle,
-          colorMood: colorMood || "Custom colors based on the character",
+          species: resultTitle,
+          style: result.recommendedStyle,
+          colorMood: colorMood || result.defaultColorMood,
           environment: environment || "custom fantasy setting",
-          buildType: buildType || result.defaultBuild,
+          buildType: result.buildType,
           personality: archetype || result.personality,
         }),
       });
@@ -410,8 +438,6 @@ export default function FursonaFinderPage() {
     setArchetype("");
     setEnvironment("");
     setColorMood("");
-    setStyle("");
-    setBuildType("");
     setUseCase("");
     setFinished(false);
     setGeneratedImage("");
@@ -483,10 +509,7 @@ export default function FursonaFinderPage() {
                 Your Fursona Build Match
               </p>
 
-              <h2 className="mt-3 text-4xl font-bold">
-                {environment ? `${environment} ` : ""}
-                {resultSpecies}
-              </h2>
+              <h2 className="mt-3 text-4xl font-bold">{resultTitle}</h2>
 
               <p className="mt-3 text-muted-foreground">{result.personality}</p>
             </div>
@@ -498,7 +521,7 @@ export default function FursonaFinderPage() {
                     Recommended Style
                   </p>
                   <p className="mt-2 font-semibold">
-                    {style || result.recommendedStyle}
+                    {result.recommendedStyle}
                   </p>
                 </div>
 
@@ -506,9 +529,14 @@ export default function FursonaFinderPage() {
                   <p className="text-xs font-semibold uppercase tracking-widest text-primary">
                     Best Build Type
                   </p>
-                  <p className="mt-2 font-semibold">
-                    {buildType || result.defaultBuild}
+                  <p className="mt-2 font-semibold">{result.buildType}</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                    Suit Feel
                   </p>
+                  <p className="mt-2 font-semibold">{result.suitFeel}</p>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
@@ -516,7 +544,7 @@ export default function FursonaFinderPage() {
                     Color Mood
                   </p>
                   <p className="mt-2 font-semibold">
-                    {colorMood || "Custom colors based on your character"}
+                    {colorMood || result.defaultColorMood}
                   </p>
                 </div>
 
@@ -529,13 +557,12 @@ export default function FursonaFinderPage() {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4 md:col-span-2">
+                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
                   <p className="text-xs font-semibold uppercase tracking-widest text-primary">
                     Best For
                   </p>
                   <p className="mt-2 font-semibold">
-                    {useCase ||
-                      "Custom fursuit commissions and personal fursona builds"}
+                    {useCase || result.bestFor}
                   </p>
                 </div>
               </div>
@@ -555,8 +582,8 @@ export default function FursonaFinderPage() {
                 {isGenerating
                   ? "Generating your fursona..."
                   : generatedImage
-                  ? "Generate Another Version"
-                  : "Generate Fursona Image"}
+                    ? "Generate Another Version"
+                    : "Generate Fursona Image"}
               </button>
 
               {imageError && (
@@ -578,9 +605,7 @@ export default function FursonaFinderPage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={`https://wa.me/18555578702?text=${encodeURIComponent(
-                    `Hi FurNFurry, I completed the Fursona Build Finder and got ${
-                      environment ? `${environment} ` : ""
-                    }${resultSpecies}. Can you help me turn this into a custom fursuit?`
+                    `Hi FurNFurry, I completed the Fursona Build Finder and got ${resultTitle}. Can you help me turn this into a custom fursuit?`
                   )}`}
                   className="inline-flex flex-1 items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
                 >
