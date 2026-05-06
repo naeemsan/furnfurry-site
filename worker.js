@@ -1,82 +1,68 @@
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
+    try {
+      const url = new URL(request.url);
 
-    if (
-      request.method === "POST" &&
-      url.pathname === "/api/generate-fursona-image"
-    ) {
-      try {
-        const body = await request.json();
+      // API ROUTE
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/generate-fursona-image"
+      ) {
+        try {
+          const body = await request.json();
 
-        const prompt = [
-          "cute original furry fursona character design",
-          `species ${body.species}`,
-          `style ${body.style}`,
-          `color palette ${body.colorMood}`,
-          `environment vibe ${body.environment}`,
-          `build type ${body.buildType}`,
-          `personality ${body.personality}`,
-          "full body furry mascot character",
-          "expressive eyes",
-          "clean digital art",
-          "soft lighting",
-          "high quality furry fandom style",
-          "centered composition",
-          "simple background",
-          "no text",
-          "no watermark"
-        ].join(", ");
+          const prompt = [
+            "cute furry fursona character",
+            body.species,
+            body.style,
+            body.colorMood,
+            body.environment,
+            body.personality,
+            "high quality furry art",
+            "full body",
+            "clean digital art",
+            "soft lighting",
+            "no text",
+            "no watermark"
+          ].join(", ");
 
-        const imageUrl =
-          "https://image.pollinations.ai/prompt/" +
-          encodeURIComponent(prompt) +
-          "?width=1024&height=1024&nologo=true&private=true&seed=" +
-          Date.now();
+          const imageUrl =
+            "https://image.pollinations.ai/prompt/" +
+            encodeURIComponent(prompt);
 
-        const imageResponse = await fetch(imageUrl);
-
-        if (!imageResponse.ok) {
           return new Response(
-            JSON.stringify({ error: "Image provider failed. Please try again." }),
+            JSON.stringify({
+              imageUrl
+            }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+              }
+            }
+          );
+        } catch (error) {
+          return new Response(
+            JSON.stringify({
+              error: "API generation failed"
+            }),
             {
               status: 500,
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json"
+              }
             }
           );
         }
-
-        const imageBuffer = await imageResponse.arrayBuffer();
-
-        let binary = "";
-        const bytes = new Uint8Array(imageBuffer);
-        for (let i = 0; i < bytes.length; i++) {
-          binary += String.fromCharCode(bytes[i]);
-        }
-
-        const base64Image = btoa(binary);
-
-        return new Response(
-          JSON.stringify({
-            image: base64Image,
-          }),
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-      } catch (error) {
-        return new Response(
-          JSON.stringify({
-            error: "Something went wrong while generating the image.",
-          }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
       }
-    }
 
-    return env.ASSETS.fetch(request);
-  },
+      // NORMAL WEBSITE
+      return env.ASSETS.fetch(request);
+
+    } catch (err) {
+      return new Response("Worker crashed", {
+        status: 500
+      });
+    }
+  }
 };
