@@ -2,7 +2,6 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // AI IMAGE GENERATION API
     if (
       request.method === "POST" &&
       url.pathname === "/api/generate-fursona-image"
@@ -10,77 +9,56 @@ export default {
       try {
         const body = await request.json();
 
-        const prompt = `
-Cute furry fursona character design.
+        const prompt = [
+          "cute original furry fursona character design",
+          `species ${body.species}`,
+          `style ${body.style}`,
+          `color palette ${body.colorMood}`,
+          `environment vibe ${body.environment}`,
+          `build type ${body.buildType}`,
+          `personality ${body.personality}`,
+          "full body furry mascot character",
+          "expressive eyes",
+          "clean digital art",
+          "soft lighting",
+          "high quality furry fandom style",
+          "centered composition",
+          "no text",
+          "no watermark",
+          "not copied from existing character"
+        ].join(", ");
 
-Species: ${body.species}
-Style: ${body.style}
-Color palette: ${body.colorMood}
-Environment vibe: ${body.environment}
-Build type: ${body.buildType}
-Personality: ${body.personality}
-
-Create a full body furry mascot character with expressive eyes, clean digital art, soft lighting, highly appealing furry fandom style, original character design, centered composition, no text, no watermark, detailed fur, professional furry reference aesthetic.
-`;
-
-        const response = await fetch(
-          "https://api.openai.com/v1/images/generations",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${env.OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: "gpt-image-1",
-              prompt,
-              size: "1024x1024",
-            }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          return new Response(
-            JSON.stringify({
-              error: data?.error?.message || "OpenAI request failed",
-            }),
-            {
-              status: 500,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        }
+        const imageUrl =
+          "https://gen.pollinations.ai/image/" +
+          encodeURIComponent(prompt) +
+          "?width=1024&height=1024&seed=" +
+          Date.now();
 
         return new Response(
           JSON.stringify({
-            image: data.data[0].b64_json,
+            imageUrl
           }),
           {
             headers: {
-              "Content-Type": "application/json",
-            },
+              "Content-Type": "application/json"
+            }
           }
         );
       } catch (error) {
         return new Response(
           JSON.stringify({
-            error: error.message || "Something went wrong",
+            error: "Something went wrong while creating the image URL."
           }),
           {
             status: 500,
             headers: {
-              "Content-Type": "application/json",
-            },
+              "Content-Type": "application/json"
+            }
           }
         );
       }
     }
 
-    // NORMAL WEBSITE
     return env.ASSETS.fetch(request);
-  },
+  }
 };

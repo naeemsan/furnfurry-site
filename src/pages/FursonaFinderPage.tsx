@@ -375,11 +375,11 @@ export default function FursonaFinderPage() {
         throw new Error(data?.error || "Image generation failed.");
       }
 
-      if (!data.image) {
-        throw new Error("No image was returned.");
-      }
+      if (!data.imageUrl) {
+       throw new Error("No image URL was returned.");
+     }
 
-      setGeneratedImage(`data:image/png;base64,${data.image}`);
+      setGeneratedImage(data.imageUrl);
     } catch (error) {
       setImageError(
         error instanceof Error
@@ -556,7 +556,7 @@ export default function FursonaFinderPage() {
                   ? "Generating your fursona..."
                   : generatedImage
                   ? "Generate Another Version"
-                  : "Generate AI Fursona Image"}
+                  : "Generate Fursona Image"}
               </button>
 
               {imageError && (

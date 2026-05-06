@@ -1,5 +1,4 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "furnfurry-site",
   "main": "worker.js",
   "compatibility_date": "2026-04-24",
