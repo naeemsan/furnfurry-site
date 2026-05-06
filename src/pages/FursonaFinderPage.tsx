@@ -363,15 +363,15 @@ export default function FursonaFinderPage() {
     setImageError("");
 
     if (currentStep === questions.length - 1) {
-  setFinished(true);
+      setFinished(true);
 
-  setTimeout(() => {
-    generateFursonaImage();
-  }, 800);
-
-} else {
-  setCurrentStep((step) => step + 1);
-}
+      setTimeout(() => {
+        generateFursonaImage();
+      }, 800);
+    } else {
+      setCurrentStep((step) => step + 1);
+    }
+  };
 
   const resultSpecies = (Object.entries(scores).sort(
     (a, b) => b[1] - a[1]
