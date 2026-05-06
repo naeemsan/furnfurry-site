@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Species =
   | "Wolf"
@@ -318,22 +318,24 @@ const speciesDetails: Record<
   },
 };
 
+const initialScores: Record<Species, number> = {
+  Wolf: 0,
+  Fox: 0,
+  "Red Panda": 0,
+  Cat: 0,
+  Dog: 0,
+  Bunny: 0,
+  Dragon: 0,
+  Deer: 0,
+  Lion: 0,
+  Tiger: 0,
+  Shark: 0,
+  Bird: 0,
+};
+
 export default function FursonaFinderPage() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [scores, setScores] = useState<Record<Species, number>>({
-    Wolf: 0,
-    Fox: 0,
-    "Red Panda": 0,
-    Cat: 0,
-    Dog: 0,
-    Bunny: 0,
-    Dragon: 0,
-    Deer: 0,
-    Lion: 0,
-    Tiger: 0,
-    Shark: 0,
-    Bird: 0,
-  });
+  const [scores, setScores] = useState<Record<Species, number>>(initialScores);
 
   const [archetype, setArchetype] = useState("");
   const [environment, setEnvironment] = useState("");
@@ -344,6 +346,13 @@ export default function FursonaFinderPage() {
   const [generatedImage, setGeneratedImage] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [imageError, setImageError] = useState("");
+
+  const resultSpecies = (Object.entries(scores).sort(
+    (a, b) => b[1] - a[1]
+  )[0][0] || "Wolf") as Species;
+
+  const result = speciesDetails[resultSpecies];
+  const resultTitle = `${environment ? `${environment} ` : ""}${resultSpecies}`;
 
   const selectOption = (option: Option) => {
     const newScores = { ...scores };
@@ -364,22 +373,10 @@ export default function FursonaFinderPage() {
 
     if (currentStep === questions.length - 1) {
       setFinished(true);
-
-      setTimeout(() => {
-        generateFursonaImage();
-      }, 800);
     } else {
       setCurrentStep((step) => step + 1);
     }
   };
-
-  const resultSpecies = (Object.entries(scores).sort(
-    (a, b) => b[1] - a[1]
-  )[0][0] || "Wolf") as Species;
-
-  const result = speciesDetails[resultSpecies];
-
-  const resultTitle = `${environment ? `${environment} ` : ""}${resultSpecies}`;
 
   const generateFursonaImage = async () => {
     try {
@@ -401,17 +398,15 @@ export default function FursonaFinderPage() {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
+        const data = await response.json();
         throw new Error(data?.error || "Image generation failed.");
       }
 
-      if (!data.image) {
-        throw new Error("No image data was returned.");
-      }
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
 
-      setGeneratedImage(`data:image/png;base64,${data.image}`);
+      setGeneratedImage(imageUrl);
     } catch (error) {
       setImageError(
         error instanceof Error
@@ -423,22 +418,16 @@ export default function FursonaFinderPage() {
     }
   };
 
+  useEffect(() => {
+    if (finished && !generatedImage && !isGenerating && !imageError) {
+      generateFursonaImage();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finished]);
+
   const restart = () => {
     setCurrentStep(0);
-    setScores({
-      Wolf: 0,
-      Fox: 0,
-      "Red Panda": 0,
-      Cat: 0,
-      Dog: 0,
-      Bunny: 0,
-      Dragon: 0,
-      Deer: 0,
-      Lion: 0,
-      Tiger: 0,
-      Shark: 0,
-      Bird: 0,
-    });
+    setScores({ ...initialScores });
     setArchetype("");
     setEnvironment("");
     setColorMood("");
@@ -520,55 +509,21 @@ export default function FursonaFinderPage() {
 
             <div className="p-6 md:p-8">
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Recommended Style
-                  </p>
-                  <p className="mt-2 font-semibold">
-                    {result.recommendedStyle}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Best Build Type
-                  </p>
-                  <p className="mt-2 font-semibold">{result.buildType}</p>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Suit Feel
-                  </p>
-                  <p className="mt-2 font-semibold">{result.suitFeel}</p>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Color Mood
-                  </p>
-                  <p className="mt-2 font-semibold">
-                    {colorMood || result.defaultColorMood}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Character Direction
-                  </p>
-                  <p className="mt-2 font-semibold">
-                    {archetype || result.personality}
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                    Best For
-                  </p>
-                  <p className="mt-2 font-semibold">
-                    {useCase || result.bestFor}
-                  </p>
-                </div>
+                <InfoCard
+                  title="Recommended Style"
+                  value={result.recommendedStyle}
+                />
+                <InfoCard title="Best Build Type" value={result.buildType} />
+                <InfoCard title="Suit Feel" value={result.suitFeel} />
+                <InfoCard
+                  title="Color Mood"
+                  value={colorMood || result.defaultColorMood}
+                />
+                <InfoCard
+                  title="Character Direction"
+                  value={archetype || result.personality}
+                />
+                <InfoCard title="Best For" value={useCase || result.bestFor} />
               </div>
 
               <div className="mt-6 rounded-2xl border border-white/10 bg-background/40 p-5">
@@ -577,33 +532,40 @@ export default function FursonaFinderPage() {
                 </p>
               </div>
 
-              
               {imageError && (
-                <p className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
-                  {imageError}
-                </p>
+                <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
+                  <p className="text-sm text-red-300">{imageError}</p>
+
+                  <button
+                    type="button"
+                    onClick={generateFursonaImage}
+                    className="mt-4 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+                  >
+                    Try Image Again
+                  </button>
+                </div>
               )}
-              
-            {isGenerating && (
-            <div className="mt-8 rounded-3xl border border-primary/20 bg-primary/5 p-10 text-center">
-    
-             <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
 
-            <h3 className="mt-6 text-2xl font-bold">
-             Creating Your Fursona...
-              </h3>
+              {isGenerating && (
+                <div className="mt-8 rounded-3xl border border-primary/20 bg-primary/5 p-10 text-center">
+                  <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
 
-              <p className="mt-3 text-muted-foreground">
-              Analyzing personality, style, and character energy.
-             </p>
+                  <h3 className="mt-6 text-2xl font-bold">
+                    Creating Your Fursona...
+                  </h3>
 
-               <div className="mt-6 space-y-2 text-sm text-muted-foreground">
-            <p>Generating fur textures...</p>
-             <p>Building facial expressions...</p>
-           <p>Matching your aesthetic...</p>
-       </div>
-     </div>
- )}
+                  <p className="mt-3 text-muted-foreground">
+                    Analyzing personality, style, and character energy.
+                  </p>
+
+                  <div className="mt-6 space-y-2 text-sm text-muted-foreground">
+                    <p>Generating fur textures...</p>
+                    <p>Building facial expressions...</p>
+                    <p>Matching your aesthetic...</p>
+                  </div>
+                </div>
+              )}
+
               {generatedImage && (
                 <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
                   <img
@@ -611,6 +573,15 @@ export default function FursonaFinderPage() {
                     alt={`${resultSpecies} generated fursona concept`}
                     className="w-full rounded-2xl object-cover"
                   />
+
+                  <button
+                    type="button"
+                    onClick={generateFursonaImage}
+                    disabled={isGenerating}
+                    className="mt-4 w-full rounded-xl border border-white/10 px-5 py-3 text-sm font-bold transition hover:border-primary/40 hover:text-primary disabled:opacity-60"
+                  >
+                    Generate Another Version
+                  </button>
                 </div>
               )}
 
@@ -637,5 +608,16 @@ export default function FursonaFinderPage() {
         )}
       </section>
     </main>
+  );
+}
+
+function InfoCard({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-background/40 p-4">
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+        {title}
+      </p>
+      <p className="mt-2 font-semibold">{value}</p>
+    </div>
   );
 }

@@ -2,58 +2,70 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-      });
-    }
-
-    if (
-      request.method === "POST" &&
-      url.pathname === "/api/generate-fursona-image"
-    ) {
+    if (request.method === "POST" && url.pathname === "/api/generate-fursona-image") {
       try {
         const body = await request.json();
 
+        if (!env.AI) {
+          return Response.json({ error: "AI binding is not connected." }, { status: 500 });
+        }
+
         const prompt = [
-          "cute original furry fursona character design",
-          body.species || "wolf",
-          body.style || "toony",
-          body.colorMood || "soft colors",
-          body.environment || "fantasy background",
-          body.personality || "friendly expressive character",
-          "full body",
-          "clean digital art",
-          "soft lighting",
-          "no text",
-          "no watermark",
+          "original furry fursona character concept art",
+          `species: ${body.species || "wolf"}`,
+          `style: ${body.style || "toony furry art"}`,
+          `color palette: ${body.colorMood || "appealing balanced colors"}`,
+          `environment vibe: ${body.environment || "fantasy themed"}`,
+          `build type: ${body.buildType || "full body character"}`,
+          `personality: ${body.personality || "friendly expressive"}`,
+          "full body, expressive eyes, clean high quality digital illustration",
+          "soft lighting, centered composition, furry fandom character design",
+          "no text, no watermark, not a real photo"
         ].join(", ");
 
-        const imageUrl =
-          "https://image.pollinations.ai/prompt/" +
-          encodeURIComponent(prompt) +
-          "?width=1024&height=1024&seed=" +
-          Date.now();
+        const image = await env.AI.run("@cf/lykon/dreamshaper-8-lcm", {
+          prompt,
+          width: 1024,
+          height: 1024,
+          num_steps: 8,
+          guidance: 2
+        });
 
-        return Response.json({ imageUrl });
-      } catch {
-        return Response.json(
-          { error: "Image generation failed." },
-          { status: 500 }
-        );
+        return new Response(image, {
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "no-store"
+          }
+        });
+      } catch (error) {
+        return Response.json({ error: "Image generation failed." }, { status: 500 });
       }
     }
 
     try {
       return await env.ASSETS.fetch(request);
-    } catch {
-      const homepageRequest = new Request(url.origin + "/", request);
-      return env.ASSETS.fetch(homepageRequest);
+    } catch (error) {
+      try {
+        return await env.ASSETS.fetch(new Request(url.origin + "/index.html"));
+      } catch {
+        return new Response(
+          `<!doctype html>
+<html>
+<head>
+  <title>FurNFurry</title>
+  <meta name="robots" content="index, follow">
+</head>
+<body>
+  <h1>FurNFurry</h1>
+  <p>Custom fursuits, fursuit gallery, and fursona finder.</p>
+</body>
+</html>`,
+          {
+            status: 200,
+            headers: { "Content-Type": "text/html; charset=UTF-8" }
+          }
+        );
+      }
     }
-  },
+  }
 };
