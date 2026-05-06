@@ -32,6 +32,7 @@ import CustomFursuitPriceGuide from "./pages/info/CustomFursuitPriceGuide";
 
 /* ✅ NEW GALLERY PAGE */
 import GalleryPage from "./pages/GalleryPage";
+import FursonaFinderPage from "./pages/FursonaFinderPage";
 
 function HomePage() {
   return (
@@ -73,6 +74,9 @@ export default function App() {
 
           {/* ✅ GALLERY (NEW MAIN PAGE) */}
           <Route path="/gallery" element={<GalleryPage />} />
+          
+           {/* ✅ FURSONA FINDER */}
+          <Route path="/fursona-finder" element={<FursonaFinderPage />} />
 
           {/* BLOG */}
           <Route path="/blog" element={<Blog />} />
