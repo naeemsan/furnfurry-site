@@ -1,90 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- MAIN PAGES -->
   <url>
     <loc>https://furnfurry.com/</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/custom-fursuit</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/gallery</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.9</priority>
   </url>
 
-  <!-- BLOG -->
+  <url>
+    <loc>https://furnfurry.com/fursona-finder</loc>
+    <lastmod>2026-05-06</lastmod>
+    <priority>0.9</priority>
+  </url>
+
   <url>
     <loc>https://furnfurry.com/blog</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/blog/custom-fursuit-price-guide</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.8</priority>
   </url>
 
-  <!-- INFO PAGES -->
   <url>
     <loc>https://furnfurry.com/terms</loc>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/shipping</loc>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/refund</loc>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/privacy</loc>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/measure</loc>
+    <lastmod>2026-05-06</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://furnfurry.com/care</loc>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://furnfurry.com/faq</loc>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://furnfurry.com/contact</loc>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://furnfurry.com/terms</loc>
-    <priority>0.5</priority>
-  </url>
-   
-  </url> 
-    <loc>https://furnfurry.com/fursona-finder</loc>
     <lastmod>2026-05-06</lastmod>
-    <priority>0.9</priority>
-  
-
-
+    <priority>0.5</priority>
+  </url>
 
 </urlset>
