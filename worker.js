@@ -32,11 +32,11 @@ export default {
         });
 
         return new Response(image, {
-          headers: {
-            "Content-Type": "image/png",
-            "Cache-Control": "no-store"
-          }
-        });
+        headers: {
+        "Content-Type": "image/jpeg",
+        "Cache-Control": "no-store"
+       }
+       });
       } catch (error) {
         return Response.json({ error: "Image generation failed." }, { status: 500 });
       }
