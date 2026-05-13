@@ -168,7 +168,7 @@ export function CustomFursuitPage() {
           <div className="hidden lg:block">
             <div className="rounded-[2rem] border border-white/15 bg-black/20 p-3 shadow-elevated backdrop-blur-sm">
               <img
-                src="/process-clean-head.png"
+                src="/Custom Fursuit Page Head.jpg"
                 alt="Handmade custom fursuit head work in progress"
                 className="h-[430px] w-full rounded-[1.5rem] object-cover opacity-90"
               />
