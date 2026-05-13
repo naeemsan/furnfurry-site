@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Fursona Finder", href: "/fursona-finder" }, // ✅ ADD THIS
+  { label: "Fursona Finder", href: "/fursona-finder" }, 
   { label: "Custom Fursuit", href: "/custom-fursuit" },
   { label: "Gallery", href: "/gallery" },
   { label: "Commissions", href: "#commissions" },

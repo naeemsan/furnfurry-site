@@ -14,7 +14,6 @@ import {
   BadgeCheck,
   CheckCircle2,
   Clock,
-  ExternalLink,
   FileImage,
   Globe2,
   Mail,
@@ -110,7 +109,7 @@ const SOCIAL_LINKS = [
 interface FormValues {
   name: string;
   email: string;
-  contactNumber: string; // ✅ ADDED
+  contactNumber: string;
   fursonaName: string;
   commissionType: string;
   style: string;
@@ -133,15 +132,15 @@ export function ContactFooter() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-  name: "",
-  email: "",
-  contactNumber: "", // ✅ ADDED
-  fursonaName: "",
-  commissionType: "",
-  style: "",
-  budget: "",
-  notes: "",
-},
+      name: "",
+      email: "",
+      contactNumber: "",
+      fursonaName: "",
+      commissionType: "",
+      style: "",
+      budget: "",
+      notes: "",
+    },
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -180,16 +179,16 @@ export function ContactFooter() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-  name: data.name,
-  email: data.email,
-  contactNumber: data.contactNumber, // ✅ ADDED
-  fursonaName: data.fursonaName,
-  commissionType: data.commissionType,
-  style: data.style,
-  budget: data.budget,
-  notes: data.notes,
-  referenceImages: uploadedUrls.join("\n"),
-}),
+          name: data.name,
+          email: data.email,
+          contactNumber: data.contactNumber,
+          fursonaName: data.fursonaName,
+          commissionType: data.commissionType,
+          style: data.style,
+          budget: data.budget,
+          notes: data.notes,
+          referenceImages: uploadedUrls.join("\n"),
+        }),
       });
 
       if (response.ok) {
@@ -240,7 +239,7 @@ export function ContactFooter() {
 
               <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                 Send your fursona reference, preferred style, budget range, and
-                build idea. We’ll review everything and help you understand the
+                build idea. We'll review everything and help you understand the
                 best direction before you commit.
               </p>
 
@@ -264,9 +263,7 @@ export function ContactFooter() {
               <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
                 <div className="rounded-2xl border border-border bg-card/70 p-4">
                   <Clock className="mb-3 h-5 w-5 text-primary" />
-                  <p className="text-sm font-bold text-foreground">
-                    Reply Time
-                  </p>
+                  <p className="text-sm font-bold text-foreground">Reply Time</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     Usually within 1–2 business days.
                   </p>
@@ -274,9 +271,7 @@ export function ContactFooter() {
 
                 <div className="rounded-2xl border border-border bg-card/70 p-4">
                   <FileImage className="mb-3 h-5 w-5 text-primary" />
-                  <p className="text-sm font-bold text-foreground">
-                    Reference Upload
-                  </p>
+                  <p className="text-sm font-bold text-foreground">Reference Upload</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     Upload ref sheets, sketches, or inspiration images.
                   </p>
@@ -284,9 +279,7 @@ export function ContactFooter() {
 
                 <div className="rounded-2xl border border-border bg-card/70 p-4">
                   <ShieldCheck className="mb-3 h-5 w-5 text-primary" />
-                  <p className="text-sm font-bold text-foreground">
-                    No Pressure
-                  </p>
+                  <p className="text-sm font-bold text-foreground">No Pressure</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     Asking for a quote does not lock you into an order.
                   </p>
@@ -306,10 +299,7 @@ export function ContactFooter() {
                   className="rounded-[2rem] border border-primary/25 bg-card p-8 text-center shadow-elevated md:p-10"
                 >
                   <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                    <BadgeCheck
-                      className="h-7 w-7 text-primary"
-                      strokeWidth={1.8}
-                    />
+                    <BadgeCheck className="h-7 w-7 text-primary" strokeWidth={1.8} />
                   </div>
 
                   <h3 className="font-display text-3xl font-bold text-foreground">
@@ -317,7 +307,7 @@ export function ContactFooter() {
                   </h3>
 
                   <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-                    Thanks! We’ll review your details and get back to you within
+                    Thanks! We'll review your details and get back to you within
                     1–2 business days with next steps.
                   </p>
 
@@ -331,10 +321,11 @@ export function ContactFooter() {
                 </div>
               ) : (
                 <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="rounded-[2rem] border border-border bg-card p-6 shadow-elevated md:p-8"
-                  data-ocid="contact.form"
-                >
+                   id="quote-form"
+                   onSubmit={handleSubmit(onSubmit)}
+                   className="rounded-[2rem] border border-border bg-card p-6 shadow-elevated md:p-8"
+                   data-ocid="contact.form"
+                  >
                   <div className="mb-7">
                     <p className="text-xs font-bold uppercase tracking-widest text-primary">
                       Commission Details
@@ -343,8 +334,7 @@ export function ContactFooter() {
                       Tell us about your fursona
                     </h3>
                     <p className="mt-2 text-sm text-muted-foreground">
-                      The more details you share, the better we can estimate your
-                      build.
+                      The more details you share, the better we can estimate your build.
                     </p>
                   </div>
 
@@ -356,14 +346,10 @@ export function ContactFooter() {
                           id="contact-name"
                           placeholder="Your name"
                           className="rounded-xl"
-                          {...register("name", {
-                            required: "Name is required",
-                          })}
+                          {...register("name", { required: "Name is required" })}
                         />
                         {errors.name && (
-                          <p className="text-xs text-destructive">
-                            {errors.name.message}
-                          </p>
+                          <p className="text-xs text-destructive">{errors.name.message}</p>
                         )}
                       </div>
 
@@ -383,35 +369,31 @@ export function ContactFooter() {
                           })}
                         />
                         {errors.email && (
-                          <p className="text-xs text-destructive">
-                            {errors.email.message}
-                          </p>
+                          <p className="text-xs text-destructive">{errors.email.message}</p>
                         )}
                       </div>
                     </div>
 
                     <div className="sm:col-span-2 space-y-1.5">
-  <Label htmlFor="contact-number">Contact Number *</Label>
-  <Input
-    id="contact-number"
-    type="tel"
-    placeholder="+1 555 123 4567 (include country code)"
-    className="rounded-xl"
-    {...register("contactNumber", {
-      required: "Contact number is required",
-    })}
-  />
-  {errors.contactNumber && (
-    <p className="text-xs text-destructive">
-      {errors.contactNumber.message}
-    </p>
-  )}
-</div>
+                      <Label htmlFor="contact-number">Contact Number *</Label>
+                      <Input
+                        id="contact-number"
+                        type="tel"
+                        placeholder="+1 555 123 4567 (include country code)"
+                        className="rounded-xl"
+                        {...register("contactNumber", {
+                          required: "Contact number is required",
+                        })}
+                      />
+                      {errors.contactNumber && (
+                        <p className="text-xs text-destructive">
+                          {errors.contactNumber.message}
+                        </p>
+                      )}
+                    </div>
 
                     <div className="space-y-1.5">
-                      <Label htmlFor="contact-fursona">
-                        Fursona / Character Name
-                      </Label>
+                      <Label htmlFor="contact-fursona">Fursona / Character Name</Label>
                       <Input
                         id="contact-fursona"
                         placeholder="e.g. Ember the Fox"
@@ -426,22 +408,15 @@ export function ContactFooter() {
                         <Controller
                           name="commissionType"
                           control={control}
-                          rules={{
-                            required: "Please select a commission type",
-                          }}
+                          rules={{ required: "Please select a commission type" }}
                           render={({ field }) => (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="rounded-xl">
                                 <SelectValue placeholder="Select type..." />
                               </SelectTrigger>
                               <SelectContent>
                                 {COMMISSION_TYPES.map((type) => (
-                                  <SelectItem key={type} value={type}>
-                                    {type}
-                                  </SelectItem>
+                                  <SelectItem key={type} value={type}>{type}</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -460,18 +435,13 @@ export function ContactFooter() {
                           name="style"
                           control={control}
                           render={({ field }) => (
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <SelectTrigger className="rounded-xl">
                                 <SelectValue placeholder="Select style..." />
                               </SelectTrigger>
                               <SelectContent>
                                 {STYLE_OPTIONS.map((style) => (
-                                  <SelectItem key={style} value={style}>
-                                    {style}
-                                  </SelectItem>
+                                  <SelectItem key={style} value={style}>{style}</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -486,18 +456,13 @@ export function ContactFooter() {
                         name="budget"
                         control={control}
                         render={({ field }) => (
-                          <Select
-                            onValueChange={field.onChange}
-                            value={field.value}
-                          >
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <SelectTrigger className="rounded-xl">
                               <SelectValue placeholder="Select range..." />
                             </SelectTrigger>
                             <SelectContent>
                               {BUDGET_RANGES.map((range) => (
-                                <SelectItem key={range} value={range}>
-                                  {range}
-                                </SelectItem>
+                                <SelectItem key={range} value={range}>{range}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
@@ -517,7 +482,6 @@ export function ContactFooter() {
 
                     <div className="space-y-2">
                       <Label>Upload Reference Sheet</Label>
-
                       <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
@@ -525,18 +489,11 @@ export function ContactFooter() {
                       >
                         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                           {selectedFiles.length > 0 ? (
-                            <Paperclip
-                              className="h-5 w-5 text-primary"
-                              strokeWidth={1.8}
-                            />
+                            <Paperclip className="h-5 w-5 text-primary" strokeWidth={1.8} />
                           ) : (
-                            <UploadCloud
-                              className="h-5 w-5 text-primary"
-                              strokeWidth={1.8}
-                            />
+                            <UploadCloud className="h-5 w-5 text-primary" strokeWidth={1.8} />
                           )}
                         </span>
-
                         <span className="min-w-0">
                           <span className="block truncate text-sm font-semibold text-foreground">
                             {selectedFiles.length > 0
@@ -548,7 +505,6 @@ export function ContactFooter() {
                           </span>
                         </span>
                       </button>
-
                       <input
                         ref={fileRef}
                         type="file"
@@ -587,8 +543,7 @@ export function ContactFooter() {
                     </Button>
 
                     <p className="text-center text-xs text-muted-foreground">
-                      By submitting, you’re requesting a quote — not placing a
-                      confirmed order yet.
+                      By submitting, you're requesting a quote — not placing a confirmed order yet.
                     </p>
                   </div>
                 </form>
@@ -598,135 +553,149 @@ export function ContactFooter() {
         </div>
       </div>
 
-      <div className="border-t border-border bg-card/95 py-14">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
-            <div>
-              <div className="mb-4 flex items-center gap-3">
-                <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
-                <span className="font-display text-2xl font-bold text-foreground">
-                  FurNFurry
-                </span>
-              </div>
+      {/* ── FOOTER BOTTOM ── */}
+      <FooterBottom />
+    </footer>
+  );
+}
 
-              <p className="mb-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Custom fursuits made with creativity, care, and character. Every
-                commission is built around your unique fursona.
-              </p>
+/* ─────────────────────────────────────────────
+   Shared footer bottom — used by both
+   ContactFooter (homepage) and FooterOnly (cosplay page)
+───────────────────────────────────────────── */
+function FooterBottom() {
+  return (
+    <div className="border-t border-border bg-card/95 py-14">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
 
-              <div className="flex items-center gap-3">
-                {SOCIAL_LINKS.map(({ icon: Icon, href, label, color }) => (
+          {/* Brand */}
+          <div>
+            <div className="mb-4 flex items-center gap-3">
+              <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
+              <span className="font-display text-2xl font-bold text-foreground">
+                FurNFurry
+              </span>
+            </div>
+            <p className="mb-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Custom fursuits made with creativity, care, and character. Every
+              commission is built around your unique fursona.
+            </p>
+            <div className="flex items-center gap-3">
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label, color }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background/40 text-muted-foreground shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/40 hover:bg-primary/10 hover:shadow-[0_0_24px_rgba(139,92,246,0.18)] ${color}`}
+                >
+                  <Icon size={17} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div>
+            <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
+              Navigation
+            </h4>
+            <ul className="space-y-2.5">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
                   <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background/40 text-muted-foreground shadow-subtle transition-smooth hover:-translate-y-1 hover:border-primary/40 hover:bg-primary/10 hover:shadow-[0_0_24px_rgba(139,92,246,0.18)] ${color}`}
+                    href={link.href}
+                    className="group text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
-                    <Icon size={17} />
+                    <span className="bg-gradient-to-r from-primary to-primary bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-all duration-300 group-hover:bg-[length:100%_1px]">
+                      {link.label}
+                    </span>
                   </a>
-                ))}
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div>
-              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
-                Navigation
-              </h4>
-
-              <ul className="space-y-2.5">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <button
-                      type="button"
-                      onClick={() => scrollTo(link.href.replace("#", ""))}
-                      className="group text-sm text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      <span className="bg-gradient-to-r from-primary to-primary bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-all duration-300 group-hover:bg-[length:100%_1px]">
-                        {link.label}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
-                Commissions
-              </h4>
-
-              <ul className="space-y-2.5 text-sm text-muted-foreground">
-                {[
-                  "Fursuit Heads",
-                  "Hand Paws",
-                  "Feet Paws",
-                  "Tails",
-                  "Partials",
-                  "Full Suits",
-                ].map((item) => (
+          {/* Commissions */}
+          <div>
+            <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
+              Commissions
+            </h4>
+            <ul className="space-y-2.5 text-sm text-muted-foreground">
+              {["Fursuit Heads", "Hand Paws", "Feet Paws", "Tails", "Partials", "Full Suits"].map(
+                (item) => (
                   <li key={item} className="transition-colors hover:text-primary">
                     {item}
                   </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-subtle backdrop-blur-md">
-              <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
-                Contact
-              </h4>
-
-              <div className="space-y-4 text-sm text-muted-foreground">
-                <a
-                  href="mailto:furnfurry@outlook.com"
-                  className="flex items-start gap-3 transition-colors hover:text-primary"
-                >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <span>furnfurry@outlook.com</span>
-                </a>
-
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=16%20Surrey%20Lane%2C%20Belle%20Mead%2C%20NJ%2008502%2C%20USA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-start gap-3 transition-colors hover:text-primary"
-                >
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <span>
-                    601 Route 206
-                    <br />
-                    Hillsborough NJ 08844
-                    <br />
-                    USA
-                  </span>
-                </a>
-
-                <div className="flex items-start gap-3">
-                  <Globe2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <span>Worldwide Shipping Available</span>
-                </div>
-
-                <p className="text-xs text-muted-foreground">
-  Click the WhatsApp icon on the screen to chat instantly
-</p>
-              </div>
-            </div>
+                )
+              )}
+            </ul>
           </div>
 
-          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
-            <p className="text-center text-xs text-muted-foreground sm:text-left">
-              © {new Date().getFullYear()} FurNFurry. All rights reserved.
-            </p>
-
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Mail className="h-3.5 w-3.5" />
-              Designed for FurNFurry
+          {/* Contact */}
+          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 shadow-subtle backdrop-blur-md">
+            <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
+              Contact
+            </h4>
+            <div className="space-y-4 text-sm text-muted-foreground">
+              <a
+                href="mailto:furnfurry@outlook.com"
+                className="flex items-start gap-3 transition-colors hover:text-primary"
+              >
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>furnfurry@outlook.com</span>
+              </a>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=601+Route+206+Hillsborough+NJ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 transition-colors hover:text-primary"
+              >
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>
+                  601 Route 206
+                  <br />
+                  Hillsborough NJ 08844
+                  <br />
+                  USA
+                </span>
+              </a>
+              <div className="flex items-start gap-3">
+                <Globe2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>Worldwide Shipping Available</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Click the WhatsApp icon on the screen to chat instantly
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+          <p className="text-center text-xs text-muted-foreground sm:text-left">
+            © {new Date().getFullYear()} FurNFurry. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Mail className="h-3.5 w-3.5" />
+            Designed for FurNFurry
+          </div>
+        </div>
       </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   FooterOnly — sirf footer, no form
+   Use this on pages like CosplayPage
+───────────────────────────────────────────── */
+export function FooterOnly() {
+  return (
+    <footer className="border-t border-border bg-card">
+      <FooterBottom />
     </footer>
   );
 }

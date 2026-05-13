@@ -24,17 +24,17 @@ export function HeroSection() {
       className="relative flex min-h-screen items-center overflow-hidden pt-20"
     >
       <motion.div
-        className="absolute inset-0 z-0 scale-[1.04]"
-        initial={{ scale: 1.08 }}
-        animate={{ scale: 1.04 }}
-        transition={{ duration: 2.2, ease: "easeOut" }}
-        style={{
-          backgroundImage: "url('/hero-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+  className="absolute inset-0 z-0 scale-[1.04]"
+  initial={{ scale: 1.08 }}
+  animate={{ scale: 1.04 }}
+  transition={{ duration: 2.2, ease: "easeOut" }}
+  style={{
+    backgroundImage: "url('/hero-bg.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center top",
+    backgroundRepeat: "no-repeat",
+  }}
+/>
 
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/40 via-black/39 to-black/20" />
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70" />

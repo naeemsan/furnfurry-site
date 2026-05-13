@@ -3,6 +3,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 
+
 /* HOME SECTIONS */
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
 import { ContactFooter } from "@/pages/sections/ContactFooter";
@@ -44,6 +45,60 @@ function HomePage() {
       {/* <GallerySection /> */}
 
       <CommissionsSection />
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+  <div className="mx-auto grid max-w-6xl items-center gap-10 rounded-3xl border border-white/10 bg-card p-6 shadow-elevated md:grid-cols-2 md:p-8">
+    <div className="overflow-hidden rounded-2xl border border-white/10">
+      <img
+        src="/gallery/head-wolf-brown.jpg"
+        alt="Aurelian Wolf handmade fursuit head"
+        className="h-full w-full object-cover"
+      />
+    </div>
+
+    <div>
+      <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+        Recent Handmade Build
+      </p>
+
+      <h2 className="mt-3 text-4xl font-bold">
+        Aurelian Wolf Head
+      </h2>
+
+      <p className="mt-4 text-muted-foreground">
+        A warm cream and brown canine fursuit head with expressive follow-me
+        eyes, layered facial markings, soft cheek shaping, and a friendly
+        open-mouth expression.
+      </p>
+
+      <div className="mt-5 rounded-2xl border border-white/10 bg-background/40 p-4">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+          Materials
+        </p>
+
+        <p className="mt-2 text-sm text-muted-foreground">
+          Luxury faux fur, soft foam base, follow-me mesh eyes, fleece
+          detailing, sculpted nose, and lined interior.
+        </p>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/gallery"
+          className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
+        >
+          View Gallery
+        </a>
+
+        <a
+          href="#quote-form"
+          className="inline-flex items-center justify-center rounded-2xl border border-white/10 px-5 py-3 text-sm font-bold transition hover:border-primary/40 hover:text-primary"
+        >
+          Request Similar Build
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
       <PricingSection />
       <ProcessSection />
       <TrustSection />
@@ -72,6 +127,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/custom-fursuit" element={<CustomFursuitPage />} />
 
+          
+
           {/* ✅ GALLERY (NEW MAIN PAGE) */}
           <Route path="/gallery" element={<GalleryPage />} />
           
@@ -84,6 +141,8 @@ export default function App() {
             path="/blog/custom-fursuit-price-guide"
             element={<CustomFursuitPriceGuide />}
           />
+
+         
 
           {/* INFO */}
           <Route path="/terms" element={<CommissionTerms />} />

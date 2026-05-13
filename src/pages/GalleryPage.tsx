@@ -36,6 +36,27 @@ const galleryItems = [
     materials:
       "Faux fur exterior, sculpted foam base, breathable lining, soft shaping, and detailed finishing.",
   },
+  {
+  name: "Aurelian Wolf Head",
+  species: "Wolf / Canine",
+  style: "Toony Fursuit Head",
+  image: "/gallery/head-wolf-brown.jpg",
+  description:
+    "A warm cream and brown canine head with expressive follow-me eyes, layered facial markings, soft cheek shaping, and a friendly open-mouth expression.",
+  materials:
+    "Luxury faux fur, soft foam base, follow-me mesh eyes, fleece detailing, sculpted nose, and lined interior.",
+},
+
+{
+  name: "Calico Lynx Head",
+  species: "Lynx / Fox Inspired",
+  style: "Kemono-Inspired Fursuit Head",
+  image: "/gallery/head-calico-kemono.jpg",
+  description:
+    "A character-focused head featuring mixed calico markings, oversized ears, fluffy cheek fur, purple eyes, and a soft expressive face shape.",
+  materials:
+    "Premium faux fur, carved foam structure, printed mesh eyes, fleece accents, hand-cut markings, and comfortable interior lining.",
+}
 ];
 
 export default function GalleryPage() {
