@@ -568,74 +568,10 @@ export default function FursonaFinderPage() {
                   </div>
                 )}
 
-                {imageError && (
-                  <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
-                    <p className="text-sm text-red-300">{imageError}</p>
+                   
 
-                    <button
-                      type="button"
-                      onClick={generateFursonaImage}
-                      disabled={isGenerating}
-                      className="mt-4 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground disabled:opacity-60"
-                    >
-                      Try Image Again
-                    </button>
-                  </div>
-                )}
-
-                {generatedImage && (
-                  <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
-                    <img
-                      src={generatedImage}
-                      alt={`${resultSpecies} generated fursona concept`}
-                      onError={() => {
-                        setGeneratedImage("");
-                        setImageError(
-                          "Image could not load. Please generate another version."
-                        );
-                      }}
-                      className="w-full rounded-2xl object-cover"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={generateFursonaImage}
-                      disabled={isGenerating}
-                      className="mt-4 w-full rounded-xl border border-white/10 px-5 py-3 text-sm font-bold transition hover:border-primary/40 hover:text-primary disabled:opacity-60"
-                    >
-                      Create Another Preview
-                    </button>
-                  </div>
-                )}
-
-                {!generatedImage && !isGenerating && !imageError && (
-                  <button
-                    type="button"
-                    onClick={generateFursonaImage}
-                    className="mt-8 w-full rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
-                  >
-                    Create Character Preview
-                  </button>
-                )}
-
-                <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href={`https://wa.me/18555578702?text=${encodeURIComponent(
-                      `Hi FurNFurry, I completed the Fursona Build Finder and got ${resultTitle}. Can you help me turn this into a custom fursuit?`
-                    )}`}
-                    className="inline-flex flex-1 items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
-                  >
-                    Turn This Into My Fursuit
-                  </a>
-
-                  <button
-                    type="button"
-                    onClick={restart}
-                    className="inline-flex flex-1 items-center justify-center rounded-2xl border border-white/10 px-5 py-4 text-sm font-bold transition hover:border-primary/40 hover:text-primary"
-                  >
-                    Try Again
-                  </button>
-                </div>
+                
+               
               </div>
             </div>
           )}
