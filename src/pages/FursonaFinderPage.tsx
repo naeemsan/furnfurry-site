@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 type Species =
@@ -24,7 +24,10 @@ type Option = {
   useCase?: string;
 };
 
-const questions = [
+const questions: {
+  question: string;
+  options: Option[];
+}[] = [
   {
     question: "Which type of character do you feel most connected to?",
     options: [
@@ -334,9 +337,13 @@ const initialScores: Record<Species, number> = {
   Bird: 0,
 };
 
+const API_URL = "https://huggingface-ashen.vercel.app/api/generate-fursona-image";
+
 export default function FursonaFinderPage() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [scores, setScores] = useState<Record<Species, number>>(initialScores);
+  const [scores, setScores] = useState<Record<Species, number>>({
+    ...initialScores,
+  });
 
   const [archetype, setArchetype] = useState("");
   const [environment, setEnvironment] = useState("");
@@ -350,7 +357,7 @@ export default function FursonaFinderPage() {
 
   const resultSpecies = (Object.entries(scores).sort(
     (a, b) => b[1] - a[1]
-  )[0][0] || "Wolf") as Species;
+  )[0]?.[0] || "Wolf") as Species;
 
   const result = speciesDetails[resultSpecies];
   const resultTitle = `${environment ? `${environment} ` : ""}${resultSpecies}`;
@@ -383,8 +390,9 @@ export default function FursonaFinderPage() {
     try {
       setIsGenerating(true);
       setImageError("");
+      setGeneratedImage("");
 
-      const response = await fetch("/api/generate-fursona-image", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -393,15 +401,24 @@ export default function FursonaFinderPage() {
           species: resultTitle,
           style: result.recommendedStyle,
           colorMood: colorMood || result.defaultColorMood,
-          environment: environment || "custom fantasy setting",
-          buildType: result.buildType,
           personality: archetype || result.personality,
         }),
       });
 
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data?.error || "Image generation failed.");
+        let message = "Could not generate image.";
+
+        try {
+          const errorData = await response.json();
+          message =
+            errorData?.details ||
+            errorData?.error ||
+            "Could not generate image.";
+        } catch {
+          message = "Could not generate image.";
+        }
+
+        throw new Error(message);
       }
 
       const blob = await response.blob();
@@ -412,19 +429,12 @@ export default function FursonaFinderPage() {
       setImageError(
         error instanceof Error
           ? error.message
-          : "Something went wrong while generating the image."
+          : "Could not generate image."
       );
     } finally {
       setIsGenerating(false);
     }
   };
-
-  useEffect(() => {
-    if (finished && !generatedImage && !isGenerating && !imageError) {
-      generateFursonaImage();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [finished]);
 
   const restart = () => {
     setCurrentStep(0);
@@ -440,188 +450,197 @@ export default function FursonaFinderPage() {
   };
 
   return (
-  <>
-    <Helmet>
-      <title>Fursona Finder Quiz | Discover Your Perfect Fursuit Style</title>
+    <>
+      <Helmet>
+        <title>Fursona Finder Quiz | Discover Your Perfect Fursuit Style</title>
+        <meta
+          name="description"
+          content="Answer a few furry community inspired questions and discover a fursona style that matches your personality, aesthetic, energy, and ideal fursuit build direction."
+        />
+      </Helmet>
 
-      <meta
-        name="description"
-        content="Answer a few furry community inspired questions and discover a fursona style that matches your personality, aesthetic, energy, and ideal fursuit build direction."
-      />
-    </Helmet>
+      <main className="min-h-screen bg-background pt-32 text-foreground">
+        <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+              Fursona Build Finder
+            </p>
 
-    <main className="min-h-screen bg-background pt-32 text-foreground">
-      <section className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-            Fursona Build Finder
-          </p>
+            <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">
+              Find Your Fursuit Match
+            </h1>
 
-          <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">
-            Find Your Fursuit Match
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
-            Answer a few fursuit-focused questions and get a build direction
-            based on species, character vibe, style, and how you want your suit
-            to feel.
-          </p>
-        </div>
-
-        {!finished ? (
-          <div className="mx-auto mt-14 max-w-3xl rounded-3xl border border-white/10 bg-card p-6 shadow-elevated md:p-8">
-            <div className="mb-6 flex items-center justify-between gap-4">
-              <p className="text-sm font-semibold text-primary">
-                Question {currentStep + 1} of {questions.length}
-              </p>
-
-              <p className="text-sm text-muted-foreground">
-                {Math.round(((currentStep + 1) / questions.length) * 100)}%
-              </p>
-            </div>
-
-            <div className="mb-8 h-2 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-primary transition-all duration-300"
-                style={{
-                  width: `${((currentStep + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
-
-            <h2 className="text-2xl font-bold">
-              {questions[currentStep].question}
-            </h2>
-
-            <div className="mt-6 grid gap-3">
-              {questions[currentStep].options.map((option) => (
-                <button
-                  key={option.label}
-                  type="button"
-                  onClick={() => selectOption(option)}
-                  className="rounded-2xl border border-white/10 bg-background/40 px-5 py-4 text-left text-sm font-semibold transition hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
+            <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
+              Answer a few fursuit-focused questions and get a build direction
+              based on species, character vibe, style, and how you want your
+              suit to feel.
+            </p>
           </div>
-        ) : (
-          <div className="mx-auto mt-14 max-w-3xl overflow-hidden rounded-3xl border border-primary/25 bg-card shadow-elevated">
-            <div className="bg-primary/10 p-8 text-center">
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-                Your Fursona Build Match
-              </p>
 
-              <h2 className="mt-3 text-4xl font-bold">{resultTitle}</h2>
+          {!finished ? (
+            <div className="mx-auto mt-14 max-w-3xl rounded-3xl border border-white/10 bg-card p-6 shadow-elevated md:p-8">
+              <div className="mb-6 flex items-center justify-between gap-4">
+                <p className="text-sm font-semibold text-primary">
+                  Question {currentStep + 1} of {questions.length}
+                </p>
 
-              <p className="mt-3 text-muted-foreground">{result.personality}</p>
-            </div>
-
-            <div className="p-6 md:p-8">
-              <div className="grid gap-4 md:grid-cols-2">
-                <InfoCard
-                  title="Recommended Style"
-                  value={result.recommendedStyle}
-                />
-                <InfoCard title="Best Build Type" value={result.buildType} />
-                <InfoCard title="Suit Feel" value={result.suitFeel} />
-                <InfoCard
-                  title="Color Mood"
-                  value={colorMood || result.defaultColorMood}
-                />
-                <InfoCard
-                  title="Character Direction"
-                  value={archetype || result.personality}
-                />
-                <InfoCard title="Best For" value={useCase || result.bestFor} />
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-white/10 bg-background/40 p-5">
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {result.why}
+                <p className="text-sm text-muted-foreground">
+                  {Math.round(((currentStep + 1) / questions.length) * 100)}%
                 </p>
               </div>
 
-              {imageError && (
-                <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
-                  <p className="text-sm text-red-300">{imageError}</p>
+              <div className="mb-8 h-2 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-primary transition-all duration-300"
+                  style={{
+                    width: `${((currentStep + 1) / questions.length) * 100}%`,
+                  }}
+                />
+              </div>
 
+              <h2 className="text-2xl font-bold">
+                {questions[currentStep].question}
+              </h2>
+
+              <div className="mt-6 grid gap-3">
+                {questions[currentStep].options.map((option) => (
                   <button
+                    key={option.label}
                     type="button"
-                    onClick={generateFursonaImage}
-                    className="mt-4 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+                    onClick={() => selectOption(option)}
+                    className="rounded-2xl border border-white/10 bg-background/40 px-5 py-4 text-left text-sm font-semibold transition hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
                   >
-                    Try Image Again
+                    {option.label}
                   </button>
-                </div>
-              )}
-
-              {isGenerating && (
-                <div className="mt-8 rounded-3xl border border-primary/20 bg-primary/5 p-10 text-center">
-                  <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
-
-                  <h3 className="mt-6 text-2xl font-bold">
-                    Creating Your Fursona...
-                  </h3>
-
-                  <p className="mt-3 text-muted-foreground">
-                    Analyzing personality, style, and character energy.
-                  </p>
-
-                  <div className="mt-6 space-y-2 text-sm text-muted-foreground">
-                    <p>Generating fur textures...</p>
-                    <p>Building facial expressions...</p>
-                    <p>Matching your aesthetic...</p>
-                  </div>
-                </div>
-              )}
-
-              {generatedImage && (
-                <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
-                  <img
-  src={generatedImage}
-  alt={`${resultSpecies} generated fursona concept`}
-  onError={() => {
-    setGeneratedImage("");
-    setImageError("Image could not load. Please generate another version.");
-  }}
-  className="w-full rounded-2xl object-cover"
-/>
-                  <button
-                    type="button"
-                    onClick={generateFursonaImage}
-                    disabled={isGenerating}
-                    className="mt-4 w-full rounded-xl border border-white/10 px-5 py-3 text-sm font-bold transition hover:border-primary/40 hover:text-primary disabled:opacity-60"
-                  >
-                    Generate Another Version
-                  </button>
-                </div>
-              )}
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={`https://wa.me/18555578702?text=${encodeURIComponent(
-                    `Hi FurNFurry, I completed the Fursona Build Finder and got ${resultTitle}. Can you help me turn this into a custom fursuit?`
-                  )}`}
-                  className="inline-flex flex-1 items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
-                >
-                  Turn This Into My Fursuit
-                </a>
-
-                <button
-                  type="button"
-                  onClick={restart}
-                  className="inline-flex flex-1 items-center justify-center rounded-2xl border border-white/10 px-5 py-4 text-sm font-bold transition hover:border-primary/40 hover:text-primary"
-                >
-                  Try Again
-                </button>
+                ))}
               </div>
             </div>
-          </div>
-        )}
-      </section>
-    </main>
+          ) : (
+            <div className="mx-auto mt-14 max-w-3xl overflow-hidden rounded-3xl border border-primary/25 bg-card shadow-elevated">
+              <div className="bg-primary/10 p-8 text-center">
+                <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+                  Your Fursona Build Match
+                </p>
+
+                <h2 className="mt-3 text-4xl font-bold">{resultTitle}</h2>
+
+                <p className="mt-3 text-muted-foreground">
+                  {result.personality}
+                </p>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <InfoCard
+                    title="Recommended Style"
+                    value={result.recommendedStyle}
+                  />
+                  <InfoCard title="Best Build Type" value={result.buildType} />
+                  <InfoCard title="Suit Feel" value={result.suitFeel} />
+                  <InfoCard
+                    title="Color Mood"
+                    value={colorMood || result.defaultColorMood}
+                  />
+                  <InfoCard
+                    title="Character Direction"
+                    value={archetype || result.personality}
+                  />
+                  <InfoCard title="Best For" value={useCase || result.bestFor} />
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-white/10 bg-background/40 p-5">
+                  <p className="text-sm leading-6 text-muted-foreground">
+                    {result.why}
+                  </p>
+                </div>
+
+                {isGenerating && (
+                  <div className="mt-6 rounded-3xl border border-primary/20 bg-primary/5 p-10 text-center">
+                    <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
+
+                    <h3 className="mt-6 text-2xl font-bold">
+                      Creating Your Character Preview...
+                    </h3>
+
+                    <p className="mt-3 text-muted-foreground">
+                      Building a visual concept from your fursona result.
+                    </p>
+                  </div>
+                )}
+
+                {imageError && (
+                  <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
+                    <p className="text-sm text-red-300">{imageError}</p>
+
+                    <button
+                      type="button"
+                      onClick={generateFursonaImage}
+                      disabled={isGenerating}
+                      className="mt-4 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground disabled:opacity-60"
+                    >
+                      Try Image Again
+                    </button>
+                  </div>
+                )}
+
+                {generatedImage && (
+                  <div className="mt-6 overflow-hidden rounded-3xl border border-white/10 bg-background/40 p-3">
+                    <img
+                      src={generatedImage}
+                      alt={`${resultSpecies} generated fursona concept`}
+                      onError={() => {
+                        setGeneratedImage("");
+                        setImageError(
+                          "Image could not load. Please generate another version."
+                        );
+                      }}
+                      className="w-full rounded-2xl object-cover"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={generateFursonaImage}
+                      disabled={isGenerating}
+                      className="mt-4 w-full rounded-xl border border-white/10 px-5 py-3 text-sm font-bold transition hover:border-primary/40 hover:text-primary disabled:opacity-60"
+                    >
+                      Create Another Preview
+                    </button>
+                  </div>
+                )}
+
+                {!generatedImage && !isGenerating && !imageError && (
+                  <button
+                    type="button"
+                    onClick={generateFursonaImage}
+                    className="mt-8 w-full rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
+                  >
+                    Create Character Preview
+                  </button>
+                )}
+
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={`https://wa.me/18555578702?text=${encodeURIComponent(
+                      `Hi FurNFurry, I completed the Fursona Build Finder and got ${resultTitle}. Can you help me turn this into a custom fursuit?`
+                    )}`}
+                    className="inline-flex flex-1 items-center justify-center rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
+                  >
+                    Turn This Into My Fursuit
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={restart}
+                    className="inline-flex flex-1 items-center justify-center rounded-2xl border border-white/10 px-5 py-4 text-sm font-bold transition hover:border-primary/40 hover:text-primary"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+      </main>
     </>
   );
 }
@@ -632,6 +651,7 @@ function InfoCard({ title, value }: { title: string; value: string }) {
       <p className="text-xs font-semibold uppercase tracking-widest text-primary">
         {title}
       </p>
+
       <p className="mt-2 font-semibold">{value}</p>
     </div>
   );
