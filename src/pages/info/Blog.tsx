@@ -7,6 +7,13 @@ const blogs = [
     image: "/custom-fursuit-price-guide.jpg",
     link: "/blog/custom-fursuit-price-guide",
   },
+   {
+    title: "What Is the Furry Fandom?",
+    description:
+      "A beginner friendly guide explaining fursonas, fursuits, and the furry community.",
+      image: "/what-is-furry-fandom.jpg",
+    link: "/blog/what-is-the-furry-fandom",
+  },
 ];
 
 export default function Blog() {
@@ -29,7 +36,7 @@ export default function Blog() {
             >
 
               <img
-  src="/custom-fursuit-price-guide.jpg"
+  src={blog.image}
   alt="Custom fursuit full body example realistic"
   className="mt-8 w-full rounded-2xl border border-white/10 object-contain object-center"
 />

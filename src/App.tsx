@@ -30,6 +30,7 @@ import ShippingPolicy from "./pages/info/ShippingPolicy";
 /* BLOG PAGES */
 import Blog from "./pages/info/Blog";
 import CustomFursuitPriceGuide from "./pages/info/CustomFursuitPriceGuide";
+import WhatIsFurryFandom from "./pages/info/WhatIsFurryFandom";
 
 /* ✅ NEW GALLERY PAGE */
 import GalleryPage from "./pages/GalleryPage";
@@ -140,6 +141,10 @@ export default function App() {
           <Route
             path="/blog/custom-fursuit-price-guide"
             element={<CustomFursuitPriceGuide />}
+          />
+          <Route
+           path="/blog/what-is-the-furry-fandom"
+           element={<WhatIsFurryFandom />}
           />
 
          
