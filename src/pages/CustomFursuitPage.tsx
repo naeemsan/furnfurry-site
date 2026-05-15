@@ -87,28 +87,17 @@ const FAQS = [
 ];
 
 function scrollToContact(type?: string) {
-  let message = "Hi FurNFurry, I want a custom fursuit quote";
-
-  if (type === "head") {
-    message += " for a head only build.";
-  } else if (type === "partial") {
-    message += " for a partial suit.";
-  } else if (type === "full") {
-    message += " for a full fursuit.";
+  if (type) {
+    window.location.href = `/quote?type=${encodeURIComponent(type)}`;
   } else {
-    message += ".";
+    window.location.href = "/quote";
   }
-
-  message += " I can share my reference sheet.";
-
-  window.open(
-    `https://wa.me/18555578702?text=${encodeURIComponent(message)}`,
-    "_blank",
-  );
 }
 
 function goToProcess() {
-  window.location.href = "/#process";
+  document
+    .getElementById("detailed-process")
+    ?.scrollIntoView({ behavior: "smooth" });
 }
 
 export function CustomFursuitPage() {
@@ -126,17 +115,24 @@ export function CustomFursuitPage() {
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO */}
       <section
-        className="relative overflow-hidden px-4 py-28 sm:px-6 lg:px-8"
+        className="relative overflow-hidden min-h-[85vh] px-4 py-32"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(5,5,14,0.88), rgba(5,5,14,0.58), rgba(5,5,14,0.82)),
-            url('/hero-bg.png')
-          `,
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-        }}
+  backgroundImage: `
+    linear-gradient(
+      to right,
+      rgba(3,3,10,0.68),
+      rgba(3,3,10,0.40),
+      rgba(3,3,10,0.25),
+      rgba(3,3,10,0.55)
+    ),
+    url('/custom-fursuit-collage.png')
+  `,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+}}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/1  via-transparent to-black/1" />
 
         <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
@@ -160,21 +156,13 @@ export function CustomFursuitPage() {
                 onClick={() => scrollToContact()}
                 className="rounded-2xl bg-primary px-7 py-4 text-base font-bold text-primary-foreground shadow-[0_0_30px_rgba(139,92,246,0.35)] hover:bg-primary/90"
               >
-                Start on WhatsApp →
+                Request a Quote →
               </Button>
             </div>
           </div>
 
-          <div className="hidden lg:block">
-            <div className="rounded-[2rem] border border-white/15 bg-black/20 p-3 shadow-elevated backdrop-blur-sm">
-              <img
-                src="/Custom Fursuit Page Head.jpg"
-                alt="Handmade custom fursuit head work in progress"
-                className="h-[430px] w-full rounded-[1.5rem] object-cover opacity-90"
-              />
-            </div>
           </div>
-        </div>
+        
       </section>
 
       {/* TRUST STRIP */}
@@ -192,24 +180,26 @@ export function CustomFursuitPage() {
       </section>
 
       {/* INTRO */}
-      <section className="mx-auto max-w-6xl px-4 py-18 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-widest text-primary">
-              What Is a Custom Fursuit
-            </p>
+Built Around Your Character
+</p>
 
-            <h2 className="mt-3 text-3xl font-extrabold lg:text-4xl">
-              Made to order for your character
-            </h2>
+<h2 className="mt-3 text-3xl font-extrabold lg:text-5xl">
+Designed for accuracy, comfort and personality
+</h2>
           </div>
 
           <div className="space-y-4 leading-8 text-muted-foreground">
             <p>
-              A custom fursuit is a made to order costume created specifically
-              for your fursona. Unlike premade suits, every part is planned
-              around your species, colors, markings, facial expression, body
-              style, and special features.
+              Every FurNFurry project starts with understanding your character before materials are even selected. Reference sheets, expressions, markings, body style, accessories, and intended use all influence the final build.
+
+We design for accuracy, comfort, and durability while offering advanced options such as follow-me eyes, interchangeable antlers, magnetic accessories, digitigrade shaping, and premium detailing. Each build is planned individually to create a fursuit that feels recognizable to your character and comfortable to wear.
+              
+              
+             
             </p>
 
             <p>
@@ -222,7 +212,7 @@ export function CustomFursuitPage() {
       </section>
 
       {/* REAL BUILD PROCESS */}
-      <section className="bg-card/40 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-card/40 px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-primary/20 bg-primary/5 p-6 shadow-subtle md:p-8">
           <div className="mb-7 max-w-3xl">
             <p className="text-sm font-bold uppercase tracking-widest text-primary">
@@ -274,17 +264,95 @@ export function CustomFursuitPage() {
               </div>
             ))}
           </div>
-
-          <div className="mt-7">
-            <Button onClick={goToProcess} className="rounded-2xl px-7 py-4">
-              View Full Process →
-            </Button>
-          </div>
         </div>
       </section>
+     
+     {/* FULL BUILD PROCESS */}
+<section
+  id="detailed-process"
+  className="mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8"
+>
+  <div className="mx-auto max-w-3xl text-center">
+    <p className="text-sm font-bold uppercase tracking-widest text-primary">
+      Full Build Process
+    </p>
+
+    <h2 className="mt-3 text-3xl font-extrabold lg:text-4xl">
+      How a custom fursuit is made
+    </h2>
+
+    <p className="mt-4 leading-8 text-muted-foreground">
+      Every build is different, but most custom fursuits follow a similar path
+      from character planning to final finishing. This gives you a clear idea of
+      what happens before your suit is ready.
+    </p>
+  </div>
+
+  <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    {[
+      {
+        title: "Character Discussion",
+        text: "We start by reviewing your fursona, species, colors, style ideas, accessories, and overall build goals.",
+      },
+      {
+        title: "Measurements",
+        text: "Accurate sizing helps with comfort, movement, and proportions, especially for partials and full body suits.",
+      },
+      {
+        title: "Foam Base Shaping",
+        text: "The first physical stage begins with shaping the base. The muzzle, cheeks, ears, and expression start here.",
+      },
+      {
+        title: "Patterning and Sewing",
+        text: "Fur patterns are planned, cut carefully, sewn together, and fitted around the shaped base or body pattern.",
+      },
+      {
+        title: "Eyes and Details",
+        text: "Eyes, markings, lining, teeth, horns, claws, airbrushing, and special features are added during finishing.",
+      },
+      {
+        title: "Final Photos and Shipping",
+        text: "Finished photos are shared before shipping. After approval, your suit is packed safely and prepared for delivery.",
+      },
+    ].map((step, index) => (
+      <div
+        key={step.title}
+        className="rounded-3xl border border-border bg-card/70 p-6 shadow-subtle transition hover:-translate-y-1 hover:border-primary/35"
+      >
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-sm font-extrabold text-primary">
+          {index + 1}
+        </div>
+
+        <h3 className="text-xl font-bold">{step.title}</h3>
+
+        <p className="mt-3 leading-7 text-muted-foreground">
+          {step.text}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <div className="mt-10 rounded-[2rem] border border-primary/25 bg-primary/10 p-7 text-center">
+    <h3 className="text-2xl font-extrabold">
+      Ready to start your own build?
+    </h3>
+
+    <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+      Send your reference sheet and tell us what you want made. We’ll help you
+      understand the best build direction before you commit.
+    </p>
+
+    <Button
+      onClick={() => (window.location.href = "/quote")}
+      className="mt-6 rounded-2xl px-7 py-4 text-base font-bold"
+    >
+      Start My Build →
+    </Button>
+  </div>
+</section>
 
       {/* OPTIONS WITH PRICING */}
-      <section className="mx-auto max-w-6xl px-4 py-18 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-bold uppercase tracking-widest text-primary">
             Build Options
@@ -359,7 +427,7 @@ export function CustomFursuitPage() {
       </section>
 
       {/* PRICE FACTORS */}
-      <section className="bg-card/40 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-card/40 px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm font-bold uppercase tracking-widest text-primary">
@@ -376,16 +444,167 @@ export function CustomFursuitPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {PRICE_FACTORS.map((factor) => (
-              <div
-                key={factor}
-                className="rounded-2xl border border-border bg-background/70 p-5 text-center font-semibold text-muted-foreground shadow-subtle transition hover:-translate-y-1 hover:border-primary/35"
-              >
-                {factor}
-              </div>
-            ))}
-          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Markings • Species • Layers
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Design Complexity
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Detailed markings, gradients, unusual species, wings, layered colors,
+multiple materials and complex shaping increase build time.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Follow Me Eyes • Eyelids
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Eye Options
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Follow me eyes, printed mesh eyes, magnetic eyelids, sleepy expressions,
+angry expressions and custom eye styles affect pricing.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Removable • Magnetic • Sculpted
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Horns and Antlers
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Fixed horns, removable antlers, interchangeable sets,
+magnetic attachments and sculpted details add complexity.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Premium Fur • Shaving • Airbrush
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Materials and Fur
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Imported faux fur, shaved patterns, airbrushing, fleece accents,
+minky fabrics and luxury lining change overall cost.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Plantigrade • Digitigrade
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Body Structure
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Digitigrade suits require additional padding and shaping,
+while plantigrade builds are generally simpler.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Indoor • Outdoor Soles • Claws
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Paws and Feet
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Custom hand paws, feet paws, outdoor soles,
+silicone pads, claws and plush paw pads affect pricing.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Fans • LEDs • Moving Jaw
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Special Features
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Cooling fans, LED lights, moving jaws, removable tongues,
+piercings, collars and accessories can all be added.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Reference Matching • Accuracy
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Character Accuracy
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Exact color matching, facial markings,
+body patterns and reference accuracy require more detailing.
+</p>
+</div>
+
+
+
+<div className="rounded-3xl border border-border bg-background/60 p-6 shadow-subtle hover-lift">
+<p className="mb-2 text-xs uppercase tracking-[0.25em] text-primary">
+Rush Orders • Convention Deadlines
+</p>
+
+<h3 className="mb-3 text-xl font-bold">
+Timeline Requests
+</h3>
+
+<p className="leading-7 text-muted-foreground">
+Priority builds, birthdays, conventions and rush scheduling
+may affect final pricing and queue position.
+</p>
+</div>
+
+</div>
+
+
+
+<p className="mx-auto mt-10 max-w-2xl text-center text-muted-foreground leading-8">
+Most clients receive a personalized quote after sharing references,
+measurements, preferred build style and any extra features they want included.
+</p>
 
           <div className="mt-8 text-center">
             <Button
@@ -399,7 +618,7 @@ export function CustomFursuitPage() {
       </section>
 
       {/* REFERENCE SHEET CTA */}
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-primary/25 bg-primary/10 p-6 shadow-subtle md:p-8">
           <div className="mx-auto mb-8 max-w-3xl text-center">
             <p className="text-sm font-bold uppercase tracking-widest text-primary">

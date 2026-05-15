@@ -94,6 +94,20 @@
     }
   }
 
+  @keyframes heroMove {
+  0% {
+    background-position: center center;
+  }
+
+  100% {
+    background-position: center top;
+  }
+}
+
+.hero-collage {
+  animation: heroMove 18s ease-in-out infinite alternate;
+}
+
   /* 🎨 HERO GRADIENT */
   .gradient-hero {
     background: linear-gradient(

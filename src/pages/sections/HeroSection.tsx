@@ -21,7 +21,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden pt-20"
+      className="hero-collage relative flex min-h-[82vh] items-center overflow-hidden px-4 py-28 sm:px-6 lg:px-8"
     >
       <motion.div
   className="absolute inset-0 z-0 scale-[1.04]"

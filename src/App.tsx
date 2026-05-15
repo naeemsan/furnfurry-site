@@ -3,7 +3,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 import QuotePage from "./pages/QuotePage";
-
+import AnimatedCursor from "react-animated-cursor";
 
 /* HOME SECTIONS */
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
@@ -122,6 +122,15 @@ export default function App() {
 
       <div className="relative z-[2]">
         <Navbar />
+        <AnimatedCursor
+  innerSize={8}
+  outerSize={30}
+  color="168,85,247"
+  outerAlpha={0.2}
+  innerScale={0.8}
+  outerScale={2}
+  clickables={["a", "button", "input", "textarea", "select"]}
+/>
         <WhatsAppButton />
 
         <Routes>
