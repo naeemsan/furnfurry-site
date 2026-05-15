@@ -3,7 +3,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
 import QuotePage from "./pages/QuotePage";
-import AnimatedCursor from "react-animated-cursor";
+
 
 /* HOME SECTIONS */
 import { CommissionsSection } from "@/pages/sections/CommissionsSection";
@@ -116,21 +116,11 @@ function HomePage() {
 export default function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      
       {/* Background noise */}
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[url('/noise.png')] opacity-[0.025] mix-blend-soft-light" />
 
       <div className="relative z-[2]">
         <Navbar />
-        <AnimatedCursor
-  innerSize={8}
-  outerSize={30}
-  color="168,85,247"
-  outerAlpha={0.2}
-  innerScale={0.8}
-  outerScale={2}
-  clickables={["a", "button", "input", "textarea", "select"]}
-/>
         <WhatsAppButton />
 
         <Routes>
