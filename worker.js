@@ -80,6 +80,26 @@ class DescriptionHandler {
   }
 }
 
+class OGTitleHandler {
+  constructor(title) {
+    this.title = title;
+  }
+
+  element(element) {
+    element.setAttribute("content", this.title);
+  }
+}
+
+class OGDescriptionHandler {
+  constructor(description) {
+    this.description = description;
+  }
+
+  element(element) {
+    element.setAttribute("content", this.description);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -102,8 +122,19 @@ export default {
     }
 
     return new HTMLRewriter()
-      .on("title", new TitleHandler(pageMeta.title))
-      .on('meta[name="description"]', new DescriptionHandler(pageMeta.description))
-      .transform(response);
-  },
+  .on("title", new TitleHandler(pageMeta.title))
+  .on(
+    'meta[name="description"]',
+    new DescriptionHandler(pageMeta.description)
+  )
+  .on(
+    'meta[property="og:title"]',
+    new OGTitleHandler(pageMeta.title)
+  )
+  .on(
+    'meta[property="og:description"]',
+    new OGDescriptionHandler(pageMeta.description)
+  )
+  .transform(response);
+    },
 };
