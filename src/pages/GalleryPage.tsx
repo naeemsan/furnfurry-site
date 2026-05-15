@@ -146,9 +146,7 @@ export default function GalleryPage() {
 
                       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                         <a
-                          href={`https://wa.me/18555578702?text=${encodeURIComponent(
-                            `Hi FurNFurry, I saw ${item.name} in your gallery and I am interested in a custom build with a similar feel. Can you guide me?`
-                          )}`}
+                          href="/quote"
                           className="inline-flex items-center justify-center rounded-2xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground transition hover:scale-[1.02]"
                         >
                           Request Similar Build

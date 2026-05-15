@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomFursuitPage } from "@/pages/CustomFursuitPage";
+import QuotePage from "./pages/QuotePage";
 
 
 /* HOME SECTIONS */
@@ -128,7 +129,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/custom-fursuit" element={<CustomFursuitPage />} />
 
-          
+          <Route path="/quote" element={<QuotePage />} />
 
           {/* ✅ GALLERY (NEW MAIN PAGE) */}
           <Route path="/gallery" element={<GalleryPage />} />
@@ -146,6 +147,7 @@ export default function App() {
            path="/blog/what-is-the-furry-fandom"
            element={<WhatIsFurryFandom />}
           />
+          
 
          
 
