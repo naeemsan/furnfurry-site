@@ -1,34 +1,23 @@
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Fursona Finder", href: "/fursona-finder" }, 
+  { label: "Fursona Finder", href: "/fursona-finder" },
   { label: "Custom Fursuit", href: "/custom-fursuit" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Commissions", href: "#commissions" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "What We Make", href: "#what-we-make" },
-  { label: "Process", href: "#process" },
-  { label: "FAQs", href: "#faqs" },
-  { label: "Contact", href: "#contact" },
 ];
 
-function scrollTo(href: string) {
-  const id = href.replace("#", "");
-
-  if (window.location.pathname === "/") {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  } else {
-    sessionStorage.setItem("scrollTarget", id);
-    window.location.href = "/";
-  }
-}
+const INFO_LINKS = [
+  { label: "Blog", href: "/blog" },
+  { label: "Commission Terms", href: "/terms" },
+  { label: "Shipping", href: "/shipping" },
+  { label: "Refund Policy", href: "/refund" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "How to Measure", href: "/measure" },
+  { label: "Care Guide", href: "/care" },
+];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -42,12 +31,7 @@ export function Navbar() {
 
   const handleNav = (href: string) => {
     setOpen(false);
-
-    if (href.startsWith("#")) {
-      scrollTo(href);
-    } else {
-      window.location.href = href;
-    }
+    window.location.href = href;
   };
 
   return (
@@ -60,19 +44,17 @@ export function Navbar() {
       )}
     >
       <div className="relative mx-auto flex max-w-7xl items-center justify-center px-4 py-3 sm:px-6 lg:px-8">
-        {/* LOGO LEFT */}
         <button
-          onClick={() => (window.location.href = "/")}
-          className="absolute left-4 top-1/2 -translate-y-1/2 group flex items-center gap-2 sm:left-6 lg:left-8"
+          onClick={() => handleNav("/")}
+          className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-2 sm:left-6 lg:left-8"
         >
           <img
             src="/logo.png"
             alt="FurNFurry"
-            className="h-14 w-auto transition duration-300 group-hover:scale-[1.04]"
+            className="h-14 w-auto transition duration-300 hover:scale-[1.04]"
           />
         </button>
 
-        {/* DESKTOP NAV CENTER */}
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <a
@@ -88,77 +70,40 @@ export function Navbar() {
             </a>
           ))}
 
-          {/* INFO DROPDOWN */}
-          <div className="relative group ml-2">
+          <div className="group relative ml-2">
             <button className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition hover:bg-primary/10 hover:text-primary">
               Info
             </button>
 
             <div className="absolute left-0 top-full hidden w-56 rounded-xl border border-border bg-card p-2 shadow-lg group-hover:block">
-              <a
-                href="/blog"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Blog
-              </a>
-
-              <a
-                href="/terms"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Commission Terms
-              </a>
-
-              <a
-                href="/shipping"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Shipping
-              </a>
-
-              <a
-                href="/refund"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Refund Policy
-              </a>
-
-              <a
-                href="/privacy"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Privacy
-              </a>
-
-              <a
-                href="/measure"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                How to Measure
-              </a>
-
-              <a
-                href="/care"
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-primary/10"
-              >
-                Care Guide
-              </a>
+              {INFO_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNav(link.href);
+                  }}
+                  className="block rounded-lg px-3 py-2 text-sm text-foreground hover:bg-primary/10 hover:text-primary"
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
           </div>
         </nav>
 
-        {/* MOBILE BUTTON RIGHT */}
         <button
           className="absolute right-4 flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-all duration-200 hover:scale-[1.03] hover:bg-card active:scale-[0.97] md:hidden"
           onClick={() => setOpen(!open)}
+          aria-label="Open menu"
         >
           {open ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
-      {/* MOBILE MENU */}
       {open && (
-        <div className="border-t border-border bg-card/95 backdrop-blur-md md:hidden">
+        <div className="max-h-[80vh] overflow-y-auto border-t border-border bg-card/95 backdrop-blur-md md:hidden">
           <nav className="flex flex-col gap-1 px-4 py-3">
             {NAV_LINKS.map((link) => (
               <a
@@ -174,40 +119,21 @@ export function Navbar() {
               </a>
             ))}
 
-            <a
-              href="/blog"
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10"
-            >
-              Blog
-            </a>
+            <div className="my-2 border-t border-white/10" />
 
-            <a
-              href="/terms"
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10"
-            >
-              Commission Terms
-            </a>
-
-            <a
-              href="/shipping"
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10"
-            >
-              Shipping
-            </a>
-
-            <a
-              href="/refund"
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10"
-            >
-              Refund Policy
-            </a>
-
-            <Button
-              onClick={() => handleNav("#contact")}
-              className="mt-3 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
-            >
-              Get a Quote
-            </Button>
+            {INFO_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNav(link.href);
+                }}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground hover:bg-primary/10"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
         </div>
       )}
