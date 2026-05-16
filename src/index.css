@@ -179,4 +179,39 @@ select {
     url("/paw-cursor.png")
     16 16,
     pointer;
+
+    .fursuit-page-bg {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(168, 85, 247, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 42%, rgba(129, 140, 248, 0.12), transparent 30%),
+    radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.10), transparent 35%),
+    linear-gradient(180deg, rgba(15, 23, 42, 1), rgba(18, 27, 40, 1));
+}
+
+.soft-section-line {
+  position: relative;
+}
+
+.soft-section-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 85, 247, 0.45),
+    rgba(255, 255, 255, 0.16),
+    transparent
+  );
+}
+
+.card-noise {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
 }
