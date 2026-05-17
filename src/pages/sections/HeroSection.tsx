@@ -73,8 +73,7 @@ export function HeroSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="mt-6 max-w-lg text-white/85 drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
             >
-              Handmade, made to order fursuits designed around your character,
-              style, and personality from expressive heads to full body builds.
+              FurNFurry creates handmade custom fursuits built around your character, style, and personality. From foam base heads to 3D printed head bases, partial suits, and full body builds, each piece is planned for comfort, expression, and character accuracy.
             </motion.p>
 
             <motion.div

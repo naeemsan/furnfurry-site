@@ -17,9 +17,9 @@ const PROCESS_STEPS = [
   },
   {
     icon: PenTool,
-    title: "Foam Base Sculpting",
+    title: "Head Base Planning",
     description:
-      "We hand-sculpt a custom foam base, shaping your character’s structure, proportions, and expression from scratch.",
+      "We plan the right head base for your character, including foam base or 3D printed base options depending on the style, symmetry, airflow, durability, and expression needed.",
   },
   {
     icon: ClipboardCheck,
@@ -95,13 +95,11 @@ export function ProcessSection() {
               </span>
 
               <h3 className="mt-3 font-display text-2xl font-bold text-foreground">
-                Foam Base Sculpting
+                Head Base Creation
               </h3>
 
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                Every custom build starts with structure. These workshop shots
-                showcase different fursuit bases at various stages of shaping —
-                not the same character, but real examples of our process.
+                We create your head base using either hand-shaped foam or a 3D printed structure, depending on your character design, comfort needs, and preferred finish.
               </p>
             </div>
 

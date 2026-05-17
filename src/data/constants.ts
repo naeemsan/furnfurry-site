@@ -103,7 +103,7 @@ export const PRICING_TIERS = [
   {
     type: "Head",
     startingAt: 999,
-    description: "Custom sculpted head with fur matching and expressive details",
+    description: "Custom fursuit head built with foam or 3D printed base options, fur matching, and expressive finishing details.",
   },
   {
     type: "Hand Paws",

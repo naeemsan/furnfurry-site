@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 
 const TRUST_ITEMS = [
-  "Custom made from scratch",
+  "Foam base and 3D printed head options",
   "Worldwide shipping available",
   "Work in progress updates",
   "Quote based pricing",
@@ -13,8 +13,8 @@ const OPTIONS = [
     title: "Head Only",
     type: "head",
     price: "Starting from $999",
-    text: "A custom fursuit head designed around your character’s expression, species, muzzle shape, ears, and overall style.",
-    note: "Final price depends on design complexity, materials, and detailing.",
+    text: "A custom fursuit head made around your character’s expression, species, muzzle shape, ears, cheeks, colors, and overall personality.",
+    note: "Available with foam base or 3D printed base options depending on your character style, comfort needs, airflow, symmetry, and final look.",
     image: "/build-head-only.jpg",
     button: "Quote Head Only",
   },
@@ -22,8 +22,8 @@ const OPTIONS = [
     title: "Partial Suit",
     type: "partial",
     price: "Starting from $1,600",
-    text: "A lighter build with a custom head, paws, tail, and optional feet paws for a complete character look without a full body suit.",
-    note: "A popular choice for conventions, photos, and easier wearability.",
+    text: "A lighter build with a custom head, hand paws, tail, and optional feet paws for a complete character look without a full body suit.",
+    note: "A popular choice for conventions, photos, content, and easier wearability while still showing your full character identity.",
     image: "/build-partial-suit.png",
     button: "Quote Partial Suit",
     popular: true,
@@ -33,7 +33,7 @@ const OPTIONS = [
     type: "full",
     price: "Starting from $3,500",
     text: "A full handmade suit built around your fursona, available in plantigrade or digitigrade styles depending on your design.",
-    note: "Final price depends on body style, markings, materials, and custom features.",
+    note: "Final pricing depends on body style, markings, materials, head base type, padding, accessories, and custom features.",
     image: "/build-full-fursuit.jpg",
     button: "Quote Full Fursuit",
   },
@@ -137,10 +137,7 @@ export function CustomFursuitPage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              FurNFurry creates handmade custom fursuits built around your
-              character, style, and personality. From expressive heads to full
-              body builds, each piece is carefully crafted to reflect your
-              fursona with precision, comfort, and detail.
+              FurNFurry creates handmade custom fursuits built around your character, style, and personality. From foam base and 3D printed fursuit heads to partials and full body builds, each piece is planned for comfort, character accuracy, and a clean finished look.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -389,7 +386,7 @@ export function CustomFursuitPage() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 md:grid-cols-3">
           {OPTIONS.map((item) => (
             <div
               key={item.title}
@@ -409,7 +406,7 @@ export function CustomFursuitPage() {
               <img
                 src={item.image}
                 alt={item.title}
-                className="h-72 w-full object-contain bg-[#d9c4ef] p-2 opacity-95 transition duration-500 group-hover:scale-[1.03]"
+                className="h-60 w-full object-contain bg-[#d9c4ef] p-2 opacity-95 transition duration-500 group-hover:scale-[1.03]"
               />
 
               <div className="p-6">
@@ -470,63 +467,73 @@ export function CustomFursuitPage() {
     <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {[
         {
-          label: "Markings, species, layers",
-          title: "Design Complexity",
-          text: "Detailed markings, gradients, unusual species, layered colors, wings, hair, and complex shaping can increase build time.",
-        },
-        {
-          label: "Follow me eyes, mesh, eyelids",
-          title: "Eye Options",
-          text: "Follow me eyes, printed mesh eyes, magnetic eyelids, sleepy expressions, angry expressions, and custom eye styles can be added.",
-        },
-        {
-          label: "Removable, magnetic, sculpted",
-          title: "Horns and Antlers",
-          text: "Fixed horns, removable antlers, interchangeable antler sets, magnetic attachments, and sculpted parts affect complexity.",
-        },
-        {
-          label: "Premium fur, shaving, airbrushing",
-          title: "Materials and Fur",
-          text: "Imported faux fur, shaved markings, airbrushed gradients, fleece details, minky fabric, and premium lining affect final pricing.",
-        },
-        {
-          label: "Plantigrade or digitigrade",
-          title: "Body Structure",
-          text: "Digitigrade suits need extra padding and shaping. Plantigrade suits are usually simpler but still custom fitted.",
-        },
-        {
-          label: "Indoor soles, outdoor soles, claws",
-          title: "Paws and Feet",
-          text: "Hand paws, feet paws, plush paw pads, silicone pads, outdoor soles, claws, and custom shapes are priced by detail level.",
-        },
-        {
-          label: "Fans, LEDs, moving jaw",
-          title: "Special Features",
-          text: "Cooling fans, LED lights, moving jaws, removable tongues, piercings, collars, charms, and accessories can be planned.",
-        },
-        {
-          label: "Color match and reference accuracy",
-          title: "Character Accuracy",
-          text: "Exact color matching, facial markings, body patterns, expression accuracy, and special markings need more detailed work.",
-        },
-        {
-          label: "Rush orders and event dates",
-          title: "Timeline Requests",
-          text: "Birthday deadlines, convention dates, priority builds, and rush scheduling may affect quote and queue position.",
-        },
+    label: "Design Complexity",
+    detail:
+      "Detailed markings, gradients, unusual species, wings, layered colors, multiple materials and complex shaping can increase build time.",
+    tag: "markings • species • layers",
+  },
+  {
+    label: "Head Base Type",
+    detail:
+      "Foam base and 3D printed head base options can affect structure, airflow, symmetry, weight, finish, and final quote.",
+    tag: "foam base • 3D printed base",
+  },
+  {
+    label: "Eye Options",
+    detail:
+      "Follow me eyes, printed mesh eyes, magnetic eyelids, sleepy expressions, angry expressions and custom eye styles affect pricing.",
+    tag: "follow me eyes • eyelids",
+  },
+  {
+    label: "Horns and Antlers",
+    detail:
+      "Fixed horns, removable antlers, interchangeable sets, magnetic attachments and sculpted details add complexity.",
+    tag: "removable • magnetic • sculpted",
+  },
+  {
+    label: "Materials and Fur",
+    detail:
+      "Imported faux fur, shaved patterns, airbrushing, fleece accents, minky fabrics and luxury lining can change overall cost.",
+    tag: "premium fur • shaving • airbrush",
+  },
+  {
+    label: "Body Structure",
+    detail:
+      "Digitigrade suits require additional padding and shaping, while plantigrade builds are usually simpler.",
+    tag: "plantigrade • digitigrade",
+  },
+  {
+    label: "Paws and Feet",
+    detail:
+      "Custom hand paws, feet paws, outdoor soles, silicone pads, claws and plush paw pads can affect pricing.",
+    tag: "indoor • outdoor soles • claws",
+  },
+  {
+    label: "Special Features",
+    detail:
+      "Cooling fans, LED lights, moving jaws, removable tongues, piercings, collars and accessories can all be added.",
+    tag: "fans • LEDs • moving jaw",
+  },
+  {
+    label: "Timeline Requests",
+    detail:
+      "Priority builds, birthdays, conventions and rush scheduling may affect final pricing and queue position.",
+    tag: "rush orders • convention deadline",
+  },
+
       ].map((factor) => (
         <div
-          key={factor.title}
+          key={factor.label}
           className="group rounded-3xl border border-border bg-card/70 p-6 shadow-subtle transition hover:-translate-y-1 hover:border-primary/40 hover:bg-card"
         >
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-primary">
-            {factor.label}
+            {factor.tag}
           </p>
 
-          <h3 className="text-xl font-extrabold">{factor.title}</h3>
+          <h3 className="text-xl font-extrabold">{factor.label}</h3>
 
           <p className="mt-3 leading-7 text-muted-foreground">
-            {factor.text}
+            {factor.detail}
           </p>
 
           <div className="mt-5 h-px w-full bg-gradient-to-r from-primary/60 via-border to-transparent" />

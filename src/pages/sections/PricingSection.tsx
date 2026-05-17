@@ -17,10 +17,11 @@ import {
 
 const TIER_INCLUDES: Record<string, string[]> = {
   Head: [
-    "Custom sculpted foam base",
-    "Expressive eyes & styling",
-    "Fur color matched to reference",
-    "Optional detailing & finishing",
+    "Foam or 3D printed head base option",
+  "Expressive eyes & styling",
+  "Follow-me or printed mesh eyes",
+  "Fur color matched to reference",
+  "Optional magnetic eyelids, fans, or details",
   ],
   "Hand Paws": [
     "Custom claw shape & color",
