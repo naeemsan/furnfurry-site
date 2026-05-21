@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+
 const blogs = [
   {
     title: "Custom Fursuit Price Guide 2026",
@@ -7,62 +10,111 @@ const blogs = [
     image: "/custom-fursuit-price-guide.jpg",
     link: "/blog/custom-fursuit-price-guide",
   },
-   {
+  {
     title: "What Is the Furry Fandom?",
     description:
       "A beginner friendly guide explaining fursonas, fursuits, and the furry community.",
-      image: "/what-is-furry-fandom.jpg",
+    category: "Fandom Guide",
+    image: "/what-is-furry-fandom.jpg",
     link: "/blog/what-is-the-furry-fandom",
+  },
+  {
+    title: "Why Are Custom Fursuits So Expensive?",
+    description:
+      "Learn what drives fursuit cost, from labor and materials to fit, comfort, character accuracy, and custom design.",
+    category: "Fursuit Cost",
+    image: "/fursuit-cost-guide-infographic.png",
+    link: "/blog/why-are-custom-fursuits-so-expensive",
+  },
+  {
+    title: "Partial Fursuit vs Full Fursuit: Which Should You Choose?",
+    description:
+      "Compare partial and full fursuits by budget, comfort, heat, storage, character design, and long-term care.",
+    category: "Buying Guide",
+    image: "/partial-vs-full-hero.png",
+    link: "/blog/partial-fursuit-vs-full-fursuit",
+  },
+  {
+    title: "How to Commission Your First Custom Fursuit Without Getting Overwhelmed",
+    description:
+      "Learn how to commission your first custom fursuit with confidence, from budget and references to measurements, shipping, and refunds.",
+    category: "First Commission Guide",
+    image: "/hero-first-guide.png",
+    link: "/blog/how-to-commission-your-first-custom-fursuit",
   },
 ];
 
 export default function Blog() {
   return (
-    <main className="min-h-screen bg-background pt-32 text-foreground">
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <>
+      <Helmet>
+        <title>FurNFurry Blog | Custom Fursuit Guides</title>
+        <meta
+          name="description"
+          content="Read FurNFurry guides about custom fursuit pricing, commissions, measurements, care, partial suits, full suits, and furry fandom basics."
+        />
+      </Helmet>
 
-        <div className="text-center">
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-            Blogs
-          </h1>
-        </div>
+      <main className="min-h-screen bg-background pt-32 text-foreground">
+        <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.25em] text-primary">
+              FurNFurry Guides
+            </p>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {blogs.map((blog) => (
-            <a
-              key={blog.link}
-              href={blog.link}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(168,85,247,0.18)]"
-            >
+            <h1 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-6xl">
+              Custom Fursuit Blog
+            </h1>
 
-              <img
-  src={blog.image}
-  alt="Custom fursuit full body example realistic"
-  className="mt-8 w-full rounded-2xl border border-white/10 object-contain object-center"
-/>
+            <p className="mt-5 text-lg leading-8 text-muted-foreground">
+              Helpful guides for custom fursuit buyers, from pricing and
+              measurements to partial suits, full suits, care, and commissions.
+            </p>
+          </div>
 
-              <div className="p-5">
-                <p className="text-xs font-semibold text-primary">
-                  {blog.category}
-                </p>
+          <div className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {blogs.map((blog) => (
+              <Link
+                key={blog.link}
+                to={blog.link}
+                className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-card/70 shadow-subtle transition duration-300 hover:-translate-y-2 hover:border-primary/45 hover:shadow-elevated"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-background">
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
 
-                <h2 className="mt-2 text-xl font-bold group-hover:text-primary">
-                  {blog.title}
-                </h2>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+                </div>
 
-                <p className="mt-3 text-sm text-muted-foreground">
-                  {blog.description}
-                </p>
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-xs font-bold uppercase tracking-widest text-primary">
+                    {blog.category}
+                  </p>
 
-                <p className="mt-5 text-sm font-semibold text-primary">
-                  Read Blog →
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
+                  <h2 className="mt-3 line-clamp-2 text-2xl font-extrabold leading-tight text-foreground">
+                    {blog.title}
+                  </h2>
 
-      </section>
-    </main>
+                  <p className="mt-4 line-clamp-3 flex-1 leading-7 text-muted-foreground">
+                    {blog.description}
+                  </p>
+
+                  <div className="mt-6 inline-flex items-center text-sm font-bold text-primary">
+                    Read Blog
+                    <span className="ml-2 transition group-hover:translate-x-1">
+                      →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

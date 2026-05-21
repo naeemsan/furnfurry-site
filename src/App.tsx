@@ -32,6 +32,9 @@ import ShippingPolicy from "./pages/info/ShippingPolicy";
 import Blog from "./pages/info/Blog";
 import CustomFursuitPriceGuide from "./pages/info/CustomFursuitPriceGuide";
 import WhatIsFurryFandom from "./pages/info/WhatIsFurryFandom";
+import WhyCustomFursuitsExpensive from "./pages/info/WhyCustomFursuitsExpensive";
+import PartialFursuitVsFullFursuit from "./pages/info/PartialFursuitVsFullFursuit";
+import FirstCustomFursuitGuide from "./pages/info/FirstCustomFursuitGuide";
 
 /* ✅ NEW GALLERY PAGE */
 import GalleryPage from "./pages/GalleryPage";
@@ -147,7 +150,20 @@ export default function App() {
            element={<WhatIsFurryFandom />}
           />
           
+          <Route
+           path="/blog/why-are-custom-fursuits-so-expensive"
+           element={<WhyCustomFursuitsExpensive />}
+           />
+           
+          <Route
+          path="/blog/partial-fursuit-vs-full-fursuit"
+          element={<PartialFursuitVsFullFursuit />}
+           />
 
+          <Route
+  path="/blog/how-to-commission-your-first-custom-fursuit"
+  element={<FirstCustomFursuitGuide />}
+/>
          
 
           {/* INFO */}

@@ -14,6 +14,12 @@ export default function WhatIsFurryFandom() {
 
       <main className="min-h-screen bg-background pt-32 text-foreground">
         <article className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
+          <Link
+  to="/blog"
+  className="mb-8 inline-flex items-center text-primary hover:opacity-80 transition"
+>
+  ← Back to Blogs
+</Link>
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
             Beginner Furry Guide
           </p>
