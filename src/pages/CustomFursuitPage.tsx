@@ -12,7 +12,7 @@ const OPTIONS = [
   {
     title: "Head Only",
     type: "head",
-    price: "Starting from $999",
+    price: "Starting from $1,200",
     text: "A custom fursuit head made around your character’s expression, species, muzzle shape, ears, cheeks, colors, and overall personality.",
     note: "Available with foam base or 3D printed base options depending on your character style, comfort needs, airflow, symmetry, and final look.",
     image: "/build-head-only.jpg",

@@ -102,7 +102,7 @@ export const COMMISSION_CARDS: CommissionCard[] = [
 export const PRICING_TIERS = [
   {
     type: "Head",
-    startingAt: 999,
+    startingAt: 1200,
     description: "Custom fursuit head built with foam or 3D printed base options, fur matching, and expressive finishing details.",
   },
   {
@@ -122,7 +122,7 @@ export const PRICING_TIERS = [
   },
   {
     type: "Partial",
-    startingAt: 1500,
+    startingAt: 1600,
     description: "Head, paws, and tail as a complete matched set",
     popular: true,
   },
