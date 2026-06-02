@@ -49,9 +49,9 @@ export function Navbar() {
           className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-2 sm:left-6 lg:left-8"
         >
           <img
-            src="/logo.png"
+            src="/logo.gif"
             alt="FurNFurry"
-            className="h-14 w-auto transition duration-300 hover:scale-[1.04]"
+            className="h-14 w-auto object-contain"
           />
         </button>
 

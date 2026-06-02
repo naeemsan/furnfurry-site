@@ -572,7 +572,7 @@ function FooterBottom() {
           {/* Brand */}
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <img src="/logo.png" alt="FurNFurry" className="h-16 w-auto" />
+              <img src="/logo.gif" alt="FurNFurry" className="h-16 w-auto" />
               <span className="font-display text-2xl font-bold text-foreground">
                 FurNFurry
               </span>
