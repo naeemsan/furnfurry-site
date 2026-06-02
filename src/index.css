@@ -175,12 +175,10 @@ button,
 input,
 textarea,
 select {
-  cursor:
-    url("/paw-cursor.png")
-    16 16,
-    pointer;
+  cursor: url("/paw-cursor.png") 16 16, pointer;
+}
 
-    .fursuit-page-bg {
+.fursuit-page-bg {
   background:
     radial-gradient(circle at 12% 18%, rgba(168, 85, 247, 0.16), transparent 28%),
     radial-gradient(circle at 88% 42%, rgba(129, 140, 248, 0.12), transparent 30%),
@@ -213,5 +211,4 @@ select {
     linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 32px 32px;
-}
 }

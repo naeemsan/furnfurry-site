@@ -19,105 +19,87 @@ const reveal = {
 
 export function HeroSection() {
   return (
-    <section
-      id="home"
-      className="hero-collage relative flex min-h-[82vh] items-center overflow-hidden px-4 py-28 sm:px-6 lg:px-8"
-    >
-      <motion.div
-  className="absolute inset-0 z-0 scale-[1.04]"
-  initial={{ scale: 1.08 }}
-  animate={{ scale: 1.04 }}
-  transition={{ duration: 2.2, ease: "easeOut" }}
-  style={{
-    backgroundImage: "url('/hero-bg.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center top",
-    backgroundRepeat: "no-repeat",
-  }}
-/>
+    <section className="relative isolate overflow-hidden bg-background">
+      <div className="relative min-h-[720px] md:min-h-[calc(100svh-76px)] lg:min-h-[820px]">
+        {/* HERO IMAGE */}
+        <picture className="absolute inset-0 -z-20 block h-full w-full">
+          {/*
+            Later agar mobile ke liye separate cropped image banao,
+            ye line uncomment karna:
+            <source media="(max-width: 767px)" srcSet="/hero-bg-mobile.webp" />
+          */}
 
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/40 via-black/39 to-black/20" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/25 via-transparent to-black/70" />
-      <div className="absolute left-0 top-0 z-0 h-full w-[65%] bg-gradient-to-r from-black/40 via-black/50 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('/noise.png')] opacity-[0.035] mix-blend-soft-light" />
+          <img
+            src="/hero-bg.webp"
+            alt=""
+            className="h-full w-full object-cover object-[47%_center] md:object-center"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          animate="show"
-          transition={{ staggerChildren: 0.12, delayChildren: 0.15 }}
-          className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
-        >
-          <div className="flex flex-col">
-            <motion.span
-              variants={reveal}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-background/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white shadow-[0_0_24px_rgba(255,255,255,0.08)] backdrop-blur-md"
-            >
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+        {/* PREMIUM DARK OVERLAYS */}
+        <div className="absolute inset-0 -z-10 bg-black/45" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_35%_38%,rgba(168,85,247,0.22),transparent_34%),linear-gradient(90deg,rgba(8,12,20,0.9)_0%,rgba(8,12,20,0.62)_42%,rgba(8,12,20,0.25)_70%,rgba(8,12,20,0.72)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+
+        {/* CONTENT */}
+        <div className="mx-auto flex min-h-[720px] max-w-7xl items-center px-5 pb-20 pt-24 sm:px-6 md:min-h-[calc(100svh-76px)] lg:px-8">
+          <motion.div
+            variants={reveal}
+            initial="hidden"
+            animate="show"
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="max-w-2xl"
+          >
+            <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.22em] text-white shadow-[0_0_35px_rgba(0,0,0,0.35)] backdrop-blur-md sm:text-sm">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_18px_rgba(52,211,153,0.9)]" />
               Limited Commission Slots Open
-            </motion.span>
+            </div>
 
-            <motion.h1
-              variants={reveal}
-              transition={{ duration: 0.65, ease: "easeOut" }}
-              className="text-4xl font-extrabold leading-tight text-white drop-shadow-[0_15px_60px_rgba(0,0,0,1)] sm:text-5xl lg:text-6xl"
-            >
-              Bring Your Fursona <br />
-              <span className="text-primary">to Life with a</span> <br />
+            <h1 className="max-w-3xl text-4xl font-black leading-[1.05] tracking-tight text-white drop-shadow-[0_6px_25px_rgba(0,0,0,0.55)] sm:text-5xl md:text-6xl lg:text-7xl">
+              Bring Your Fursona{" "}
+              <span className="text-primary">to Life with a</span>{" "}
               Custom Fursuit
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              variants={reveal}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mt-6 max-w-lg text-white/85 drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
-            >
-              FurNFurry creates handmade custom fursuits built around your character, style, and personality. From foam base heads to 3D printed head bases, partial suits, and full body builds, each piece is planned for comfort, expression, and character accuracy.
-            </motion.p>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/86 drop-shadow-[0_4px_18px_rgba(0,0,0,0.6)] sm:text-lg md:text-xl">
+              FurNFurry creates handmade custom fursuits built around your
+              character, style, and personality. From foam base heads to 3D
+              printed head bases, partial suits, and full body builds, each
+              piece is planned for comfort, expression, and character accuracy.
+            </p>
 
-            <motion.div
-              variants={reveal}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mt-8 flex flex-wrap gap-4"
-            >
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
               <Button
                 onClick={() => scrollTo("contact")}
-                className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-[0_0_30px_rgba(139,92,246,0.4)] transition hover:scale-[1.03] hover:bg-primary/90 hover:shadow-[0_0_42px_rgba(139,92,246,0.55)] active:scale-[0.97]"
+                className="w-full rounded-2xl px-7 py-6 text-base font-extrabold shadow-[0_0_35px_rgba(168,85,247,0.45)] transition hover:scale-[1.03] hover:shadow-[0_0_48px_rgba(168,85,247,0.65)] active:scale-[0.98] sm:w-auto"
               >
-                Start Your HandMade Fursuit →
+                Start Your Handmade Fursuit →
               </Button>
 
-              
-            </motion.div>
+              <button
+                onClick={() => scrollTo("pricing")}
+                className="rounded-2xl border border-white/18 bg-white/8 px-7 py-4 text-sm font-bold text-white backdrop-blur-md transition hover:border-primary/60 hover:bg-primary/15"
+              >
+                View Pricing Guide
+              </button>
+            </div>
 
-            <motion.div
-              variants={reveal}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              className="mt-4"
-            >
-              
-            </motion.div>
-
-            <motion.div
-              variants={reveal}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="mt-10 flex flex-wrap gap-3"
-            >
+            <div className="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
               {TRUST_BADGES.map((badge) => (
                 <div
                   key={badge.label}
-                  className="flex items-center gap-2 rounded-xl border border-white/20 bg-background/10 px-3 py-2 text-sm text-white backdrop-blur-md transition hover:scale-[1.03] hover:border-primary/50 hover:bg-white/10"
+                  className="rounded-2xl border border-white/14 bg-black/28 px-3 py-3 text-center text-xs font-bold text-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-md"
                 >
-                  <span className="text-primary">{badge.icon}</span>
+                  <span className="mr-1 text-primary">{badge.icon}</span>
                   {badge.label}
                 </div>
               ))}
-            </motion.div>
-          </div>
-
-          <div className="hidden lg:block" />
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

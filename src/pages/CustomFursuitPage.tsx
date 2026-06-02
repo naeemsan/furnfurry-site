@@ -106,53 +106,51 @@ export function CustomFursuitPage() {
 
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO */}
-      <section
-        className="relative overflow-hidden min-h-[85vh] px-4 py-16"
-        style={{
-  backgroundImage: `
-    linear-gradient(
-      to right,
-      rgba(3,3,10,0.68),
-      rgba(3,3,10,0.40),
-      rgba(3,3,10,0.25),
-      rgba(3,3,10,0.55)
-    ),
-    url('/custom-fursuit-collage.png')
-  `,
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
-}}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/1  via-transparent to-black/1" />
+<section className="relative min-h-[700px] overflow-hidden bg-background md:min-h-[820px]">
+  {/* Background Image */}
+  <img
+    src="/custom-fursuit-collage.png"
+    alt="Custom fursuit examples by FurNFurry"
+    className="absolute inset-0 h-full w-full object-cover"
+    style={{ objectPosition: "center center" }}
+    loading="eager"
+    decoding="async"
+  />
 
-        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
-            <p className="mb-4 inline-flex rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-primary">
-              Handmade Custom Fursuit Maker
-            </p>
+  {/* Premium readable overlay */}
+  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,5,12,0.35)_0%,rgba(3,5,12,0.45)_42%,rgba(3,5,12,0.88)_100%)] md:bg-[linear-gradient(90deg,rgba(3,5,12,0.78)_0%,rgba(3,5,12,0.56)_38%,rgba(3,5,12,0.28)_70%,rgba(3,5,12,0.65)_100%)]" />
 
-            <h1 className="max-w-3xl text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Custom Fursuits Built Around Your Fursona
-            </h1>
+  {/* Bottom fade */}
+  <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
 
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              FurNFurry creates handmade custom fursuits built around your character, style, and personality. From foam base and 3D printed fursuit heads to partials and full body builds, each piece is planned for comfort, character accuracy, and a clean finished look.
-            </p>
+  <div className="relative z-10 mx-auto flex min-h-[700px] max-w-6xl items-end px-5 pb-24 pt-28 md:min-h-[820px] md:items-center md:px-8 md:pb-20 md:pt-24">
+    <div className="max-w-2xl">
+      <p className="mb-5 inline-flex rounded-full border border-primary/40 bg-black/35 px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.28em] text-primary shadow-[0_0_25px_rgba(168,85,247,0.25)] backdrop-blur-md sm:text-xs">
+        Handmade Custom Fursuit Maker
+      </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button
-                onClick={() => scrollToContact()}
-                className="rounded-2xl bg-primary px-7 py-4 text-base font-bold text-primary-foreground shadow-[0_0_30px_rgba(139,92,246,0.35)] hover:bg-primary/90"
-              >
-                Request a Quote →
-              </Button>
-            </div>
-          </div>
+      <h1 className="max-w-3xl text-[38px] font-extrabold leading-[1.05] text-white drop-shadow-[0_6px_24px_rgba(0,0,0,0.65)] sm:text-5xl md:text-6xl">
+        Custom Fursuits Built Around Your Fursona
+      </h1>
 
-          </div>
-        
-      </section>
+      <p className="mt-6 max-w-2xl text-[17px] leading-relaxed text-white/88 drop-shadow-[0_3px_14px_rgba(0,0,0,0.65)] sm:text-lg">
+        FurNFurry creates handmade custom fursuits built around your character,
+        style, and personality. From foam base and 3D printed fursuit heads to
+        partials and full body builds, each piece is planned for comfort,
+        character accuracy, and a clean finished look.
+      </p>
+
+      <div className="mt-8 flex flex-wrap gap-4">
+        <Button
+          onClick={() => scrollToContact()}
+          className="rounded-2xl bg-primary px-8 py-5 text-base font-extrabold text-primary-foreground shadow-[0_0_35px_rgba(168,85,247,0.45)] hover:bg-primary/90"
+        >
+          Request a Quote →
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* TRUST STRIP */}
       <section className="border-y border-border bg-card/70 px-4 py-6 sm:px-6 lg:px-8">
